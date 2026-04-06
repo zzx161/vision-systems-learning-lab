@@ -1,0 +1,35 @@
+filters:
+  and:
+    - 'file.ext == "md"'
+    - 'note_type == "lab"'
+properties:
+  title:
+    displayName: Title
+  phase:
+    displayName: Phase
+  related_lesson:
+    displayName: Lesson
+  track:
+    displayName: Track
+  status:
+    displayName: Status
+  completion:
+    displayName: Completion
+  estimated_minutes:
+    displayName: Est. min
+  actual_minutes:
+    displayName: Actual min
+  last_run:
+    displayName: Last run
+views:
+  - type: table
+    name: Labs
+    order:
+      - phase
+      - related_lesson
+      - status
+      - completion
+    summaries:
+      completion: Average
+      estimated_minutes: Sum
+      actual_minutes: Sum

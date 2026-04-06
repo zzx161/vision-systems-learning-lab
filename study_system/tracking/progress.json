@@ -1,0 +1,876 @@
+{
+  "generated_on": "2026-04-06",
+  "notes": [
+    {
+      "note_type": "lesson",
+      "title": "Processes, Threads, Locks, and Context Switching",
+      "track": "linux_systems",
+      "phase": 1,
+      "lesson": 1,
+      "status": "active",
+      "completion": 15,
+      "estimated_minutes": 120,
+      "actual_minutes": 0,
+      "last_studied": "2026-04-06",
+      "next_review": "2026-04-13",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/linux",
+        "phase/1"
+      ],
+      "path": "courses/lesson_01_process_thread.md",
+      "name": "lesson_01_process_thread"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Virtual Memory, Pages, Page Faults, and mmap",
+      "track": "linux_systems",
+      "phase": 1,
+      "lesson": 2,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 120,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/linux",
+        "phase/1"
+      ],
+      "path": "courses/lesson_02_virtual_memory.md",
+      "name": "lesson_02_virtual_memory"
+    },
+    {
+      "note_type": "lesson",
+      "title": "CPU, Cache, Locality, and Why Memory Access Dominates Performance",
+      "track": "architecture",
+      "phase": 1,
+      "lesson": 3,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 120,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/architecture",
+        "phase/1"
+      ],
+      "path": "courses/lesson_03_cache_and_locality.md",
+      "name": "lesson_03_cache_and_locality"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Linux Observability for Engineers",
+      "track": "linux_tools",
+      "phase": 1,
+      "lesson": 4,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 100,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/linux",
+        "phase/1"
+      ],
+      "path": "courses/lesson_04_linux_observability.md",
+      "name": "lesson_04_linux_observability"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Camera Data Path, Buffers, and Frame Lifecycle",
+      "track": "camera_systems",
+      "phase": 2,
+      "lesson": 5,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 110,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/camera",
+        "phase/2"
+      ],
+      "path": "courses/lesson_05_camera_data_path.md",
+      "name": "lesson_05_camera_data_path"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Latency, Jitter, Frame Drops, and Synchronization",
+      "track": "camera_systems",
+      "phase": 2,
+      "lesson": 6,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 120,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/camera",
+        "phase/2"
+      ],
+      "path": "courses/lesson_06_latency_and_sync.md",
+      "name": "lesson_06_latency_and_sync"
+    },
+    {
+      "note_type": "lesson",
+      "title": "ONNX and Inference Runtime Basics for System Engineers",
+      "track": "edge_deployment",
+      "phase": 2,
+      "lesson": 7,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 100,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/deployment",
+        "phase/2"
+      ],
+      "path": "courses/lesson_07_onnx_runtime.md",
+      "name": "lesson_07_onnx_runtime"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Quantization, TensorRT, and Platform Toolchains",
+      "track": "edge_deployment",
+      "phase": 2,
+      "lesson": 8,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 110,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/deployment",
+        "phase/2"
+      ],
+      "path": "courses/lesson_08_quantization_and_toolchains.md",
+      "name": "lesson_08_quantization_and_toolchains"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Profiling Deployed Inference",
+      "track": "edge_deployment",
+      "phase": 2,
+      "lesson": 9,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 110,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/deployment",
+        "phase/2"
+      ],
+      "path": "courses/lesson_09_inference_profiling.md",
+      "name": "lesson_09_inference_profiling"
+    },
+    {
+      "note_type": "lesson",
+      "title": "ROS2 Basics for Vision Engineers",
+      "track": "robotics",
+      "phase": 3,
+      "lesson": 10,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 100,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/robotics",
+        "phase/3"
+      ],
+      "path": "courses/lesson_10_ros2_basics.md",
+      "name": "lesson_10_ros2_basics"
+    },
+    {
+      "note_type": "lesson",
+      "title": "Calibration, Hand-Eye Calibration, and 3D Vision Awareness",
+      "track": "robotics",
+      "phase": 3,
+      "lesson": 11,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 110,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/robotics",
+        "phase/3"
+      ],
+      "path": "courses/lesson_11_calibration_and_3d_vision.md",
+      "name": "lesson_11_calibration_and_3d_vision"
+    },
+    {
+      "note_type": "lesson",
+      "title": "End-to-End Project Design",
+      "track": "robotics",
+      "phase": 3,
+      "lesson": 12,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 90,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lesson",
+        "track/robotics",
+        "phase/3"
+      ],
+      "path": "courses/lesson_12_end_to_end_project.md",
+      "name": "lesson_12_end_to_end_project"
+    },
+    {
+      "note_type": "sprint",
+      "title": "Current Sprint",
+      "phase": 1,
+      "sprint": "week_01",
+      "status": "active",
+      "completion": 10,
+      "estimated_minutes": 480,
+      "actual_minutes": 0,
+      "started_on": "2026-04-06",
+      "target_end": "2026-04-12",
+      "priority": "high",
+      "tags": [
+        "study/sprint",
+        "phase/1"
+      ],
+      "path": "current_sprint.md",
+      "name": "current_sprint"
+    },
+    {
+      "note_type": "dashboard",
+      "title": "Study Dashboard",
+      "status": "active",
+      "tags": [
+        "study/dashboard"
+      ],
+      "path": "dashboard.md",
+      "name": "dashboard"
+    },
+    {
+      "note_type": "lab",
+      "title": "Threads and Contention",
+      "track": "linux_systems",
+      "phase": 1,
+      "related_lesson": 1,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 45,
+      "actual_minutes": 0,
+      "last_run": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lab",
+        "track/linux",
+        "phase/1"
+      ],
+      "path": "labs/lab_01_threads.md",
+      "name": "lab_01_threads"
+    },
+    {
+      "note_type": "lab",
+      "title": "Virtual Memory, Copying, and mmap",
+      "track": "linux_systems",
+      "phase": 1,
+      "related_lesson": 2,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 60,
+      "actual_minutes": 0,
+      "last_run": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lab",
+        "track/linux",
+        "phase/1"
+      ],
+      "path": "labs/lab_02_virtual_memory.md",
+      "name": "lab_02_virtual_memory"
+    },
+    {
+      "note_type": "lab",
+      "title": "Cache, Locality, and False Sharing",
+      "track": "architecture",
+      "phase": 1,
+      "related_lesson": 3,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 60,
+      "actual_minutes": 0,
+      "last_run": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lab",
+        "track/architecture",
+        "phase/1"
+      ],
+      "path": "labs/lab_03_cache_locality.md",
+      "name": "lab_03_cache_locality"
+    },
+    {
+      "note_type": "lab",
+      "title": "First Observability Practice",
+      "track": "linux_tools",
+      "phase": 1,
+      "related_lesson": 4,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 45,
+      "actual_minutes": 0,
+      "last_run": "",
+      "next_review": "",
+      "priority": "medium",
+      "tags": [
+        "study/lab",
+        "track/linux",
+        "phase/1"
+      ],
+      "path": "labs/lab_04_observability.md",
+      "name": "lab_04_observability"
+    },
+    {
+      "note_type": "session",
+      "title": "Study Session",
+      "date": "2026-04-06",
+      "status": "logged",
+      "minutes": 0,
+      "focus": "",
+      "artifact": "",
+      "energy": "medium",
+      "confidence_before": 0,
+      "confidence_after": 0,
+      "next_step": "",
+      "tags": [
+        "study/session"
+      ],
+      "path": "logs/sessions/2026-04-06.md",
+      "name": "2026-04-06"
+    },
+    {
+      "note_type": "review",
+      "title": "Week 1 Review",
+      "phase": 1,
+      "week": 1,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 30,
+      "actual_minutes": 0,
+      "review_date": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/review",
+        "phase/1"
+      ],
+      "path": "reviews/week_01_review.md",
+      "name": "week_01_review"
+    },
+    {
+      "note_type": "template",
+      "title": "Study Session",
+      "template_for": "session",
+      "date": "",
+      "status": "logged",
+      "minutes": 0,
+      "focus": "",
+      "artifact": "",
+      "energy": "medium",
+      "confidence_before": 0,
+      "confidence_after": 0,
+      "next_step": "",
+      "tags": [
+        "study/template"
+      ],
+      "path": "templates/session_template.md",
+      "name": "session_template"
+    },
+    {
+      "note_type": "template",
+      "title": "Weekly Review",
+      "template_for": "review",
+      "phase": "",
+      "week": "",
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 30,
+      "actual_minutes": 0,
+      "review_date": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/template"
+      ],
+      "path": "templates/weekly_review_template.md",
+      "name": "weekly_review_template"
+    },
+    {
+      "note_type": "snapshot",
+      "title": "Progress Snapshot",
+      "generated_on": "2026-04-06",
+      "status": "generated",
+      "tags": [
+        "study/snapshot"
+      ],
+      "path": "tracking/progress_snapshot.md",
+      "name": "progress_snapshot"
+    }
+  ],
+  "summary": {
+    "lesson": {
+      "count": 12,
+      "status_counts": {
+        "active": 1,
+        "planned": 11
+      },
+      "avg_completion": 1.2,
+      "estimated_minutes": 1310,
+      "actual_minutes": 0,
+      "items": [
+        {
+          "note_type": "lesson",
+          "title": "Processes, Threads, Locks, and Context Switching",
+          "track": "linux_systems",
+          "phase": 1,
+          "lesson": 1,
+          "status": "active",
+          "completion": 15,
+          "estimated_minutes": 120,
+          "actual_minutes": 0,
+          "last_studied": "2026-04-06",
+          "next_review": "2026-04-13",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/linux",
+            "phase/1"
+          ],
+          "path": "courses/lesson_01_process_thread.md",
+          "name": "lesson_01_process_thread"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Virtual Memory, Pages, Page Faults, and mmap",
+          "track": "linux_systems",
+          "phase": 1,
+          "lesson": 2,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 120,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/linux",
+            "phase/1"
+          ],
+          "path": "courses/lesson_02_virtual_memory.md",
+          "name": "lesson_02_virtual_memory"
+        },
+        {
+          "note_type": "lesson",
+          "title": "CPU, Cache, Locality, and Why Memory Access Dominates Performance",
+          "track": "architecture",
+          "phase": 1,
+          "lesson": 3,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 120,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/architecture",
+            "phase/1"
+          ],
+          "path": "courses/lesson_03_cache_and_locality.md",
+          "name": "lesson_03_cache_and_locality"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Linux Observability for Engineers",
+          "track": "linux_tools",
+          "phase": 1,
+          "lesson": 4,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 100,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/linux",
+            "phase/1"
+          ],
+          "path": "courses/lesson_04_linux_observability.md",
+          "name": "lesson_04_linux_observability"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Camera Data Path, Buffers, and Frame Lifecycle",
+          "track": "camera_systems",
+          "phase": 2,
+          "lesson": 5,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 110,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/camera",
+            "phase/2"
+          ],
+          "path": "courses/lesson_05_camera_data_path.md",
+          "name": "lesson_05_camera_data_path"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Latency, Jitter, Frame Drops, and Synchronization",
+          "track": "camera_systems",
+          "phase": 2,
+          "lesson": 6,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 120,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/camera",
+            "phase/2"
+          ],
+          "path": "courses/lesson_06_latency_and_sync.md",
+          "name": "lesson_06_latency_and_sync"
+        },
+        {
+          "note_type": "lesson",
+          "title": "ONNX and Inference Runtime Basics for System Engineers",
+          "track": "edge_deployment",
+          "phase": 2,
+          "lesson": 7,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 100,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/deployment",
+            "phase/2"
+          ],
+          "path": "courses/lesson_07_onnx_runtime.md",
+          "name": "lesson_07_onnx_runtime"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Quantization, TensorRT, and Platform Toolchains",
+          "track": "edge_deployment",
+          "phase": 2,
+          "lesson": 8,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 110,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/deployment",
+            "phase/2"
+          ],
+          "path": "courses/lesson_08_quantization_and_toolchains.md",
+          "name": "lesson_08_quantization_and_toolchains"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Profiling Deployed Inference",
+          "track": "edge_deployment",
+          "phase": 2,
+          "lesson": 9,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 110,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/deployment",
+            "phase/2"
+          ],
+          "path": "courses/lesson_09_inference_profiling.md",
+          "name": "lesson_09_inference_profiling"
+        },
+        {
+          "note_type": "lesson",
+          "title": "ROS2 Basics for Vision Engineers",
+          "track": "robotics",
+          "phase": 3,
+          "lesson": 10,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 100,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/robotics",
+            "phase/3"
+          ],
+          "path": "courses/lesson_10_ros2_basics.md",
+          "name": "lesson_10_ros2_basics"
+        },
+        {
+          "note_type": "lesson",
+          "title": "Calibration, Hand-Eye Calibration, and 3D Vision Awareness",
+          "track": "robotics",
+          "phase": 3,
+          "lesson": 11,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 110,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/robotics",
+            "phase/3"
+          ],
+          "path": "courses/lesson_11_calibration_and_3d_vision.md",
+          "name": "lesson_11_calibration_and_3d_vision"
+        },
+        {
+          "note_type": "lesson",
+          "title": "End-to-End Project Design",
+          "track": "robotics",
+          "phase": 3,
+          "lesson": 12,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 90,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lesson",
+            "track/robotics",
+            "phase/3"
+          ],
+          "path": "courses/lesson_12_end_to_end_project.md",
+          "name": "lesson_12_end_to_end_project"
+        }
+      ]
+    },
+    "lab": {
+      "count": 4,
+      "status_counts": {
+        "planned": 4
+      },
+      "avg_completion": 0.0,
+      "estimated_minutes": 210,
+      "actual_minutes": 0,
+      "items": [
+        {
+          "note_type": "lab",
+          "title": "Threads and Contention",
+          "track": "linux_systems",
+          "phase": 1,
+          "related_lesson": 1,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 45,
+          "actual_minutes": 0,
+          "last_run": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lab",
+            "track/linux",
+            "phase/1"
+          ],
+          "path": "labs/lab_01_threads.md",
+          "name": "lab_01_threads"
+        },
+        {
+          "note_type": "lab",
+          "title": "Virtual Memory, Copying, and mmap",
+          "track": "linux_systems",
+          "phase": 1,
+          "related_lesson": 2,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 60,
+          "actual_minutes": 0,
+          "last_run": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lab",
+            "track/linux",
+            "phase/1"
+          ],
+          "path": "labs/lab_02_virtual_memory.md",
+          "name": "lab_02_virtual_memory"
+        },
+        {
+          "note_type": "lab",
+          "title": "Cache, Locality, and False Sharing",
+          "track": "architecture",
+          "phase": 1,
+          "related_lesson": 3,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 60,
+          "actual_minutes": 0,
+          "last_run": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lab",
+            "track/architecture",
+            "phase/1"
+          ],
+          "path": "labs/lab_03_cache_locality.md",
+          "name": "lab_03_cache_locality"
+        },
+        {
+          "note_type": "lab",
+          "title": "First Observability Practice",
+          "track": "linux_tools",
+          "phase": 1,
+          "related_lesson": 4,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 45,
+          "actual_minutes": 0,
+          "last_run": "",
+          "next_review": "",
+          "priority": "medium",
+          "tags": [
+            "study/lab",
+            "track/linux",
+            "phase/1"
+          ],
+          "path": "labs/lab_04_observability.md",
+          "name": "lab_04_observability"
+        }
+      ]
+    },
+    "review": {
+      "count": 1,
+      "status_counts": {
+        "planned": 1
+      },
+      "avg_completion": 0.0,
+      "estimated_minutes": 30,
+      "actual_minutes": 0,
+      "items": [
+        {
+          "note_type": "review",
+          "title": "Week 1 Review",
+          "phase": 1,
+          "week": 1,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 30,
+          "actual_minutes": 0,
+          "review_date": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/review",
+            "phase/1"
+          ],
+          "path": "reviews/week_01_review.md",
+          "name": "week_01_review"
+        }
+      ]
+    },
+    "session": {
+      "count": 1,
+      "status_counts": {
+        "logged": 1
+      },
+      "avg_completion": 0.0,
+      "estimated_minutes": 0,
+      "actual_minutes": 0,
+      "items": [
+        {
+          "note_type": "session",
+          "title": "Study Session",
+          "date": "2026-04-06",
+          "status": "logged",
+          "minutes": 0,
+          "focus": "",
+          "artifact": "",
+          "energy": "medium",
+          "confidence_before": 0,
+          "confidence_after": 0,
+          "next_step": "",
+          "tags": [
+            "study/session"
+          ],
+          "path": "logs/sessions/2026-04-06.md",
+          "name": "2026-04-06"
+        }
+      ]
+    }
+  }
+}

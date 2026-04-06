@@ -1,0 +1,29 @@
+filters:
+  and:
+    - 'file.ext == "md"'
+    - 'note_type == "session"'
+properties:
+  date:
+    displayName: Date
+  focus:
+    displayName: Focus
+  minutes:
+    displayName: Minutes
+  artifact:
+    displayName: Artifact
+  energy:
+    displayName: Energy
+  confidence_before:
+    displayName: Before
+  confidence_after:
+    displayName: After
+  next_step:
+    displayName: Next step
+views:
+  - type: table
+    name: Sessions
+    order:
+      - date
+      - minutes
+    summaries:
+      minutes: Sum

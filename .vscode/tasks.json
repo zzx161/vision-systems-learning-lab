@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Study: New Session Note",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/new_session.py"
+    },
+    {
+      "label": "Study: Refresh Progress",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/update_progress.py"
+    },
+    {
+      "label": "Study: Open Web Dashboard",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/open_dashboard.py"
+    },
+    {
+      "label": "Study: Start Dashboard Server",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/serve_dashboard.py",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Study: Open Dashboard on Localhost",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/open_dashboard_localhost.py"
+    },
+    {
+      "label": "Study: Build Public Site",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/build_public_site.py"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+filters:
+  and:
+    - 'file.ext == "md"'
+    - 'note_type == "lesson"'
+properties:
+  title:
+    displayName: Title
+  phase:
+    displayName: Phase
+  lesson:
+    displayName: Lesson
+  track:
+    displayName: Track
+  status:
+    displayName: Status
+  completion:
+    displayName: Completion
+  estimated_minutes:
+    displayName: Est. min
+  actual_minutes:
+    displayName: Actual min
+  last_studied:
+    displayName: Last studied
+  next_review:
+    displayName: Next review
+views:
+  - type: table
+    name: Lessons
+    order:
+      - phase
+      - lesson
+      - status
+      - completion
+    summaries:
+      completion: Average
+      estimated_minutes: Sum
+      actual_minutes: Sum

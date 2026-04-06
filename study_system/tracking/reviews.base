@@ -1,0 +1,26 @@
+filters:
+  and:
+    - 'file.ext == "md"'
+    - 'note_type == "review"'
+properties:
+  title:
+    displayName: Title
+  phase:
+    displayName: Phase
+  week:
+    displayName: Week
+  status:
+    displayName: Status
+  completion:
+    displayName: Completion
+  review_date:
+    displayName: Review date
+  next_review:
+    displayName: Next review
+views:
+  - type: table
+    name: Reviews
+    order:
+      - phase
+      - week
+      - status
