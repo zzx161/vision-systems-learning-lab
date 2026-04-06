@@ -3,14 +3,7 @@
 ## 课程定位
 
 这不是一套泛泛的计算机基础课。
-它是一条专门为你设计的转型路线，目标不是去卷纯算法，而是让你沿着当前背景向更有价值的系统工程方向成长。
-
-你的现状大致是：
-
-- 会做相机数据接入
-- 懂一些图像处理
-- 离硬件、芯片和真实链路比较近
-- 想找更难替代、更能长期积累的能力
+它更像一条系统工程学习路线，目标是把 Linux、性能、体系结构、数据链路、部署和稳定性串成一个长期可积累的知识体系。
 
 所以这套课的主线不是：
 
@@ -24,11 +17,11 @@
 
 学完整条路线后，你应该逐步具备这些能力：
 
-1. 能把相机与图像链路的关键瓶颈讲清楚，不只是“代码怎么写”，而是“数据怎么走、哪里会卡、为什么会抖”。
+1. 能把数据链路和系统瓶颈讲清楚，不只是“代码怎么写”，而是“数据怎么走、哪里会卡、为什么会抖”。
 2. 能用 Linux 工具定位常见系统问题，而不是停留在猜测和经验判断。
 3. 能从线程、内存、cache、拷贝、调度、带宽、backpressure 的角度解释系统行为。
-4. 能理解边缘部署为什么难，难在哪里，以及它和你现在的工作怎么接上。
-5. 能为自己准备第二条职业曲线，比如机器人视觉、工业视觉、端侧部署工程。
+4. 能理解边缘部署为什么难，难在哪里，以及系统工程在里面承担什么角色。
+5. 能把这些能力迁移到不同场景，例如视觉系统、边缘部署、机器人系统或复杂数据链路。
 
 ## 为什么原来的 12 节还不够
 
@@ -44,7 +37,7 @@
 
 - 懂了一些线程和内存，但解释不了设备数据路径
 - 懂了 cache 和 Profiling，但解释不了调度抖动
-- 懂了部署和相机链路，但解释不了为什么系统扩不起来
+- 懂了部署和数据链路，但解释不了为什么系统扩不起来
 - 知道怎么查一次问题，但没有形成“长期稳定工程”的方法论
 
 所以我把课程补成了 16 节。
@@ -56,10 +49,10 @@
 
 每节课都尽量包含这 8 部分：
 
-1. 这节课在你工作里为什么重要
+1. 这节课在真实系统里为什么重要
 2. 从零开始的概念讲解
 3. 非常具体的直觉类比
-4. 和相机场景的连接
+4. 和真实系统场景的连接
 5. 常见误区
 6. 一个小实验或观察任务
 7. 一组复盘问题
@@ -104,15 +97,15 @@
 目标：
 建立解释运行时行为的能力。
 
-### 能力线 B：相机系统与边缘部署
+### 能力线 B：数据链路与边缘部署
 
 目标：
-把你的现有背景和更有价值的系统岗位连接起来。
+把系统知识连接到数据链路、部署和运行时问题上。
 
-### 能力线 C：机器人视觉迁移
+### 能力线 C：机器人与复杂系统迁移
 
 目标：
-给你准备一条中长期、抗行业波动的第二曲线。
+让课程具备更通用的迁移能力，而不是只绑定某一个岗位。
 
 ## 阶段总览
 
@@ -319,6 +312,28 @@
 - 面试问法
 - 延伸阅读
 - 标准答案式复盘
+
+## 配套实战干货
+
+除了课程正文，现在还配了一层“工作现场可以直接拿来用”的资料：
+
+- [playbooks/README.md](/home/zhixin/code/study_system/playbooks/README.md)
+- [linux_perf_triage.md](/home/zhixin/code/study_system/playbooks/linux_perf_triage.md)
+- [camera_pipeline_debug.md](/home/zhixin/code/study_system/playbooks/camera_pipeline_debug.md)
+- [latency_budget_template.md](/home/zhixin/code/study_system/playbooks/latency_budget_template.md)
+- [deployment_decision_matrix.md](/home/zhixin/code/study_system/playbooks/deployment_decision_matrix.md)
+- [ros2_pipeline_checklist.md](/home/zhixin/code/study_system/playbooks/ros2_pipeline_checklist.md)
+- [calibration_symptom_map.md](/home/zhixin/code/study_system/playbooks/calibration_symptom_map.md)
+- [observability_checklist.md](/home/zhixin/code/study_system/playbooks/observability_checklist.md)
+- [project_brief_template.md](/home/zhixin/code/study_system/playbooks/project_brief_template.md)
+
+这层资料的目标不是再讲一遍概念，而是帮你把课程内容变成：
+
+- 排障动作
+- 系统图
+- 指标表
+- 决策模板
+- 项目输出
 
 ## 你之后怎么跟我一起学
 

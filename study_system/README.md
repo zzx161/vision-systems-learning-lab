@@ -4,9 +4,9 @@
 
 它的目标很明确：
 
-- 让 Linux 系统知识和体系结构知识真正服务你的工作
-- 让相机链路、图像处理、时延、掉帧、同步这些问题变得更可解释
-- 在不卷纯算法的前提下，帮你补出边缘部署和机器人视觉的迁移能力
+- 建立 Linux 系统、体系结构、性能分析和系统工程的长期理解
+- 让数据链路、时延、抖动、同步、部署这些问题变得更可解释
+- 形成一套更通用、可迁移的工程能力
 
 ## 这套系统里有什么
 
@@ -28,6 +28,8 @@
   进度统计、网页面板和快照。
 - [scripts](/home/zhixin/code/study_system/scripts)
   自动化脚本。
+- [playbooks](/home/zhixin/code/study_system/playbooks)
+  可直接复用的排查清单、模板和决策表。
 
 ## 推荐使用方式
 
@@ -43,14 +45,25 @@
 
 ## 为什么要这样学
 
-你现在最需要的不是把自己学成一个纯算法工程师，而是把自己做成一种更稳的工程师：
+这套系统想帮助你培养的是更通用的系统工程能力：
 
 - 能把系统问题讲清楚
 - 能把链路问题拆开
 - 能定位性能瓶颈
 - 能理解部署和运行时的真实限制
 
-这类能力和你现在的相机背景是连续的，也更抗替代。
+这类能力不依赖某一个特定岗位，迁移性也更强。
+
+## 实战干货入口
+
+如果你今天不想先读一大段课程，而是更想看“可以直接拿来用的东西”，优先打开这里：
+
+- [playbooks/README.md](/home/zhixin/code/study_system/playbooks/README.md)
+- [linux_perf_triage.md](/home/zhixin/code/study_system/playbooks/linux_perf_triage.md)
+- [camera_pipeline_debug.md](/home/zhixin/code/study_system/playbooks/camera_pipeline_debug.md)
+- [latency_budget_template.md](/home/zhixin/code/study_system/playbooks/latency_budget_template.md)
+- [deployment_decision_matrix.md](/home/zhixin/code/study_system/playbooks/deployment_decision_matrix.md)
+- [observability_checklist.md](/home/zhixin/code/study_system/playbooks/observability_checklist.md)
 
 ## 网页面板
 

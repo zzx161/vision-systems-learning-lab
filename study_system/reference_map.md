@@ -11,6 +11,8 @@
 - 哪些资料适合补原理
 - 哪些内容一定要配实验
 
+这里的内容会尽量保持通用系统课程视角，不会强行绑定某一个具体岗位。
+
 ## 最适合你的学习配比
 
 建议你按这个比例来学：
@@ -59,7 +61,7 @@
 学习重点：
 
 - 不要只记定义
-- 要能把 cache、bandwidth、false sharing 和你的图像处理任务联系起来
+- 要能把 cache、bandwidth、false sharing 和真实程序里的性能问题联系起来
 
 推荐实验方向：
 
@@ -72,10 +74,10 @@
 
 适合的学习材料：
 
-- 你们现有系统的真实链路
+- 真实系统链路
 - 芯片与驱动文档
-- 相机链路图
-- 线上问题复盘
+- 数据链路图
+- 问题复盘
 
 学习重点：
 
@@ -132,7 +134,7 @@
 一个知识点如果满足下面 4 条，基本算真正进入长期记忆了：
 
 1. 你能不用原文，自己讲清楚
-2. 你能给出一个工作里的例子
+2. 你能给出一个真实系统里的例子
 3. 你能设计一个最小实验
 4. 你能说出这个知识点最容易被误解的地方
 
@@ -153,3 +155,17 @@
 - 每课延伸阅读
 - 每课口头复盘题
 - 一条完整的项目式主线
+
+## 现在已经可以直接用的干货层
+
+如果你更想先拿现成模板用，而不是先读完课程，可以直接看：
+
+- [playbooks/README.md](/home/zhixin/code/study_system/playbooks/README.md)
+- Linux 排障：
+  [linux_perf_triage.md](/home/zhixin/code/study_system/playbooks/linux_perf_triage.md)
+- 相机链路排查：
+  [camera_pipeline_debug.md](/home/zhixin/code/study_system/playbooks/camera_pipeline_debug.md)
+- 延迟预算模板：
+  [latency_budget_template.md](/home/zhixin/code/study_system/playbooks/latency_budget_template.md)
+- 部署决策矩阵：
+  [deployment_decision_matrix.md](/home/zhixin/code/study_system/playbooks/deployment_decision_matrix.md)
