@@ -1,418 +1,363 @@
 # Course Plan
 
-## Course Goal
+## Positioning
 
-This course is built for your background:
+This is not a generic CS survey.
+It is a career-facing learning path built around your real background:
 
-- camera application and camera data access
-- chip interface and system-side debugging
-- image processing engineering
+- camera application development
+- chip-side integration and interface debugging
+- image pipeline engineering
 - desire to avoid pure algorithm competition
 
-The target is not "learn random knowledge".
-The target is to grow into a stronger engineer in this direction:
+The route is designed to help you become a stronger systems engineer with two clear growth directions:
 
-camera system engineering -> Linux/system performance -> edge AI deployment -> robotics vision transferability
+1. go deeper into camera and Linux systems engineering
+2. extend into edge AI deployment and robotics vision without switching to a pure algorithm role
 
-## What You Will Be Able To Do
+## What Makes This Course Different
 
-After finishing the full route, you should be able to:
+This course follows the structure that strong modern learning platforms often use:
 
-1. explain the main runtime bottlenecks in camera and image pipelines
-2. diagnose common Linux-side performance issues with tools
-3. reason about latency, throughput, contention, copying, and cache effects
-4. understand how model deployment interacts with system bottlenecks
-5. build enough robotics vision awareness to keep career mobility high
+- path-based learning instead of isolated topics
+- concrete outcomes for every lesson
+- small projects and portfolio artifacts
+- repeated review instead of one-time reading
+- checkpoints that connect directly to work problems
 
-## Course Design Principles
+The idea is simple:
+every lesson should give you one durable mental model, one observable experiment, and one written artifact.
 
-This course is not book-first.
-It is built around durable understanding.
+## Final Outcome
 
-Each lesson has five layers:
+By the end of the full path, you should be able to:
 
-1. Why it matters for your real work
+1. explain the main bottlenecks in a camera and image-processing pipeline
+2. diagnose Linux-side performance issues with the right tools instead of guessing
+3. reason about latency, throughput, copying, cache effects, contention, and backpressure
+4. understand how edge deployment interacts with memory bandwidth, preprocessing, and runtime stability
+5. design a small but convincing portfolio project that shows systems thinking rather than pure coding
+
+## Learning Experience Design
+
+Each lesson has the same structure:
+
+1. Why this matters in your real work
 2. Core concepts and mental models
-3. A small lab or tool exercise
-4. Review and recall
-5. A written note in your own words
+3. A practical task, lab, or drawing exercise
+4. A deliverable you can keep
+5. Review questions for long-term memory
 
-The goal is to turn knowledge into:
+Each phase ends with a milestone artifact:
 
-- intuition
-- debugging habits
-- reusable memory
+- Phase 1:
+  A Linux performance troubleshooting checklist
+- Phase 2:
+  A camera-to-runtime bottleneck map
+- Phase 3:
+  A small project brief or demo system plan
 
-## Recommended Rhythm
+## Recommended Pace
 
-For a full-time engineer, use this pace:
+For a full-time engineer, the best rhythm is:
 
-- workdays: 30 minutes
-- weekend: 2 to 4 focused hours
+- workdays:
+  30 to 40 minutes
+- weekend:
+  2 to 4 focused hours
 
-For each lesson:
+Recommended pattern for one lesson:
 
 ### Session 1
-- Read the lesson
-- Understand the mental model
-- Mark what feels fuzzy
+
+- read the lesson
+- mark fuzzy concepts
+- rewrite the key model in your own words
 
 ### Session 2
-- Do the small lab
-- Record what you observed
+
+- do the lab or practical task
+- record observations
+- note one thing that surprised you
 
 ### Session 3
-- Use one tool or run one measurement
-- Connect the lesson to one problem from work
+
+- connect the lesson to one real problem from work
+- capture a checklist or diagnosis flow
 
 ### Session 4
-- Write your own summary
-- Answer review questions from memory
+
+- answer review questions from memory
+- write one short summary note
+
+## Three Learning Tracks
+
+### Track A: Linux and Systems Foundation
+
+Goal:
+build intuition about concurrency, memory, cache, scheduling, and observability.
+
+Career value:
+this is the part that makes you useful when a real system becomes unstable, slow, or hard to explain.
+
+### Track B: Camera Systems and Edge Deployment
+
+Goal:
+connect your existing camera background with runtime behavior, inference deployment, and platform constraints.
+
+Career value:
+this is where you become a bridge between sensor data, systems performance, and deployed AI.
+
+### Track C: Robotics and 3D Vision Transfer
+
+Goal:
+open a second career curve in robotics and industrial vision while reusing your current strengths.
+
+Career value:
+this gives you mobility beyond a single industry cycle.
 
 ## Phase Overview
 
-### Phase 1: System Foundation
+## Phase 1: System Foundation
+
 Goal:
-Build strong intuition about concurrency, memory, cache, and Linux observability.
+understand why systems become slow, unstable, and jittery even when the code looks reasonable.
 
-Why this phase matters:
-This is the layer that helps you solve "why is it slow", "why does it jitter", and "why does it drop frames".
+Milestone artifact:
+build your own troubleshooting flow for CPU spikes, contention, memory pressure, and waiting.
 
-### Phase 2: Camera and Deployment Engineering
+## Phase 2: Camera and Deployment Engineering
+
 Goal:
-Connect system knowledge to camera pipelines and deployed inference.
+understand the camera data path, timing behavior, and deployment bottlenecks as one connected system.
 
-Why this phase matters:
-This is where you become a bridge between camera data, runtime behavior, and edge deployment.
+Milestone artifact:
+produce a bottleneck map from camera input to inference output.
 
-### Phase 3: Robotics Vision Transition
+## Phase 3: Robotics Vision Transition
+
 Goal:
-Create a second career curve without throwing away your current experience.
+gain transferability into robotics through middleware, calibration, and a scoped project.
 
-Why this phase matters:
-This gives you transferability into robotics and industrial vision.
+Milestone artifact:
+finish one end-to-end project brief or prototype plan suitable for a public portfolio.
 
 ## Full Lesson Map
+
+| Lesson | Theme | Core Question | Main Deliverable |
+| --- | --- | --- | --- |
+| 1 | Processes, threads, locks, context switching | Why can more threads make things slower? | concurrency checklist |
+| 2 | Virtual memory, pages, `mmap` | Why is moving memory often the real bottleneck? | memory movement note |
+| 3 | CPU cache and locality | Why can the same algorithm run very differently? | cache intuition summary |
+| 4 | Linux observability | How do I see what the system is doing? | first troubleshooting flow |
+| 5 | Camera data path and buffers | Where does one frame really travel? | pipeline ownership map |
+| 6 | Latency, jitter, sync, drops | Why does frame timing become unstable? | timing diagnosis template |
+| 7 | ONNX and runtime basics | What happens between a model file and real execution? | deployment path sketch |
+| 8 | Quantization and toolchains | What trade-offs turn a model into a product? | deployment decision matrix |
+| 9 | Profiling deployed inference | Where is the time actually going? | latency budget worksheet |
+| 10 | ROS2 basics | How do camera systems map into robot middleware? | ROS2 pipeline diagram |
+| 11 | Calibration and 3D vision | How do calibration errors become system failures? | calibration symptom map |
+| 12 | End-to-end project | How do I turn learning into visible evidence? | project brief or demo plan |
+
+## Lesson Outcomes
 
 ## Phase 1: System Foundation
 
 ### Lesson 1: Processes, Threads, Locks, and Context Switching
 
-Why it matters:
-Most camera and image-processing systems are multi-threaded.
-Many problems come from waiting, sharing, and switching rather than raw compute.
+Focus:
+shared state, contention, waiting, and scheduling behavior.
 
-You will learn:
+What you should be able to do:
 
-- process vs thread
-- shared memory and ownership
-- race condition vs lock contention
-- context switching in plain language
-- how to think about pipeline concurrency
+- explain process vs thread clearly
+- identify race, contention, deadlock, and oversubscription
+- connect context switching to latency jitter
 
-Hands-on:
-
-- compare single-thread, shared-lock, and low-contention versions
-
-Deliverable:
-
-- explain in your own words why more threads can make things slower
-
-Tools:
-
-- `top`
-- `ps`
-- `pidstat`
+Checkpoint:
+write down why adding threads to a pipeline can make it slower.
 
 ### Lesson 2: Virtual Memory, Pages, Page Faults, and `mmap`
 
-Why it matters:
-Large image buffers and repeated copies dominate many real systems.
+Focus:
+memory layout, page behavior, and the cost of copying large buffers.
 
-You will learn:
+What you should be able to do:
 
-- virtual memory intuition
-- page and page fault basics
-- heap vs stack vs mapped memory
-- why copying hurts
-- when `mmap` becomes useful
+- describe heap, stack, mapped memory, and page faults
+- explain why memory movement dominates some workloads
+- choose when `mmap` is worth considering
 
-Hands-on:
-
-- compare simple file reading with mapped access
-- observe memory behavior with large buffers
-
-Deliverable:
-
-- explain why memory movement is a systems bottleneck
-
-Tools:
-
-- `vmstat`
-- `/proc/<pid>/status`
-- `time`
+Checkpoint:
+compare two data access strategies and explain the difference.
 
 ### Lesson 3: CPU, Cache, Locality, and Why Memory Access Dominates Performance
 
-Why it matters:
-Image and buffer-heavy code often loses to memory access, not arithmetic.
+Focus:
+cache hierarchy, locality, false sharing, and performance intuition.
 
-You will learn:
+What you should be able to do:
 
-- cache hierarchy
-- cache line
-- locality
-- cache miss intuition
-- false sharing
+- explain cache lines and locality in plain language
+- recognize false sharing patterns
+- connect access patterns to real image-processing performance
 
-Hands-on:
-
-- compare sequential access and poor-locality access
-- observe the effect of different data layouts
-
-Deliverable:
-
-- explain why "same algorithm complexity" can have very different runtime
-
-Tools:
-
-- `perf stat`
-- `perf top`
+Checkpoint:
+show one example where layout matters more than algorithm complexity.
 
 ### Lesson 4: Linux Observability for Engineers
 
-Why it matters:
-Knowing concepts is not enough.
-You need to know how to see what the system is doing.
+Focus:
+tool-first diagnosis using `top`, `pidstat`, `vmstat`, `strace`, and `perf`.
 
-You will learn:
+What you should be able to do:
 
-- when to use `top`, `pidstat`, `vmstat`, `iostat`
-- how to use `strace` to identify waiting
-- what `perf` tells you
-- how to start narrowing a bottleneck
+- choose the right first tool for a symptom
+- separate CPU-heavy, wait-heavy, and memory-heavy failures
+- create a first-pass diagnosis flow instead of guessing
 
-Hands-on:
-
-- inspect one CPU-heavy program
-- inspect one waiting-heavy program
-- write down a first-pass diagnosis flow
-
-Deliverable:
-
-- build your first troubleshooting checklist
-
-Tools:
-
-- `top`
-- `pidstat`
-- `vmstat`
-- `strace`
-- `perf`
+Checkpoint:
+run at least one tool on one toy workload and record the signal you saw.
 
 ## Phase 2: Camera and Deployment Engineering
 
 ### Lesson 5: Camera Data Path, Buffers, and Frame Lifecycle
 
-Why it matters:
-You already work near this layer.
-This lesson helps you see the whole path as one system.
+Focus:
+frame ownership, queueing, copying, and backpressure inside a camera pipeline.
 
-You will learn:
+What you should be able to do:
 
-- sensor to ISP to memory intuition
-- frame lifecycle and buffering
-- producer-consumer thinking
-- where latency accumulates
+- draw the path of one frame from sensor input to downstream output
+- identify the owner of each buffer
+- mark likely hidden copy points and queue buildup points
 
-Hands-on:
-
-- draw one real pipeline from your work
-- mark ownership, queueing, and copy points
-
-Deliverable:
-
-- one pipeline map in your own words
+Checkpoint:
+make a pipeline map from one real work scenario.
 
 ### Lesson 6: Latency, Jitter, Frame Drops, and Synchronization
 
-Why it matters:
-Many hard production issues are timing problems, not functional problems.
+Focus:
+tail latency, timing stability, frame drops, and sync strategy.
 
-You will learn:
+What you should be able to do:
 
-- latency vs throughput
-- jitter
-- backpressure
-- frame drop causes
-- synchronization mindset
+- explain latency, throughput, jitter, and tail latency separately
+- reason about why a pipeline can look fine on average but fail in production
+- write a diagnosis flow for frame drops and sync drift
 
-Hands-on:
-
-- analyze one imaginary or real frame-drop scenario
-
-Deliverable:
-
-- write a structured diagnosis approach for unstable frame timing
+Checkpoint:
+build a timing diagnosis template you could reuse at work.
 
 ### Lesson 7: ONNX and Inference Runtime Basics for System Engineers
 
-Why it matters:
-This is your bridge into edge AI deployment without becoming a pure algorithm engineer.
+Focus:
+how a model becomes an executable runtime graph and where runtime cost appears.
 
-You will learn:
+What you should be able to do:
 
-- what ONNX is
-- basic inference runtime flow
-- operator execution intuition
-- deployment pipeline overview
+- describe the path from training output to deployable runtime
+- distinguish preprocessing, graph execution, and postprocessing cost
+- reason about where copies and layout conversions appear
 
-Hands-on:
-
-- trace a simple model export and runtime path conceptually
-
-Deliverable:
-
-- explain where system bottlenecks can appear in inference deployment
+Checkpoint:
+trace one model from source format to runtime execution.
 
 ### Lesson 8: Quantization, TensorRT, and Platform Toolchains
 
-Why it matters:
-This is where deployment value becomes practical on real hardware.
+Focus:
+precision trade-offs, calibration data, toolchain constraints, and platform decisions.
 
-You will learn:
+What you should be able to do:
 
-- quantization intuition
-- accuracy vs latency tradeoff
-- engine building basics
-- platform-specific deployment mindset
+- explain INT8, FP16, and mixed-precision trade-offs
+- compare two platform toolchains from an engineering perspective
+- think about deployment stability, memory fit, and debug cost
 
-Hands-on:
-
-- compare FP and INT deployment tradeoffs conceptually or through a small example
-
-Deliverable:
-
-- explain what can be optimized without touching model training
+Checkpoint:
+write a small decision matrix for one deployment target.
 
 ### Lesson 9: Profiling Deployed Inference
 
-Why it matters:
-A deployed model can be "correct" but still unusable if the pipeline is slow or unstable.
+Focus:
+latency budgeting, stage-by-stage profiling, copies, transfer, and tail behavior.
 
-You will learn:
+What you should be able to do:
 
-- CPU bottleneck vs bandwidth bottleneck
-- memory copy cost in inference pipelines
-- preprocessing and postprocessing overhead
-- first-pass runtime diagnosis
+- build a latency budget for an inference pipeline
+- decide which stage to profile first
+- distinguish compute bottlenecks from transfer and preprocessing bottlenecks
 
-Hands-on:
-
-- break down latency into stages
-
-Deliverable:
-
-- one latency budget template for deployment tasks
+Checkpoint:
+produce a profiling worksheet you could reuse for any future model.
 
 ## Phase 3: Robotics Vision Transition
 
 ### Lesson 10: ROS2 Basics for Vision Engineers
 
-Why it matters:
-ROS2 is a practical entry point into robotics systems.
+Focus:
+nodes, topics, launch, QoS, and mapping vision pipelines into robot middleware.
 
-You will learn:
+What you should be able to do:
 
-- pub/sub model
-- node thinking
-- topic flow
-- launch-system awareness
+- explain the basic ROS2 communication model
+- map one camera pipeline into nodes and topics
+- reason about where reliability and QoS matter
 
-Hands-on:
-
-- draw a simple camera-to-processing-to-output ROS2 graph
-
-Deliverable:
-
-- explain how your current pipeline experience maps onto robotics middleware
+Checkpoint:
+draw one ROS2-style data flow.
 
 ### Lesson 11: Calibration, Hand-Eye Calibration, and 3D Vision Awareness
 
-Why it matters:
-This is a transferable systems skill for robotics and industrial vision.
+Focus:
+intrinsics, extrinsics, error propagation, hand-eye calibration, and 3D sensing intuition.
 
-You will learn:
+What you should be able to do:
 
-- calibration purpose
-- intrinsics and extrinsics intuition
-- hand-eye calibration awareness
-- why 3D vision changes system assumptions
+- explain intrinsics and extrinsics in practical terms
+- connect calibration errors to downstream system symptoms
+- understand why 3D setups create new failure modes
 
-Hands-on:
-
-- explain one calibration problem in plain language
-
-Deliverable:
-
-- one short note on where calibration failures show up in a product
+Checkpoint:
+write a symptom-to-cause map for calibration failures.
 
 ### Lesson 12: End-to-End Project Design
 
-Why it matters:
-Knowledge becomes durable when it is integrated.
+Focus:
+turn the whole route into a small but convincing systems project.
 
-You will learn:
+What you should be able to do:
 
-- how to choose a small project
-- how to split it into system, runtime, and debugging tasks
-- how to document what you built
+- choose a project with the right scope
+- break it into system, runtime, tooling, and debugging tasks
+- present it as public career evidence
 
-Hands-on:
+Checkpoint:
+finish a one-page project brief or start a small prototype.
 
-- define one personal project and its milestones
+## Portfolio Artifacts
 
-Deliverable:
+By the end of the route, try to keep these artifacts:
 
-- one project brief with technical goals and learning goals
+1. one troubleshooting checklist
+2. one memory or cache experiment note
+3. one camera pipeline map
+4. one latency budget worksheet
+5. one deployment decision matrix
+6. one ROS2-style system diagram
+7. one project brief or demo repository
 
-## Milestones
+These artifacts matter because they prove applied engineering thinking, not just passive reading.
 
-### Milestone A
-Finish Lessons 1 to 4.
+## How To Use The Public Site
 
-You should be able to:
+The public site should feel like a personal learning portal, not a pile of notes.
+When we continue improving it, we should bias toward:
 
-- explain concurrency and memory bottlenecks
-- use basic Linux tools to inspect runtime behavior
-- reason about cache and copying effects
+- clearer lesson outcomes
+- progress by phase
+- checkpoint artifacts
+- project-based milestones
+- better reading flow on detail pages
 
-### Milestone B
-Finish Lessons 5 to 9.
-
-You should be able to:
-
-- analyze a camera or deployment pipeline as a system
-- discuss latency and bottleneck sources with more confidence
-- approach edge deployment from a system-engineering angle
-
-### Milestone C
-Finish Lessons 10 to 12.
-
-You should be able to:
-
-- describe a credible robotics vision transition path
-- design a portfolio-quality learning project
-
-## Standard Lesson Output
-
-For each lesson, you should leave behind:
-
-1. one concept summary
-2. one experiment or tool observation
-3. one work-related example
-4. one set of answered review questions
-
-## Current Active Lesson
-
-Lesson 1
+That will make it feel closer to platforms like Coursera, DeepLearning.AI, and Frontend Masters in structure, even though the content is fully personalized.
