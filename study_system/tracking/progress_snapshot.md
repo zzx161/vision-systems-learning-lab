@@ -36,6 +36,7 @@ Last updated: 2026-04-06
 
 - [[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]] (lesson, active, 15%)
 - [[current_sprint.md|当前冲刺]] (sprint, active, 10%)
+- [[logs/sessions/2026-04-06.md|学习记录]] (session, in_progress, 0%)
 
 ## Review Queue
 
@@ -55,6 +56,7 @@ Last updated: 2026-04-06
 
 - Continue [[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]]
 - Run [[labs/lab_01_threads.md|Threads and Contention]]
-- Fill in one study session note in `logs/sessions/` after you finish studying
-- Refresh this file with `python3 scripts/update_progress.py`
+- Read `tracking/today.md` for a short study plan
+- Say `今天学习结束了` and I can update today’s session for you
+- Or run `python3 scripts/finish_study_session.py --minutes 30`
 

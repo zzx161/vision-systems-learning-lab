@@ -21,6 +21,10 @@ def main() -> None:
         return
 
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
+    template = template.replace("note_type: template\n", "note_type: session\n", 1)
+    template = template.replace("title: Study Session\n", "title: 学习记录\n", 1)
+    template = template.replace("template_for: session\n", "", 1)
+    template = template.replace("  - study/template\n", "  - study/session\n", 1)
     template = template.replace("date:\n", f"date: {session_date}\n", 1)
     template = template.replace("# {{date}}", f"# {session_date}")
     target.write_text(template, encoding="utf-8")

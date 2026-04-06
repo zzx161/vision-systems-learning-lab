@@ -15,6 +15,7 @@ TRACKING_DIR = ROOT / "tracking"
 SNAPSHOT_PATH = TRACKING_DIR / "progress_snapshot.md"
 JSON_PATH = TRACKING_DIR / "progress.json"
 HTML_PATH = TRACKING_DIR / "index.html"
+TODAY_PATH = TRACKING_DIR / "today.md"
 
 
 def parse_scalar(value: str) -> Any:
@@ -93,7 +94,12 @@ def summarize_group(notes: list[dict[str, Any]], note_type: str) -> dict[str, An
     total_completion = sum(int(note.get("completion", 0) or 0) for note in group)
     avg_completion = round(total_completion / len(group), 1) if group else 0.0
     total_estimated = sum(int(note.get("estimated_minutes", 0) or 0) for note in group)
-    total_actual = sum(int(note.get("actual_minutes", 0) or 0) for note in group)
+    total_actual = sum(
+        int(
+            note.get("actual_minutes", note.get("minutes", 0)) or 0
+        )
+        for note in group
+    )
     return {
         "count": len(group),
         "status_counts": dict(status_counts),
@@ -274,6 +280,114 @@ def zh_title(title: str) -> str:
     return mapping.get(title, title)
 
 
+def select_active_lesson(notes: list[dict[str, Any]]) -> dict[str, Any] | None:
+    active = sorted(
+        [n for n in notes if n.get("note_type") == "lesson" and n.get("status") in {"active", "in_progress"}],
+        key=lambda item: (str(item.get("last_studied") or ""), int(item.get("lesson", 0) or 0)),
+        reverse=True,
+    )
+    if active:
+        return active[0]
+    remaining = sorted(
+        [n for n in notes if n.get("note_type") == "lesson" and int(n.get("completion", 0) or 0) < 100],
+        key=lambda item: int(item.get("lesson", 999) or 999),
+    )
+    return remaining[0] if remaining else None
+
+
+def select_related_lab(notes: list[dict[str, Any]], lesson_num: int) -> dict[str, Any] | None:
+    return next(
+        (
+            n
+            for n in notes
+            if n.get("note_type") == "lab"
+            and int(n.get("related_lesson", 0) or 0) == lesson_num
+            and int(n.get("completion", 0) or 0) < 100
+        ),
+        None,
+    )
+
+
+def build_today_note(notes: list[dict[str, Any]]) -> str:
+    active_lesson = select_active_lesson(notes)
+    current_sprint = next((n for n in notes if n.get("note_type") == "sprint" and n.get("status") == "active"), None)
+    session_rows = sorted(
+        [note for note in notes if note.get("note_type") == "session"],
+        key=lambda note: str(note.get("date") or ""),
+        reverse=True,
+    )
+
+    lines: list[str] = []
+    lines.append("---")
+    lines.append("note_type: daily_plan")
+    lines.append("title: 今日学习建议")
+    lines.append(f"generated_on: {date.today().isoformat()}")
+    lines.append("status: generated")
+    lines.append("tags:")
+    lines.append("  - study/today")
+    lines.append("---")
+    lines.append("")
+    lines.append("# 今日学习建议")
+    lines.append("")
+    lines.append(f"生成日期：{date.today().isoformat()}")
+    lines.append("")
+
+    if active_lesson:
+        lesson_num = int(active_lesson.get("lesson", 0) or 0)
+        related_lab = select_related_lab(notes, lesson_num)
+        lines.append("## 今天优先学什么")
+        lines.append("")
+        lines.append(f"- 主线课程：[[{active_lesson['path']}|{active_lesson.get('title')}]]")
+        lines.append(f"- 当前完成度：{active_lesson.get('completion', 0)}%")
+        if related_lab:
+            lines.append(f"- 配套实验：[[{related_lab['path']}|{related_lab.get('title')}]]")
+        lines.append("")
+        lines.append("## 推荐顺序")
+        lines.append("")
+        lines.append(f"1. 先读 [[{active_lesson['path']}|{active_lesson.get('title')}]] 的正文和补充干货。")
+        if related_lab:
+            lines.append(f"2. 再做 [[{related_lab['path']}|{related_lab.get('title')}]]。")
+            lines.append("3. 最后写一句你今天最清楚和最模糊的点。")
+        else:
+            lines.append("2. 写一句你今天最清楚的结论。")
+            lines.append("3. 标出一个你还不理解的词或现象。")
+        lines.append("")
+    else:
+        lines.append("## 今天优先学什么")
+        lines.append("")
+        lines.append("- 当前没有未完成课程。可以转去做复盘或项目。")
+        lines.append("")
+
+    lines.append("## 当前冲刺")
+    lines.append("")
+    if current_sprint:
+        lines.append(f"- [[{current_sprint['path']}|{current_sprint.get('title')}]]")
+    else:
+        lines.append("- 当前没有活跃 sprint。")
+    lines.append("")
+
+    lines.append("## 最近一次学习记录")
+    lines.append("")
+    if session_rows:
+        latest = session_rows[0]
+        lines.append(f"- [[{latest['path']}|{latest.get('date', latest.get('title'))}]]")
+        if latest.get("focus"):
+            lines.append(f"- 上次重点：{latest.get('focus')}")
+        if latest.get("next_step"):
+            lines.append(f"- 上次留下的下一步：{latest.get('next_step')}")
+    else:
+        lines.append("- 还没有学习记录。建议先开始一次学习会话。")
+    lines.append("")
+
+    lines.append("## 结束学习时")
+    lines.append("")
+    lines.append("- 你可以直接对我说：`今天学习结束了`")
+    lines.append("- 或运行：`python3 /home/zhixin/code/study_system/scripts/finish_study_session.py --minutes 30`")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
 def build_snapshot(notes: list[dict[str, Any]]) -> str:
     lessons = summarize_group(notes, "lesson")
     labs = summarize_group(notes, "lab")
@@ -299,7 +413,7 @@ def build_snapshot(notes: list[dict[str, Any]]) -> str:
     track_minutes: dict[str, int] = defaultdict(int)
     for note in notes:
         track = str(note.get("track") or "other")
-        track_minutes[track] += int(note.get("actual_minutes", 0) or 0)
+        track_minutes[track] += int(note.get("actual_minutes", note.get("minutes", 0)) or 0)
 
     lines: list[str] = []
     lines.append("---")
@@ -377,14 +491,15 @@ def build_snapshot(notes: list[dict[str, Any]]) -> str:
 
     lines.append("## Next Recommended Actions")
     lines.append("")
-    lesson1 = next((n for n in notes if n.get("note_type") == "lesson" and n.get("lesson") == 1), None)
-    lab1 = next((n for n in notes if n.get("note_type") == "lab" and n.get("related_lesson") == 1), None)
-    if lesson1 and int(lesson1.get("completion", 0) or 0) < 100:
-        lines.append(f"- Continue [[{lesson1['path']}|{lesson1.get('title')}]]")
-    if lab1 and int(lab1.get("completion", 0) or 0) < 100:
-        lines.append(f"- Run [[{lab1['path']}|{lab1.get('title')}]]")
-    lines.append("- Fill in one study session note in `logs/sessions/` after you finish studying")
-    lines.append("- Refresh this file with `python3 scripts/update_progress.py`")
+    active_lesson = select_active_lesson(notes)
+    if active_lesson:
+        lines.append(f"- Continue [[{active_lesson['path']}|{active_lesson.get('title')}]]")
+        related_lab = select_related_lab(notes, int(active_lesson.get("lesson", 0) or 0))
+        if related_lab:
+            lines.append(f"- Run [[{related_lab['path']}|{related_lab.get('title')}]]")
+    lines.append("- Read `tracking/today.md` for a short study plan")
+    lines.append("- Say `今天学习结束了` and I can update today’s session for you")
+    lines.append("- Or run `python3 scripts/finish_study_session.py --minutes 30`")
     lines.append("")
     return "\n".join(lines)
 
@@ -629,8 +744,8 @@ def build_html_dashboard(
     <section class="hero">
       <h1>{escape(dashboard_title)}</h1>
       <p>生成日期：{escape(date.today().isoformat())}。这个页面会把课程、实验、复盘和学习记录汇总到一起。</p>
-      <div class="sub">如果你在 WSL 里学习，推荐用 localhost 方式打开，会比直接点 Linux 路径稳定很多。</div>
       <div class="hero-links">
+        <a href="{href_resolver('tracking/today.md')}" target="_blank">打开今日建议</a>
         <a href="{href_resolver('dashboard.md')}" target="_blank">打开 Markdown 面板</a>
         <a href="{href_resolver('tracking/progress_snapshot.md')}" target="_blank">打开快照</a>
         <a href="{href_resolver(latest_session_path)}" target="_blank">打开最近一次学习记录</a>
@@ -677,6 +792,7 @@ def build_html_dashboard(
           <h2>快捷入口</h2>
           <ul class="mini-list">
             <li><strong>当前 sprint</strong><span><a href="{href_resolver('current_sprint.md')}" target="_blank">打开</a></span></li>
+            <li><strong>今日建议</strong><span><a href="{href_resolver('tracking/today.md')}" target="_blank">打开</a></span></li>
             <li><strong>课程总表</strong><span><a href="{href_resolver('course_plan.md')}" target="_blank">打开</a></span></li>
             <li><strong>刷新命令</strong><span><code>python3 scripts/update_progress.py</code></span></li>
           </ul>
@@ -709,9 +825,11 @@ def build_html_dashboard(
 def main() -> None:
     notes = load_notes()
     snapshot = build_snapshot(notes)
+    today_note = build_today_note(notes)
     html = build_html_dashboard(notes)
     TRACKING_DIR.mkdir(parents=True, exist_ok=True)
     SNAPSHOT_PATH.write_text(snapshot + "\n", encoding="utf-8")
+    TODAY_PATH.write_text(today_note + "\n", encoding="utf-8")
     HTML_PATH.write_text(html, encoding="utf-8")
 
     payload = {

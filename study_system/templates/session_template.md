@@ -5,6 +5,7 @@ template_for: session
 date:
 status: logged
 minutes: 0
+actual_minutes: 0
 focus:
 artifact:
 energy: medium

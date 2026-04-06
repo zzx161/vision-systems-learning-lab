@@ -7,9 +7,19 @@
       "command": "python3 /home/zhixin/code/study_system/scripts/new_session.py"
     },
     {
+      "label": "Study: Start Session",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/start_study_session.py"
+    },
+    {
       "label": "Study: Refresh Progress",
       "type": "shell",
       "command": "python3 /home/zhixin/code/study_system/scripts/update_progress.py"
+    },
+    {
+      "label": "Study: Finish Session",
+      "type": "shell",
+      "command": "python3 /home/zhixin/code/study_system/scripts/finish_study_session.py --minutes 30"
     },
     {
       "label": "Study: Open Web Dashboard",

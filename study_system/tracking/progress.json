@@ -452,19 +452,20 @@
     },
     {
       "note_type": "session",
-      "title": "Study Session",
+      "title": "\u5b66\u4e60\u8bb0\u5f55",
       "date": "2026-04-06",
-      "status": "logged",
+      "status": "in_progress",
       "minutes": 0,
-      "focus": "",
+      "focus": "\u8fdb\u7a0b\u3001\u7ebf\u7a0b\u3001\u9501\u4e0e\u4e0a\u4e0b\u6587\u5207\u6362",
       "artifact": "",
       "energy": "medium",
       "confidence_before": 0,
       "confidence_after": 0,
-      "next_step": "",
+      "next_step": "\u7ee7\u7eed\u8bfe\u7a0b\u300a\u8fdb\u7a0b\u3001\u7ebf\u7a0b\u3001\u9501\u4e0e\u4e0a\u4e0b\u6587\u5207\u6362\u300b",
       "tags": [
         "study/session"
       ],
+      "actual_minutes": 0,
       "path": "logs/sessions/2026-04-06.md",
       "name": "2026-04-06"
     },
@@ -494,6 +495,7 @@
       "date": "",
       "status": "logged",
       "minutes": 0,
+      "actual_minutes": 0,
       "focus": "",
       "artifact": "",
       "energy": "medium",
@@ -535,6 +537,17 @@
       ],
       "path": "tracking/progress_snapshot.md",
       "name": "progress_snapshot"
+    },
+    {
+      "note_type": "daily_plan",
+      "title": "\u4eca\u65e5\u5b66\u4e60\u5efa\u8bae",
+      "generated_on": "2026-04-06",
+      "status": "generated",
+      "tags": [
+        "study/today"
+      ],
+      "path": "tracking/today.md",
+      "name": "today"
     }
   ],
   "summary": {
@@ -1014,7 +1027,7 @@
     "session": {
       "count": 1,
       "status_counts": {
-        "logged": 1
+        "in_progress": 1
       },
       "avg_completion": 0.0,
       "estimated_minutes": 0,
@@ -1022,19 +1035,20 @@
       "items": [
         {
           "note_type": "session",
-          "title": "Study Session",
+          "title": "\u5b66\u4e60\u8bb0\u5f55",
           "date": "2026-04-06",
-          "status": "logged",
+          "status": "in_progress",
           "minutes": 0,
-          "focus": "",
+          "focus": "\u8fdb\u7a0b\u3001\u7ebf\u7a0b\u3001\u9501\u4e0e\u4e0a\u4e0b\u6587\u5207\u6362",
           "artifact": "",
           "energy": "medium",
           "confidence_before": 0,
           "confidence_after": 0,
-          "next_step": "",
+          "next_step": "\u7ee7\u7eed\u8bfe\u7a0b\u300a\u8fdb\u7a0b\u3001\u7ebf\u7a0b\u3001\u9501\u4e0e\u4e0a\u4e0b\u6587\u5207\u6362\u300b",
           "tags": [
             "study/session"
           ],
+          "actual_minutes": 0,
           "path": "logs/sessions/2026-04-06.md",
           "name": "2026-04-06"
         }
