@@ -2,5 +2,7 @@ study_system/labs/bin/
 study_system/public/
 study_system/scripts/__pycache__/
 study_system/tracking/.server_state.json
+.vscode/settings.json
+bin/
 
 .DS_Store
