@@ -176,6 +176,30 @@
       margin: 0;
       color: var(--muted);
     }
+    .profile-card {
+      display: grid;
+      gap: 10px;
+    }
+    .profile-title, .profile-copy, .profile-meta {
+      margin: 0;
+    }
+    .profile-title a {
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .profile-title a:hover {
+      color: var(--accent-strong);
+      text-decoration: underline;
+    }
+    .profile-copy {
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .profile-meta {
+      color: var(--muted);
+      font-size: 13px;
+    }
     .footer {
       margin-top: 28px;
       color: var(--text);
@@ -189,6 +213,7 @@
       <h1>周志昕的学习进度面板</h1>
       <p>生成日期：2026-04-06。这个页面会把课程、实验、复盘和学习记录汇总到一起。</p>
       <div class="hero-links">
+        <a href="../operator_context.md" target="_blank">打开上下文档案</a>
         <a href="today.md" target="_blank">打开今日建议</a>
         <a href="../dashboard.md" target="_blank">打开 Markdown 面板</a>
         <a href="progress_snapshot.md" target="_blank">打开快照</a>
@@ -240,6 +265,10 @@
 
     <section class="section">
       <div class="grid two-col">
+        <section class="card">
+          <h2>人物与工作上下文</h2>
+          <div class='profile-card'><p class='profile-title'><a href='../operator_context.md' target='_blank'>人物与工作上下文</a></p><p class='profile-copy'>先读这份档案，再进入当前 sprint、今日建议和最近一次 session，能最快恢复“你是谁、你现在在推进什么、助手应该如何接手”的上下文。</p><p class='profile-meta'>最近更新：2026-04-06</p></div>
+        </section>
         <section class="card">
           <h2>当前重点</h2>
           <ul class='note-list'><li><a href='../courses/lesson_01_process_thread.md' target='_blank'>进程、线程、锁与上下文切换</a><span>课程 · 进行中 · 15%</span></li><li><a href='../current_sprint.md' target='_blank'>当前冲刺</a><span>冲刺 · 进行中 · 10%</span></li><li><a href='../logs/sessions/2026-04-06.md' target='_blank'>学习记录</a><span>学习记录 · 进行中</span></li></ul>

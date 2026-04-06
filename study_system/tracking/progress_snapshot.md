@@ -38,6 +38,10 @@ Last updated: 2026-04-06
 - [[current_sprint.md|当前冲刺]] (sprint, active, 10%)
 - [[logs/sessions/2026-04-06.md|学习记录]] (session, in_progress, 0%)
 
+## Context Anchor
+
+- Read [[operator_context.md|人物与工作上下文]] before handing off work
+
 ## Review Queue
 
 - no notes are due for review today
@@ -54,6 +58,7 @@ Last updated: 2026-04-06
 
 ## Next Recommended Actions
 
+- Read [[operator_context.md|人物与工作上下文]] to recover user context quickly
 - Continue [[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]]
 - Run [[labs/lab_01_threads.md|Threads and Contention]]
 - Read `tracking/today.md` for a short study plan

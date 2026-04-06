@@ -143,6 +143,17 @@ def zh_track(value: str) -> str:
     return mapping.get(value, value)
 
 
+def select_profile(notes: list[dict[str, Any]]) -> dict[str, Any] | None:
+    profiles = [
+        note for note in notes
+        if note.get("note_type") == "profile" and note.get("status") in {"active", "in_progress", "generated", ""}
+    ]
+    if not profiles:
+        return None
+    profiles.sort(key=lambda item: (str(item.get("last_updated") or ""), str(item.get("path") or "")), reverse=True)
+    return profiles[0]
+
+
 def render_stat_card(title: str, count: int, avg_completion: float, estimated: int, actual: int) -> str:
     return f"""
     <section class="card stat-card">
@@ -199,6 +210,24 @@ def render_track_minutes(track_minutes: dict[str, int]) -> str:
             f"<li><strong>{escape(zh_track(track))}</strong><span>{minutes} 分钟</span></li>"
         )
     return "<ul class='mini-list'>" + "".join(items) + "</ul>"
+
+
+def render_profile_summary(profile: dict[str, Any] | None, href_resolver: Callable[[str], str] = dashboard_href) -> str:
+    if not profile:
+        return "<p class='empty'>还没有建立人物与工作上下文档案。</p>"
+
+    path = str(profile.get("path") or "")
+    title = zh_title(str(profile.get("title") or profile.get("name") or "上下文档案"))
+    updated = str(profile.get("last_updated") or "")
+    meta = f"最近更新：{escape(updated)}" if updated else "建议保持这份档案随节奏更新。"
+    return (
+        "<div class='profile-card'>"
+        f"<p class='profile-title'><a href='{href_resolver(path)}' target='_blank'>{escape(title)}</a></p>"
+        "<p class='profile-copy'>先读这份档案，再进入当前 sprint、今日建议和最近一次 session，"
+        "能最快恢复“你是谁、你现在在推进什么、助手应该如何接手”的上下文。</p>"
+        f"<p class='profile-meta'>{meta}</p>"
+        "</div>"
+    )
 
 
 def render_status_breakdown(name: str, summary: dict[str, Any]) -> str:
@@ -311,6 +340,7 @@ def select_related_lab(notes: list[dict[str, Any]], lesson_num: int) -> dict[str
 def build_today_note(notes: list[dict[str, Any]]) -> str:
     active_lesson = select_active_lesson(notes)
     current_sprint = next((n for n in notes if n.get("note_type") == "sprint" and n.get("status") == "active"), None)
+    profile = select_profile(notes)
     session_rows = sorted(
         [note for note in notes if note.get("note_type") == "session"],
         key=lambda note: str(note.get("date") or ""),
@@ -330,6 +360,15 @@ def build_today_note(notes: list[dict[str, Any]]) -> str:
     lines.append("# 今日学习建议")
     lines.append("")
     lines.append(f"生成日期：{date.today().isoformat()}")
+    lines.append("")
+
+    lines.append("## 开场上下文")
+    lines.append("")
+    if profile:
+        lines.append(f"- 先读 [[{profile['path']}|{profile.get('title')}]]")
+        lines.append("- 这份档案会说明你大概率在做什么、当前主线目标是什么、后续助手该怎样接手")
+    else:
+        lines.append("- 目前还没有人物与工作上下文档案")
     lines.append("")
 
     if active_lesson:
@@ -409,6 +448,7 @@ def build_snapshot(notes: list[dict[str, Any]]) -> str:
         if note.get("status") in {"active", "in_progress"}
         and note.get("note_type") in {"lesson", "lab", "review", "session", "sprint"}
     ]
+    profile = select_profile(notes)
 
     track_minutes: dict[str, int] = defaultdict(int)
     for note in notes:
@@ -469,6 +509,14 @@ def build_snapshot(notes: list[dict[str, Any]]) -> str:
         lines.append("- no active items")
     lines.append("")
 
+    lines.append("## Context Anchor")
+    lines.append("")
+    if profile:
+        lines.append(f"- Read [[{profile['path']}|{profile.get('title', profile['name'])}]] before handing off work")
+    else:
+        lines.append("- no profile note is available yet")
+    lines.append("")
+
     lines.append("## Review Queue")
     lines.append("")
     if due_reviews:
@@ -492,6 +540,8 @@ def build_snapshot(notes: list[dict[str, Any]]) -> str:
     lines.append("## Next Recommended Actions")
     lines.append("")
     active_lesson = select_active_lesson(notes)
+    if profile:
+        lines.append(f"- Read [[{profile['path']}|{profile.get('title', profile['name'])}]] to recover user context quickly")
     if active_lesson:
         lines.append(f"- Continue [[{active_lesson['path']}|{active_lesson.get('title')}]]")
         related_lab = select_related_lab(notes, int(active_lesson.get("lesson", 0) or 0))
@@ -513,6 +563,7 @@ def build_html_dashboard(
     labs = summarize_group(notes, "lab")
     reviews = summarize_group(notes, "review")
     sessions = summarize_group(notes, "session")
+    profile = select_profile(notes)
 
     due_reviews = sorted(
         [
@@ -732,6 +783,30 @@ def build_html_dashboard(
       margin: 0;
       color: var(--muted);
     }}
+    .profile-card {{
+      display: grid;
+      gap: 10px;
+    }}
+    .profile-title, .profile-copy, .profile-meta {{
+      margin: 0;
+    }}
+    .profile-title a {{
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+    }}
+    .profile-title a:hover {{
+      color: var(--accent-strong);
+      text-decoration: underline;
+    }}
+    .profile-copy {{
+      color: var(--text);
+      line-height: 1.65;
+    }}
+    .profile-meta {{
+      color: var(--muted);
+      font-size: 13px;
+    }}
     .footer {{
       margin-top: 28px;
       color: var(--text);
@@ -745,6 +820,7 @@ def build_html_dashboard(
       <h1>{escape(dashboard_title)}</h1>
       <p>生成日期：{escape(date.today().isoformat())}。这个页面会把课程、实验、复盘和学习记录汇总到一起。</p>
       <div class="hero-links">
+        <a href="{href_resolver('operator_context.md')}" target="_blank">打开上下文档案</a>
         <a href="{href_resolver('tracking/today.md')}" target="_blank">打开今日建议</a>
         <a href="{href_resolver('dashboard.md')}" target="_blank">打开 Markdown 面板</a>
         <a href="{href_resolver('tracking/progress_snapshot.md')}" target="_blank">打开快照</a>
@@ -764,6 +840,10 @@ def build_html_dashboard(
 
     <section class="section">
       <div class="grid two-col">
+        <section class="card">
+          <h2>人物与工作上下文</h2>
+          {render_profile_summary(profile, href_resolver)}
+        </section>
         <section class="card">
           <h2>当前重点</h2>
           {render_note_list(active_items, "当前没有活跃项。", href_resolver)}

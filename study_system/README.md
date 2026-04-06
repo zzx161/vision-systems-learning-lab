@@ -16,6 +16,8 @@
   课程总表，按课来推进。
 - [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
   当前冲刺内容，适合日常跟进。
+- [operator_context.md](/home/zhixin/code/study_system/operator_context.md)
+  人和工作上下文档案，帮助助手和你自己快速找回主线。
 - [dashboard.md](/home/zhixin/code/study_system/dashboard.md)
   学习面板主页。
 - [courses](/home/zhixin/code/study_system/courses)
@@ -35,11 +37,12 @@
 
 每次回来学习，都按这个顺序走：
 
-1. 看 [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
-2. 打开对应课程
-3. 跑一个实验或完成一个小任务
-4. 写一条 session note
-5. 刷新进度面板
+1. 先看 [operator_context.md](/home/zhixin/code/study_system/operator_context.md)
+2. 看 [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
+3. 打开对应课程
+4. 跑一个实验或完成一个小任务
+5. 写一条 session note
+6. 刷新进度面板
 
 这样学的重点不是“多”，而是“持续积累、不断复盘”。
 
@@ -103,6 +106,12 @@ python3 /home/zhixin/code/study_system/scripts/build_public_site.py
 
 这套目录本身就是“外部记忆”。
 以后我们继续学的时候，不需要从头聊起，可以直接基于这些文件往前推进。
+
+如果你希望助手更像“带记忆地接手工作”，最值得先维护的是：
+
+- [operator_context.md](/home/zhixin/code/study_system/operator_context.md)
+- [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
+- 最近一次 session note
 
 ## 和我一起学习
 

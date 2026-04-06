@@ -34,6 +34,8 @@
   课程总表
 - [current_sprint.md](study_system/current_sprint.md)
   当前冲刺
+- [operator_context.md](study_system/operator_context.md)
+  人物与工作上下文档案
 - [courses](study_system/courses/)
   16 节正式课程
 - [labs](study_system/labs/)
@@ -48,10 +50,11 @@
 如果你只是想直接进入内容，推荐按这个顺序：
 
 1. 打开 [tracking/today.md](study_system/tracking/today.md)
-2. 看 [current_sprint.md](study_system/current_sprint.md)
-3. 进入当前课程
-4. 做对应实验
-5. 学完后更新学习记录
+2. 看 [operator_context.md](study_system/operator_context.md)
+3. 看 [current_sprint.md](study_system/current_sprint.md)
+4. 进入当前课程
+5. 做对应实验
+6. 学完后更新学习记录
 
 ## 常用脚本
 
@@ -66,6 +69,7 @@ python3 study_system/scripts/build_public_site.py
 ## 常用入口
 
 - [今日学习建议](study_system/tracking/today.md)
+- [人物与工作上下文](study_system/operator_context.md)
 - [学习进度快照](study_system/tracking/progress_snapshot.md)
 - [网页面板](study_system/tracking/index.html)
 - [公开站构建说明](study_system/PUBLIC_DEPLOY.md)

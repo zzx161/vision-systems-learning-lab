@@ -470,6 +470,18 @@
       "name": "2026-04-06"
     },
     {
+      "note_type": "profile",
+      "title": "\u4eba\u7269\u4e0e\u5de5\u4f5c\u4e0a\u4e0b\u6587",
+      "status": "active",
+      "last_updated": "2026-04-06",
+      "tags": [
+        "study/profile",
+        "assistant/context"
+      ],
+      "path": "operator_context.md",
+      "name": "operator_context"
+    },
+    {
       "note_type": "review",
       "title": "Week 1 Review",
       "phase": 1,
