@@ -1,363 +1,299 @@
-# Course Plan
+# 课程总表 Course Plan
 
-## Positioning
+## 课程定位
 
-This is not a generic CS survey.
-It is a career-facing learning path built around your real background:
+这不是一套泛泛的计算机基础课。
+它是专门围绕你的工作背景设计的个人学习路径：
 
-- camera application development
-- chip-side integration and interface debugging
-- image pipeline engineering
-- desire to avoid pure algorithm competition
+- 相机应用开发
+- 相机数据接入与链路调试
+- 芯片接口与系统联调
+- 想避开纯算法竞争，转向更稳的系统型能力
 
-The route is designed to help you become a stronger systems engineer with two clear growth directions:
+这套课的主线是：
 
-1. go deeper into camera and Linux systems engineering
-2. extend into edge AI deployment and robotics vision without switching to a pure algorithm role
+`相机系统工程 -> Linux 系统能力 -> 性能与体系结构 -> 边缘 AI 部署 -> 机器人视觉迁移`
 
-## What Makes This Course Different
+## 学完以后，希望你能做到什么
 
-This course follows the structure that strong modern learning platforms often use:
+学完整条路线后，你应该逐步具备这些能力：
 
-- path-based learning instead of isolated topics
-- concrete outcomes for every lesson
-- small projects and portfolio artifacts
-- repeated review instead of one-time reading
-- checkpoints that connect directly to work problems
+1. 能把相机与图像链路的主要瓶颈讲清楚。
+2. 能用 Linux 工具定位常见性能问题，而不是只凭感觉。
+3. 能从线程、内存、cache、拷贝、调度和 backpressure 角度解释系统行为。
+4. 能理解边缘部署的真实工程问题，而不是只停留在“模型能不能跑”。
+5. 能做出一个对外也拿得出手的小型系统项目。
 
-The idea is simple:
-every lesson should give you one durable mental model, one observable experiment, and one written artifact.
+## 这套课的设计原则
 
-## Final Outcome
+这套课程参考了现在比较成熟的学习网站常见结构，但内容完全围绕你个人定制。
 
-By the end of the full path, you should be able to:
+每节课都尽量包含：
 
-1. explain the main bottlenecks in a camera and image-processing pipeline
-2. diagnose Linux-side performance issues with the right tools instead of guessing
-3. reason about latency, throughput, copying, cache effects, contention, and backpressure
-4. understand how edge deployment interacts with memory bandwidth, preprocessing, and runtime stability
-5. design a small but convincing portfolio project that shows systems thinking rather than pure coding
+1. 为什么这节课对你的工作重要
+2. 核心概念和心智模型
+3. 一个实验、任务或观察练习
+4. 一个可留下来的产物
+5. 一组复盘问题
 
-## Learning Experience Design
+重点不是把知识“看完”，而是把知识变成：
 
-Each lesson has the same structure:
+- 直觉
+- 调试习惯
+- 复用能力
+- 可展示的工程思考
 
-1. Why this matters in your real work
-2. Core concepts and mental models
-3. A practical task, lab, or drawing exercise
-4. A deliverable you can keep
-5. Review questions for long-term memory
+## 推荐节奏
 
-Each phase ends with a milestone artifact:
+对于全职工程师，最实用的节奏是：
 
-- Phase 1:
-  A Linux performance troubleshooting checklist
-- Phase 2:
-  A camera-to-runtime bottleneck map
-- Phase 3:
-  A small project brief or demo system plan
+- 工作日：30 到 40 分钟
+- 周末：2 到 4 小时
 
-## Recommended Pace
+每节课建议拆成 4 次学习：
 
-For a full-time engineer, the best rhythm is:
+### 第 1 次
 
-- workdays:
-  30 to 40 minutes
-- weekend:
-  2 to 4 focused hours
+- 看课程
+- 建立概念图
+- 标出最模糊的点
 
-Recommended pattern for one lesson:
+### 第 2 次
 
-### Session 1
+- 做实验或任务
+- 记录观察结果
 
-- read the lesson
-- mark fuzzy concepts
-- rewrite the key model in your own words
+### 第 3 次
 
-### Session 2
+- 用一个真实工作场景去连接这节课
+- 写出你的系统解释
 
-- do the lab or practical task
-- record observations
-- note one thing that surprised you
+### 第 4 次
 
-### Session 3
+- 关掉资料，凭记忆回答复盘题
+- 写自己的总结
 
-- connect the lesson to one real problem from work
-- capture a checklist or diagnosis flow
+## 三条能力线
 
-### Session 4
+### 能力线 A：Linux 与系统基础
 
-- answer review questions from memory
-- write one short summary note
+目标：
+学会解释运行时行为，建立排障视角。
 
-## Three Learning Tracks
+### 能力线 B：相机系统与边缘部署
 
-### Track A: Linux and Systems Foundation
+目标：
+把你的相机背景和部署工程能力连接起来。
 
-Goal:
-build intuition about concurrency, memory, cache, scheduling, and observability.
+### 能力线 C：机器人视觉迁移
 
-Career value:
-this is the part that makes you useful when a real system becomes unstable, slow, or hard to explain.
+目标：
+给你准备一条中长期的第二曲线。
 
-### Track B: Camera Systems and Edge Deployment
+## 阶段总览
 
-Goal:
-connect your existing camera background with runtime behavior, inference deployment, and platform constraints.
+## 第一阶段：系统基础
 
-Career value:
-this is where you become a bridge between sensor data, systems performance, and deployed AI.
+目标：
+理解为什么系统会慢、会抖、会不稳定。
 
-### Track C: Robotics and 3D Vision Transfer
+阶段产物：
 
-Goal:
-open a second career curve in robotics and industrial vision while reusing your current strengths.
+- 一份 Linux 排障清单
+- 一份关于线程/内存/cache 的理解笔记
 
-Career value:
-this gives you mobility beyond a single industry cycle.
+## 第二阶段：相机与部署工程
 
-## Phase Overview
+目标：
+把相机链路、运行时行为和部署瓶颈看成一个整体。
 
-## Phase 1: System Foundation
+阶段产物：
 
-Goal:
-understand why systems become slow, unstable, and jittery even when the code looks reasonable.
+- 一张相机到推理输出的 bottleneck map
+- 一份部署决策矩阵
 
-Milestone artifact:
-build your own troubleshooting flow for CPU spikes, contention, memory pressure, and waiting.
+## 第三阶段：机器人视觉迁移
 
-## Phase 2: Camera and Deployment Engineering
+目标：
+补齐 ROS2、标定和项目化能力。
 
-Goal:
-understand the camera data path, timing behavior, and deployment bottlenecks as one connected system.
+阶段产物：
 
-Milestone artifact:
-produce a bottleneck map from camera input to inference output.
+- 一张 ROS2 风格系统图
+- 一份端到端项目说明书
 
-## Phase 3: Robotics Vision Transition
+## 课程地图
 
-Goal:
-gain transferability into robotics through middleware, calibration, and a scoped project.
-
-Milestone artifact:
-finish one end-to-end project brief or prototype plan suitable for a public portfolio.
-
-## Full Lesson Map
-
-| Lesson | Theme | Core Question | Main Deliverable |
+| 课次 | 主题 | 核心问题 | 主要产出 |
 | --- | --- | --- | --- |
-| 1 | Processes, threads, locks, context switching | Why can more threads make things slower? | concurrency checklist |
-| 2 | Virtual memory, pages, `mmap` | Why is moving memory often the real bottleneck? | memory movement note |
-| 3 | CPU cache and locality | Why can the same algorithm run very differently? | cache intuition summary |
-| 4 | Linux observability | How do I see what the system is doing? | first troubleshooting flow |
-| 5 | Camera data path and buffers | Where does one frame really travel? | pipeline ownership map |
-| 6 | Latency, jitter, sync, drops | Why does frame timing become unstable? | timing diagnosis template |
-| 7 | ONNX and runtime basics | What happens between a model file and real execution? | deployment path sketch |
-| 8 | Quantization and toolchains | What trade-offs turn a model into a product? | deployment decision matrix |
-| 9 | Profiling deployed inference | Where is the time actually going? | latency budget worksheet |
-| 10 | ROS2 basics | How do camera systems map into robot middleware? | ROS2 pipeline diagram |
-| 11 | Calibration and 3D vision | How do calibration errors become system failures? | calibration symptom map |
-| 12 | End-to-end project | How do I turn learning into visible evidence? | project brief or demo plan |
+| 第 1 课 | 进程、线程、锁与上下文切换 | 为什么线程多了反而可能更慢？ | 并发排查清单 |
+| 第 2 课 | 虚拟内存、Page、`mmap` | 为什么“搬运数据”常常比计算更贵？ | 内存移动理解笔记 |
+| 第 3 课 | CPU Cache 与局部性 | 为什么“复杂度差不多”的代码性能差很多？ | Cache 直觉总结 |
+| 第 4 课 | Linux 观测与排障 | 我该先看哪个工具？ | 第一版排障流程 |
+| 第 5 课 | 相机数据通路与 Buffer 生命周期 | 一帧图像到底是怎么流动的？ | Pipeline 归属图 |
+| 第 6 课 | 延迟、抖动、掉帧与同步 | 为什么系统平均值正常却仍然体验很差？ | 时延诊断模板 |
+| 第 7 课 | ONNX 与运行时基础 | 模型从训练产物到真实执行，中间经历了什么？ | 部署路径图 |
+| 第 8 课 | 量化、TensorRT 与工具链 | 什么样的配置才是“合适的产品方案”？ | 部署决策矩阵 |
+| 第 9 课 | 部署 Profiling | 时间到底花在哪里？ | Latency budget 表 |
+| 第 10 课 | ROS2 基础 | 相机链路怎么映射成机器人系统？ | ROS2 流程图 |
+| 第 11 课 | 标定、手眼标定与 3D 视觉 | 标定误差为什么会变成系统问题？ | 症状-原因对照表 |
+| 第 12 课 | 端到端项目设计 | 怎么把学习变成作品和证据？ | 项目 brief |
 
-## Lesson Outcomes
+## 每节课学完应该掌握什么
 
-## Phase 1: System Foundation
+### 第 1 课：进程、线程、锁与上下文切换
 
-### Lesson 1: Processes, Threads, Locks, and Context Switching
+重点：
+共享状态、等待、争用、调度。
 
-Focus:
-shared state, contention, waiting, and scheduling behavior.
+你应该能：
 
-What you should be able to do:
+- 用自己的话解释进程和线程
+- 区分 race、contention、deadlock、oversubscription
+- 把上下文切换和时延抖动联系起来
 
-- explain process vs thread clearly
-- identify race, contention, deadlock, and oversubscription
-- connect context switching to latency jitter
+### 第 2 课：虚拟内存、Page、Page Fault 与 `mmap`
 
-Checkpoint:
-write down why adding threads to a pipeline can make it slower.
+重点：
+内存布局、页行为、图像 buffer 的搬运成本。
 
-### Lesson 2: Virtual Memory, Pages, Page Faults, and `mmap`
+你应该能：
 
-Focus:
-memory layout, page behavior, and the cost of copying large buffers.
+- 解释堆、栈、映射内存的区别
+- 理解 page fault 在系统中的位置
+- 解释为什么大 buffer 拷贝很容易成为瓶颈
 
-What you should be able to do:
+### 第 3 课：CPU Cache、局部性与内存访问
 
-- describe heap, stack, mapped memory, and page faults
-- explain why memory movement dominates some workloads
-- choose when `mmap` is worth considering
+重点：
+cache line、局部性、false sharing。
 
-Checkpoint:
-compare two data access strategies and explain the difference.
+你应该能：
 
-### Lesson 3: CPU, Cache, Locality, and Why Memory Access Dominates Performance
+- 用直觉解释 cache 为什么重要
+- 识别常见的 false sharing 风险
+- 解释数据布局为什么会影响图像处理性能
 
-Focus:
-cache hierarchy, locality, false sharing, and performance intuition.
+### 第 4 课：Linux 观测与排障
 
-What you should be able to do:
+重点：
+`top`、`pidstat`、`vmstat`、`strace`、`perf`。
 
-- explain cache lines and locality in plain language
-- recognize false sharing patterns
-- connect access patterns to real image-processing performance
+你应该能：
 
-Checkpoint:
-show one example where layout matters more than algorithm complexity.
+- 根据症状选择第一个工具
+- 区分 CPU 忙、等待多、内存紧张这几类问题
+- 建立自己的初版排障流程
 
-### Lesson 4: Linux Observability for Engineers
+### 第 5 课：相机数据通路、Buffer 与帧生命周期
 
-Focus:
-tool-first diagnosis using `top`, `pidstat`, `vmstat`, `strace`, and `perf`.
+重点：
+frame ownership、queue、copy、backpressure。
 
-What you should be able to do:
+你应该能：
 
-- choose the right first tool for a symptom
-- separate CPU-heavy, wait-heavy, and memory-heavy failures
-- create a first-pass diagnosis flow instead of guessing
+- 画清楚一帧图像的真实流动路径
+- 标出 buffer 的归属关系
+- 找出最可能的隐藏拷贝点和排队点
 
-Checkpoint:
-run at least one tool on one toy workload and record the signal you saw.
+### 第 6 课：延迟、抖动、掉帧与同步
 
-## Phase 2: Camera and Deployment Engineering
+重点：
+latency、throughput、tail latency、jitter、sync policy。
 
-### Lesson 5: Camera Data Path, Buffers, and Frame Lifecycle
+你应该能：
 
-Focus:
-frame ownership, queueing, copying, and backpressure inside a camera pipeline.
+- 区分平均延迟和 tail latency
+- 解释为什么 deeper queue 不一定是好事
+- 写出一个掉帧诊断流程
 
-What you should be able to do:
+### 第 7 课：ONNX 与运行时基础
 
-- draw the path of one frame from sensor input to downstream output
-- identify the owner of each buffer
-- mark likely hidden copy points and queue buildup points
+重点：
+模型导出、运行时执行、preprocess / inference / postprocess。
 
-Checkpoint:
-make a pipeline map from one real work scenario.
+你应该能：
 
-### Lesson 6: Latency, Jitter, Frame Drops, and Synchronization
+- 描述一个模型从源框架到 runtime 的路径
+- 找出非模型本体的开销
+- 用系统工程视角看部署
 
-Focus:
-tail latency, timing stability, frame drops, and sync strategy.
+### 第 8 课：量化、TensorRT 与工具链
 
-What you should be able to do:
+重点：
+FP16 / INT8、calibration data、toolchain choice。
 
-- explain latency, throughput, jitter, and tail latency separately
-- reason about why a pipeline can look fine on average but fail in production
-- write a diagnosis flow for frame drops and sync drift
+你应该能：
 
-Checkpoint:
-build a timing diagnosis template you could reuse at work.
+- 解释量化的真实价值和风险
+- 比较两个部署方案的工程差异
+- 写出自己的部署决策矩阵
 
-### Lesson 7: ONNX and Inference Runtime Basics for System Engineers
+### 第 9 课：部署 Profiling
 
-Focus:
-how a model becomes an executable runtime graph and where runtime cost appears.
+重点：
+latency budget、瓶颈分类、tail 行为。
 
-What you should be able to do:
+你应该能：
 
-- describe the path from training output to deployable runtime
-- distinguish preprocessing, graph execution, and postprocessing cost
-- reason about where copies and layout conversions appear
+- 拆出一条部署路径的延迟预算
+- 区分 compute-bound、memory-bound、transfer-bound
+- 写出合理的 profiling 顺序
 
-Checkpoint:
-trace one model from source format to runtime execution.
+### 第 10 课：ROS2 基础
 
-### Lesson 8: Quantization, TensorRT, and Platform Toolchains
+重点：
+node、topic、QoS、launch。
 
-Focus:
-precision trade-offs, calibration data, toolchain constraints, and platform decisions.
+你应该能：
 
-What you should be able to do:
+- 画出 ROS2 风格的相机链路
+- 解释 QoS 为什么对视觉数据重要
+- 识别哪些模块适合拆节点，哪些适合留在进程内
 
-- explain INT8, FP16, and mixed-precision trade-offs
-- compare two platform toolchains from an engineering perspective
-- think about deployment stability, memory fit, and debug cost
+### 第 11 课：标定、手眼标定与 3D 视觉
 
-Checkpoint:
-write a small decision matrix for one deployment target.
+重点：
+intrinsics、extrinsics、误差传播、3D setup。
 
-### Lesson 9: Profiling Deployed Inference
+你应该能：
 
-Focus:
-latency budgeting, stage-by-stage profiling, copies, transfer, and tail behavior.
+- 解释内参和外参的工程意义
+- 把标定误差和下游系统症状对应起来
+- 理解为什么 3D 视觉更依赖安装和标定质量
 
-What you should be able to do:
+### 第 12 课：端到端项目设计
 
-- build a latency budget for an inference pipeline
-- decide which stage to profile first
-- distinguish compute bottlenecks from transfer and preprocessing bottlenecks
+重点：
+项目范围、架构、观测性、可展示性。
 
-Checkpoint:
-produce a profiling worksheet you could reuse for any future model.
+你应该能：
 
-## Phase 3: Robotics Vision Transition
+- 给自己定一个范围合适的小项目
+- 定义里程碑、指标和交付物
+- 把项目写成公开作品
 
-### Lesson 10: ROS2 Basics for Vision Engineers
+## 建议额外补的内容
 
-Focus:
-nodes, topics, launch, QoS, and mapping vision pipelines into robot middleware.
+为了让课程更完整，后续我们还可以继续补这些内容：
 
-What you should be able to do:
+- 每课术语表 Glossary
+- 每课“工作现场案例”
+- 每课“常见误区”
+- 每课“面试/转岗会怎么问”
+- 每课“延伸实验”
+- 一条完整的项目制主线
 
-- explain the basic ROS2 communication model
-- map one camera pipeline into nodes and topics
-- reason about where reliability and QoS matter
+## 最值得保留的作品
 
-Checkpoint:
-draw one ROS2-style data flow.
+学完整条路线后，尽量留下这些产物：
 
-### Lesson 11: Calibration, Hand-Eye Calibration, and 3D Vision Awareness
+1. 一份 Linux 排障清单
+2. 一份内存或 cache 实验记录
+3. 一张相机数据通路图
+4. 一份 latency budget 表
+5. 一份部署决策矩阵
+6. 一张 ROS2 风格系统图
+7. 一份项目 brief 或 demo 仓库
 
-Focus:
-intrinsics, extrinsics, error propagation, hand-eye calibration, and 3D sensing intuition.
-
-What you should be able to do:
-
-- explain intrinsics and extrinsics in practical terms
-- connect calibration errors to downstream system symptoms
-- understand why 3D setups create new failure modes
-
-Checkpoint:
-write a symptom-to-cause map for calibration failures.
-
-### Lesson 12: End-to-End Project Design
-
-Focus:
-turn the whole route into a small but convincing systems project.
-
-What you should be able to do:
-
-- choose a project with the right scope
-- break it into system, runtime, tooling, and debugging tasks
-- present it as public career evidence
-
-Checkpoint:
-finish a one-page project brief or start a small prototype.
-
-## Portfolio Artifacts
-
-By the end of the route, try to keep these artifacts:
-
-1. one troubleshooting checklist
-2. one memory or cache experiment note
-3. one camera pipeline map
-4. one latency budget worksheet
-5. one deployment decision matrix
-6. one ROS2-style system diagram
-7. one project brief or demo repository
-
-These artifacts matter because they prove applied engineering thinking, not just passive reading.
-
-## How To Use The Public Site
-
-The public site should feel like a personal learning portal, not a pile of notes.
-When we continue improving it, we should bias toward:
-
-- clearer lesson outcomes
-- progress by phase
-- checkpoint artifacts
-- project-based milestones
-- better reading flow on detail pages
-
-That will make it feel closer to platforms like Coursera, DeepLearning.AI, and Frontend Masters in structure, even though the content is fully personalized.
+这些东西对职业成长的价值，通常比“我看过很多资料”更高。

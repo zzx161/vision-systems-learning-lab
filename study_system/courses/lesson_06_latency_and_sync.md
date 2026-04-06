@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Latency, Jitter, Frame Drops, and Synchronization
+title: 延迟、抖动、掉帧与同步
 track: camera_systems
 phase: 2
 lesson: 6
@@ -17,7 +17,7 @@ tags:
   - phase/2
 ---
 
-# Lesson 6: Latency, Jitter, Frame Drops, and Synchronization
+# 第 6 课：延迟、抖动、掉帧与同步
 
 ## Why This Matters
 

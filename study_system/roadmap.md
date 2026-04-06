@@ -1,116 +1,308 @@
-# Roadmap
+# 学习路线图 Roadmap
 
-## Phase 1: Core Linux Runtime View
+## 这套路线适合谁
 
-### Module 1: Processes and Threads
-- Process vs thread
-- User mode vs kernel mode
-- Context switch
-- Synchronization: mutex, condition variable, atomics
-- Common concurrency bugs
+这套路线不是给“想刷一堆通用知识点”的人准备的。
+它是专门围绕你现在的背景设计的：
 
-### Module 2: Memory
-- Virtual memory
-- Stack vs heap
-- Page, page fault
-- Anonymous memory
-- File mapping with `mmap`
-- Copy cost and memory layout awareness
+- 相机应用开发
+- 相机数据接入与链路排查
+- 芯片接口、图像处理、系统联调
+- 希望避开纯算法竞争，转向更稳的系统型能力
 
-### Module 3: IO and Data Path
-- File IO basics
-- Buffered IO vs `mmap`
-- Blocking vs non-blocking
+核心方向是这条主线：
+
+`相机系统工程 -> Linux 系统能力 -> 体系结构与性能 -> 边缘 AI 部署 -> 机器人视觉迁移能力`
+
+## 总体目标
+
+学完之后，你应该逐步具备这几种能力：
+
+1. 能把一条相机数据链路讲清楚，不只是“代码怎么写”，而是“数据怎么流、哪里会卡、哪里会抖”。
+2. 能用 Linux 工具定位常见系统问题，而不是只靠猜。
+3. 能理解性能瓶颈为什么常常不是算法本身，而是内存、缓存、同步、拷贝和调度。
+4. 能理解边缘部署为什么难，难在哪里，以及怎么和你的系统背景结合。
+5. 能为自己准备第二条职业曲线，比如机器人视觉、工业视觉或端侧部署工程。
+
+## 学习原则
+
+每个模块都按同样的节奏推进：
+
+1. 先建立概念地图
+2. 做一个最小实验
+3. 写自己的总结
+4. 一周后做一次回忆和复盘
+
+这套方法的重点不是“看过”，而是“能解释、能观察、能复用”。
+
+## 第一阶段：Linux 系统基础视角
+
+目标：
+建立对运行时行为的直觉，学会解释“为什么慢”“为什么抖”“为什么偶发出问题”。
+
+### 模块 1：进程与线程
+
+- 进程与线程的区别
+- 用户态与内核态
+- 上下文切换
+- 同步原语：mutex、condition variable、atomic
+- 常见并发问题：race、contention、deadlock
+
+学完你应该能回答：
+
+- 为什么多线程不一定更快
+- 为什么线程数变多后延迟可能更差
+- 为什么“平均 CPU 不高”不代表系统没问题
+
+### 模块 2：内存与虚拟内存
+
+- 虚拟内存基本直觉
+- 栈和堆
+- page 与 page fault
+- 匿名内存
+- `mmap`
+- 拷贝成本与内存布局
+
+学完你应该能回答：
+
+- 为什么大图像 buffer 的移动很贵
+- 为什么某些性能问题本质上是“搬运数据太多”
+- 为什么 `mmap` 有时能更合适
+
+### 模块 3：IO 与数据通路
+
+- 文件 IO 基础
+- buffered IO vs `mmap`
+- 阻塞与非阻塞
 - `select` / `poll` / `epoll`
-- Zero-copy intuition
-- DMA basic intuition
+- zero-copy 直觉
+- DMA 基本概念
 
-### Module 4: Scheduling and Latency
-- Scheduler basics
-- Priority
+学完你应该能回答：
+
+- 数据从设备到应用到底经过了几层
+- 哪些拷贝是必要的，哪些是设计带来的
+- 为什么 IO 行为会影响时延和稳定性
+
+### 模块 4：调度与时延
+
+- 调度器基本行为
+- 优先级
 - CPU affinity
-- Latency jitter
-- Real-time thinking
+- latency jitter
+- 实时性思维
 
-### Module 5: Observability and Debugging
-- `top`, `htop`
-- `ps`, `pidstat`
-- `vmstat`, `iostat`
+学完你应该能回答：
+
+- 为什么系统明明没“卡死”，用户却觉得抖
+- 为什么偶发性的调度干扰会放大成时延问题
+- 为什么 tail latency 比平均值更值得看
+
+### 模块 5：观测性与调试
+
+- `top`、`htop`
+- `ps`、`pidstat`
+- `vmstat`、`iostat`
 - `strace`
 - `perf`
 - `gdb`
 
-## Phase 2: Computer Architecture for Performance
+学完你应该能回答：
 
-### Module 6: CPU Execution Basics
-- Pipeline
-- Out-of-order execution
-- Branch prediction
-- Why "same complexity" code can run differently
+- 遇到 CPU 高、内存涨、等待多时先看什么
+- 哪个工具适合看系统整体，哪个适合看进程细节
+- 怎么建立自己的第一版排障流程
 
-### Module 7: Cache and Locality
+## 第二阶段：体系结构与性能基础
+
+目标：
+让你真正理解为什么“看起来差不多的代码”，在机器上会表现得完全不一样。
+
+### 模块 6：CPU 执行基础
+
+- pipeline
+- out-of-order execution
+- branch prediction
+- 为什么“同复杂度”的代码运行时间差很多
+
+学完你应该能回答：
+
+- 为什么性能问题不能只看算法复杂度
+- 为什么 CPU 并不只是“执行指令那么简单”
+
+### 模块 7：缓存与局部性
+
 - L1 / L2 / L3
-- Cache line
-- Spatial locality
-- Temporal locality
-- Cache miss
-- False sharing
+- cache line
+- 空间局部性
+- 时间局部性
+- cache miss
+- false sharing
 
-### Module 8: Memory Hierarchy and Bandwidth
-- Register vs cache vs DRAM
-- Latency vs bandwidth
-- Why memory movement dominates performance
+学完你应该能回答：
 
-### Module 9: Multi-core and Consistency
-- Shared memory model intuition
-- Cache coherence
-- Memory ordering basics
-- Contention
-- Scalability limits
+- 为什么图像处理常常被内存访问模式限制
+- 为什么数据布局会直接影响吞吐
+- 为什么 false sharing 会把多线程优化搞砸
 
-### Module 10: SIMD and Data-Oriented Thinking
-- SIMD intuition
-- Why layout matters
-- Array-of-struct vs struct-of-array intuition
-- Hot-loop optimization thinking
+### 模块 8：内存层级与带宽
 
-## Phase 3: Camera/System-Oriented Engineering
+- 寄存器、cache、DRAM 的层级
+- latency vs bandwidth
+- 为什么内存搬运常常主导性能
 
-### Module 11: Camera Data Path
-- Sensor to memory path
-- ISP position in the pipeline
-- Buffering
-- Frame drop causes
-- Latency accounting
+学完你应该能回答：
 
-### Module 12: Stable Production Engineering
-- Monitoring
-- Backpressure
-- Fault isolation
-- Regression thinking
-- Repeatable debugging workflow
+- 为什么“算得不慢”却“整体还是慢”
+- 为什么高分辨率、高帧率场景特别容易暴露带宽瓶颈
 
-## Suggested Order
+### 模块 9：多核与一致性
 
-Start here:
+- 共享内存模型的直觉
+- cache coherence
+- memory ordering 基础
+- contention
+- 可扩展性上限
 
-1. Module 1
-2. Module 2
-3. Module 5
-4. Module 7
-5. Module 8
-6. Module 3
-7. Module 4
-8. Module 9
-9. Module 10
-10. Module 11
-11. Module 12
+学完你应该能回答：
 
-## Learning Rule
+- 为什么扩到更多核后收益越来越小
+- 为什么同步点经常是隐藏瓶颈
 
-For each module, do four things:
+### 模块 10：SIMD 与数据导向思维
 
-1. Build a concept map
-2. Run at least one small experiment
-3. Write your own summary
-4. Answer review questions one week later
+- SIMD 直觉
+- 为什么数据布局重要
+- AoS vs SoA
+- hot loop 优化思维
+
+学完你应该能回答：
+
+- 哪些图像处理任务适合向量化
+- 为什么数据组织方式会决定优化空间
+
+## 第三阶段：面向相机与系统工程的能力
+
+目标：
+把 Linux 和体系结构知识真正接到你的工作现场里。
+
+### 模块 11：相机数据通路
+
+- Sensor 到内存的数据路径
+- ISP 在整条链路中的位置
+- buffering 策略
+- frame drop 的常见成因
+- latency accounting
+
+学完你应该能回答：
+
+- 一帧数据到底是怎么走的
+- 谁拥有 buffer，谁在等待，谁在阻塞
+- 哪个环节最容易藏拷贝和回压
+
+### 模块 12：稳定性与量产工程
+
+- 监控与健康检查
+- backpressure
+- fault isolation
+- regression 思维
+- 可重复的调试流程
+
+学完你应该能回答：
+
+- 为什么“偶发问题”最值得建体系
+- 怎么把一次排障沉淀成可重复的方法
+
+## 第四阶段：边缘 AI 部署
+
+目标：
+不是转算法，而是补齐“模型如何在真实平台上稳定运行”的工程能力。
+
+### 模块 13：ONNX 与运行时基础
+
+- ONNX 是什么
+- 模型导出与运行时执行路径
+- preprocess / inference / postprocess 的开销拆分
+- runtime 选择的工程因素
+
+### 模块 14：量化与部署工具链
+
+- FP32 / FP16 / INT8 的工程权衡
+- calibration data
+- TensorRT / 平台工具链
+- operator support 与 fallback
+
+### 模块 15：部署 Profiling
+
+- latency budget
+- compute-bound / memory-bound / transfer-bound
+- tail latency
+- 单流与多流差异
+
+这一阶段的目标不是让你去卷模型训练，而是让你具备：
+
+- 看懂部署路径
+- 判断瓶颈位置
+- 做部署决策
+
+## 第五阶段：机器人视觉迁移
+
+目标：
+给你准备一条更长线、更抗波动的迁移路线。
+
+### 模块 16：ROS2 基础
+
+- node / topic / service / action
+- QoS
+- launch
+- 相机链路如何映射到 ROS2
+
+### 模块 17：标定与 3D 视觉
+
+- intrinsics / extrinsics
+- hand-eye calibration
+- 3D 视觉的额外误差来源
+- 误差如何变成系统问题
+
+### 模块 18：端到端项目
+
+- 如何定一个范围合适的小项目
+- 怎么拆成系统、运行时、观测性几个部分
+- 怎么把项目写成简历和公开作品
+
+## 推荐学习顺序
+
+最建议这样走：
+
+1. 模块 1：进程与线程
+2. 模块 2：内存与虚拟内存
+3. 模块 5：观测性与调试
+4. 模块 7：缓存与局部性
+5. 模块 8：内存层级与带宽
+6. 模块 3：IO 与数据通路
+7. 模块 4：调度与时延
+8. 模块 9：多核与一致性
+9. 模块 10：SIMD 与数据导向
+10. 模块 11：相机数据通路
+11. 模块 12：稳定性与量产工程
+12. 模块 13 到 15：边缘部署
+13. 模块 16 到 18：机器人迁移
+
+## 每个模块建议产出
+
+不要只停留在“我看懂了”，每学一个模块都尽量留下一个产物：
+
+- 一张概念图
+- 一个小实验结果
+- 一段自己的总结
+- 一组复盘题
+
+长期下来，这些产物会变成你的外部记忆和作品素材。
+
+## 你最值得优先打通的组合
+
+如果时间有限，最值得先打通的是：
+
+`线程并发 + 内存管理 + 观测工具 + cache + 数据通路 + 时延分析`
+
+这套一旦打通，你看相机接入、图像处理链路、掉帧、抖动、延迟、同步问题，会比现在清楚很多。

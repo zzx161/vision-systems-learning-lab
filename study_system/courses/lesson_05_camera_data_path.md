@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Camera Data Path, Buffers, and Frame Lifecycle
+title: 相机数据通路、Buffer 与帧生命周期
 track: camera_systems
 phase: 2
 lesson: 5
@@ -17,7 +17,7 @@ tags:
   - phase/2
 ---
 
-# Lesson 5: Camera Data Path, Buffers, and Frame Lifecycle
+# 第 5 课：相机数据通路、Buffer 与帧生命周期
 
 ## Why This Matters
 

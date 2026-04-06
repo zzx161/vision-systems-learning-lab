@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: ONNX and Inference Runtime Basics for System Engineers
+title: ONNX 与推理运行时基础
 track: edge_deployment
 phase: 2
 lesson: 7
@@ -17,7 +17,7 @@ tags:
   - phase/2
 ---
 
-# Lesson 7: ONNX and Inference Runtime Basics for System Engineers
+# 第 7 课：ONNX 与推理运行时基础
 
 ## Why This Matters
 

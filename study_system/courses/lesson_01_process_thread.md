@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Processes, Threads, Locks, and Context Switching
+title: 进程、线程、锁与上下文切换
 track: linux_systems
 phase: 1
 lesson: 1
@@ -17,7 +17,7 @@ tags:
   - phase/1
 ---
 
-# Lesson 1: Processes, Threads, Locks, and Context Switching
+# 第 1 课：进程、线程、锁与上下文切换
 
 ## Why This Matters For You
 

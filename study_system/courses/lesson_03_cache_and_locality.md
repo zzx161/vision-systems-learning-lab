@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: CPU, Cache, Locality, and Why Memory Access Dominates Performance
+title: CPU Cache、局部性与内存访问性能
 track: architecture
 phase: 1
 lesson: 3
@@ -17,7 +17,7 @@ tags:
   - phase/1
 ---
 
-# Lesson 3: CPU, Cache, Locality, and Why Memory Access Dominates Performance
+# 第 3 课：CPU Cache、局部性与内存访问性能
 
 ## Why This Matters For You
 

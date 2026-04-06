@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Virtual Memory, Pages, Page Faults, and mmap
+title: 虚拟内存、Page、Page Fault 与 mmap
 track: linux_systems
 phase: 1
 lesson: 2
@@ -17,7 +17,7 @@ tags:
   - phase/1
 ---
 
-# Lesson 2: Virtual Memory, Pages, Page Faults, and `mmap`
+# 第 2 课：虚拟内存、Page、Page Fault 与 `mmap`
 
 ## Why This Matters For You
 

@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Profiling Deployed Inference
+title: 已部署推理的 Profiling
 track: edge_deployment
 phase: 2
 lesson: 9
@@ -17,7 +17,7 @@ tags:
   - phase/2
 ---
 
-# Lesson 9: Profiling Deployed Inference
+# 第 9 课：已部署推理的 Profiling
 
 ## Why This Matters
 

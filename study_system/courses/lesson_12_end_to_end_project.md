@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: End-to-End Project Design
+title: 端到端项目设计
 track: robotics
 phase: 3
 lesson: 12
@@ -17,7 +17,7 @@ tags:
   - phase/3
 ---
 
-# Lesson 12: End-to-End Project Design
+# 第 12 课：端到端项目设计
 
 ## Why This Matters
 

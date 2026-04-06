@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Calibration, Hand-Eye Calibration, and 3D Vision Awareness
+title: 标定、手眼标定与 3D 视觉基础
 track: robotics
 phase: 3
 lesson: 11
@@ -17,7 +17,7 @@ tags:
   - phase/3
 ---
 
-# Lesson 11: Calibration, Hand-Eye Calibration, and 3D Vision Awareness
+# 第 11 课：标定、手眼标定与 3D 视觉基础
 
 ## Why This Matters
 

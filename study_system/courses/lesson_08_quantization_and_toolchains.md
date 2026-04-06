@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Quantization, TensorRT, and Platform Toolchains
+title: 量化、TensorRT 与平台工具链
 track: edge_deployment
 phase: 2
 lesson: 8
@@ -17,7 +17,7 @@ tags:
   - phase/2
 ---
 
-# Lesson 8: Quantization, TensorRT, and Platform Toolchains
+# 第 8 课：量化、TensorRT 与平台工具链
 
 ## Why This Matters
 

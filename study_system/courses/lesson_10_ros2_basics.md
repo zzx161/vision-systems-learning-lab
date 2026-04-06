@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: ROS2 Basics for Vision Engineers
+title: 面向视觉工程师的 ROS2 基础
 track: robotics
 phase: 3
 lesson: 10
@@ -17,7 +17,7 @@ tags:
   - phase/3
 ---
 
-# Lesson 10: ROS2 Basics for Vision Engineers
+# 第 10 课：面向视觉工程师的 ROS2 基础
 
 ## Why This Matters
 

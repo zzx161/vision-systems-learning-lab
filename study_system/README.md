@@ -1,77 +1,80 @@
-# Linux System and Computer Architecture Study System
+# 视觉系统学习实验室 Vision Systems Learning Lab
 
-This directory is your long-term study workspace for:
+这是一个长期学习工作区，不是一次性笔记。
 
-- Linux system fundamentals
-- Performance analysis and troubleshooting
-- Computer architecture for engineers
-- Camera pipeline and data-path engineering thinking
+它的目标很明确：
 
-The goal is not to "read everything once".
-The goal is to build durable understanding through:
+- 让 Linux 系统知识和体系结构知识真正服务你的工作
+- 让相机链路、图像处理、时延、掉帧、同步这些问题变得更可解释
+- 在不卷纯算法的前提下，帮你补出边缘部署和机器人视觉的迁移能力
 
-1. A stable roadmap
-2. Small experiments
-3. Repeated review
-4. Written notes in your own words
-5. Ongoing iteration across sessions
+## 这套系统里有什么
 
-## How We Will Use This
+- [roadmap.md](/home/zhixin/code/study_system/roadmap.md)
+  总学习路线图，告诉你先学什么、后学什么。
+- [course_plan.md](/home/zhixin/code/study_system/course_plan.md)
+  课程总表，按课来推进。
+- [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
+  当前冲刺内容，适合日常跟进。
+- [dashboard.md](/home/zhixin/code/study_system/dashboard.md)
+  学习面板主页。
+- [courses](/home/zhixin/code/study_system/courses)
+  正式课程内容。
+- [labs](/home/zhixin/code/study_system/labs)
+  实验、代码和操作说明。
+- [reviews](/home/zhixin/code/study_system/reviews)
+  每周复盘和回顾。
+- [tracking](/home/zhixin/code/study_system/tracking)
+  进度统计、网页面板和快照。
+- [scripts](/home/zhixin/code/study_system/scripts)
+  自动化脚本。
 
-- `roadmap.md`
-  The full module map and learning sequence.
-- `integrated_route.md`
-  The career-oriented route that combines system engineering, camera pipeline, edge deployment, and robotics transition.
-- `course_plan.md`
-  The lesson-by-lesson teaching order.
-- `current_sprint.md`
-  What you are learning right now.
-- `dashboard.md`
-  The main Obsidian home note for tracking progress.
-- `courses/`
-  Structured lesson content.
-- `memory/`
-  Long-term notes and concept cards.
-- `labs/`
-  Small hands-on exercises and experiment ideas.
-- `reviews/`
-  Weekly review logs and confusion tracking.
-- `tracking/`
-  Bases views plus generated progress snapshots.
-- `templates/`
-  Reusable note templates for sessions and reviews.
-- `scripts/`
-  Small automation helpers for updating progress and creating session notes.
-- `public/`
-  Generated static site for public hosting.
+## 推荐使用方式
 
-Every time you come back, we can:
+每次回来学习，都按这个顺序走：
 
-1. Check `current_sprint.md`
-2. Continue the next item
-3. Update your notes
-4. Add review questions
-5. Adjust the roadmap
+1. 看 [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
+2. 打开对应课程
+3. 跑一个实验或完成一个小任务
+4. 写一条 session note
+5. 刷新进度面板
 
-This folder is the "external memory" so progress does not disappear with the chat.
+这样学的重点不是“多”，而是“持续积累、不断复盘”。
 
-## Tracking Workflow
+## 为什么要这样学
 
-This vault is now set up to work well in Obsidian:
+你现在最需要的不是把自己学成一个纯算法工程师，而是把自己做成一种更稳的工程师：
 
-1. Open `dashboard.md`
-2. Read or study from the lesson notes
-3. Create a session note with:
-   `python3 scripts/new_session.py`
-4. Refresh the progress snapshot with:
-   `python3 scripts/update_progress.py`
-5. Open the generated web dashboard:
-   `tracking/index.html`
-6. If you are in WSL, open it in Windows with:
-   `python3 scripts/open_dashboard.py`
-7. If you want a better browser URL, open it on localhost with:
-   `python3 scripts/open_dashboard_localhost.py`
-8. If you want a public static site build, run:
-   `python3 scripts/build_public_site.py`
+- 能把系统问题讲清楚
+- 能把链路问题拆开
+- 能定位性能瓶颈
+- 能理解部署和运行时的真实限制
 
-If the Bases core plugin is enabled in Obsidian, the files in `tracking/` provide sortable database views.
+这类能力和你现在的相机背景是连续的，也更抗替代。
+
+## 网页面板
+
+本地学习站和公开站都已经接好了。
+
+常用入口：
+
+- 本地追踪页：
+  [tracking/index.html](/home/zhixin/code/study_system/tracking/index.html)
+- 公开站构建输出：
+  [public/index.html](/home/zhixin/code/study_system/public/index.html)
+
+## 自动化脚本
+
+常用命令：
+
+```bash
+python3 /home/zhixin/code/study_system/scripts/new_session.py
+python3 /home/zhixin/code/study_system/scripts/update_progress.py
+python3 /home/zhixin/code/study_system/scripts/open_dashboard_localhost.py
+python3 /home/zhixin/code/study_system/scripts/build_public_site.py
+```
+
+## 关于长期记忆
+
+这套目录本身就是“外部记忆”。
+以后我们继续学的时候，不需要从头聊起，可以直接基于这些文件往前推进。

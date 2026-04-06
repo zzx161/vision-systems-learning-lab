@@ -1,6 +1,6 @@
 ---
 note_type: lesson
-title: Linux Observability for Engineers
+title: Linux 观测与排障基础
 track: linux_tools
 phase: 1
 lesson: 4
@@ -17,7 +17,7 @@ tags:
   - phase/1
 ---
 
-# Lesson 4: Linux Observability for Engineers
+# 第 4 课：Linux 观测与排障基础
 
 ## Why This Matters For You
 
