@@ -2,11 +2,11 @@
 note_type: lesson
 title: 标定、手眼标定与 3D 视觉基础
 track: robotics
-phase: 3
-lesson: 11
+phase: 4
+lesson: 14
 status: planned
 completion: 0
-estimated_minutes: 110
+estimated_minutes: 150
 actual_minutes: 0
 last_studied:
 next_review:
@@ -14,191 +14,278 @@ priority: medium
 tags:
   - study/lesson
   - track/robotics
-  - phase/3
+  - phase/4
 ---
 
-# 第 11 课：标定、手眼标定与 3D 视觉基础
+# 第 14 课：标定、手眼标定与 3D 视觉基础
 
-## Why This Matters
+## 为什么这节课值得你学
 
-Calibration is one of the most transferable engineering skills across:
+标定是一个很有“硬价值”的方向。
 
-- robotics
-- industrial vision
-- autonomous systems
-- multi-sensor platforms
+因为它不只是数学，也不只是代码，它同时涉及：
 
-It is valuable because calibration problems live at the boundary between math, software, hardware, and the physical world.
-That boundary is hard to automate away.
+- 相机成像
+- 坐标关系
+- 物理安装
+- 误差传播
+- 系统联调
 
-## Learning Objectives
+这类问题短期内非常难被简单自动化替代。
 
-After this lesson, you should be able to:
+对你来说，标定也是一个很自然的延伸方向。
+因为你本来就已经在做相机链路，往前走一步，就是更系统地理解“相机看到的东西和真实世界怎么对上”。
 
-1. explain intrinsics and extrinsics in practical terms
-2. understand how calibration errors show up as system symptoms
-3. describe hand-eye calibration at a conceptual level
-4. explain why 3D vision introduces additional setup and error modes
-5. build a symptom-to-cause checklist for calibration debugging
+## 学完以后你应该能做到
 
-## Intrinsics vs Extrinsics
+1. 用工程语言解释内参和外参
+2. 知道标定误差为什么常常表现成系统问题
+3. 对手眼标定建立够用的直觉
+4. 理解 3D 视觉比 2D 更依赖安装与标定质量
+5. 写出一张“症状 -> 可能标定问题”的对照表
 
-### Intrinsics
+## 先建立一个很重要的认知
 
-These describe how a camera maps light onto image coordinates.
+标定不是“做一次就结束”的数学步骤。
 
-Practical intuition:
+它更像一个系统前提。
 
-- focal length
-- principal point
-- lens distortion
+如果这个前提不稳，后面很多模块都可能表现出问题：
 
-If intrinsics are wrong, the image geometry itself is mis-modeled.
+- 定位不准
+- 目标位置偏
+- 多传感器融合对不上
+- 机器人抓取偏移
 
-### Extrinsics
+所以标定的价值，不在于它本身有多“高级”，而在于：
 
-These describe where the camera is relative to another coordinate frame.
+它会决定整条系统链路的几何正确性。
 
-Practical intuition:
+## 什么是内参 Intrinsics
 
-- position and rotation relative to body, rig, robot arm, or world
+你可以先把内参理解成：
 
-If extrinsics are wrong, the image may look fine by itself while the system-level interpretation is wrong.
+“相机自身成像特性的参数。”
 
-## Why Calibration Errors Feel Like System Errors
+更通俗一点：
 
-Calibration problems rarely introduce obvious crashes.
-They usually appear as:
+它描述的是：
 
-- projection misalignment
-- unstable 3D estimation
-- drift between sensors
-- grasp or pose errors
-- downstream fusion inconsistency
+- 这个镜头和成像平面是怎么把光映到图像上的
 
-That is why calibration work is valuable.
-The symptom is often seen far away from the root cause.
+你现在不需要先背公式。
+先记住它主要和这些东西相关：
 
-## A Useful Error-Propagation Mindset
+- 焦距
+- 主点
+- 畸变
 
-Ask:
+工程上最重要的理解是：
 
-"If this parameter is wrong, where will the user or downstream module notice it first?"
+如果内参不对，那么图像内部的几何关系就会不准。
 
-Examples:
+## 什么是外参 Extrinsics
 
-- bad intrinsics:
-  distorted geometry, poor undistortion, poor reprojection
-- bad camera-to-body extrinsics:
-  misaligned fusion or wrong spatial interpretation
-- bad timestamp alignment:
-  motion-dependent mismatch that looks like geometry drift
+外参描述的是：
 
-This mindset helps avoid random tuning.
+“这个相机相对于另一个坐标系在哪里、朝哪儿。”
 
-## What Hand-Eye Calibration Tries To Solve
+例如：
 
-Hand-eye calibration is about relating the camera frame to the robot or end-effector frame.
+- 相机相对于车体
+- 相机相对于机器人末端
+- 相机相对于世界坐标
 
-Why it matters:
+工程上更直观的说法是：
 
-- the robot moves in one coordinate system
-- the camera sees the world in another
-- useful perception requires a stable transform between them
+- 外参描述“这台相机装在哪、朝哪儿”
 
-You do not need all the equations first.
-The most important practical idea is:
+如果外参不准，图像本身可能看着还行，但系统级空间解释会出错。
 
-- if that transform is wrong, the robot may act consistently but incorrectly
+## 为什么标定误差经常表现成“系统问题”
 
-## Why 3D Vision Changes The Game
+这是标定最有意思也最容易被低估的一点。
 
-Compared with plain 2D image pipelines, 3D systems add:
+因为标定出问题时，表面现象常常不是：
 
-- depth uncertainty
-- baseline geometry
-- coordinate transforms
-- more sensitivity to mounting error
-- stronger effects from calibration drift
+- 程序报错
+- 明显 crash
 
-This means setup quality becomes a major engineering factor.
+而更常见的是：
 
-## Common Failure Symptoms
+- 结果偏一点
+- 越到边缘越不准
+- 静态还行，运动起来就不对
+- 单看每个模块都像“勉强正常”
 
-When calibration is wrong, you may see:
+所以标定问题很容易被误判成：
 
-- detections that project slightly off target
-- pose estimates that are directionally biased
-- errors that grow near image edges
-- performance that degrades after hardware remounting
-- good static results but bad results in motion
+- 算法问题
+- 传感器噪声问题
+- 时间同步问题
 
-These patterns are often more informative than generic "accuracy dropped."
+这就是为什么懂标定的人很值钱。
 
-## Practical Task
+## 什么是手眼标定 Hand-Eye Calibration
 
-Write a two-column symptom map:
+你可以先把它粗略理解成：
 
-- symptom
-- likely calibration or geometry cause
+“把相机坐标系和机械臂或执行器坐标系对上。”
 
-Example symptom categories:
+为什么叫手眼？
 
-- edge distortion
-- pose offset
-- left-right mismatch
-- robot grasp offset
-- camera change after maintenance
+- 机械臂或末端执行器可以理解成“手”
+- 相机可以理解成“眼”
 
-## Stretch Task
+问题的核心是：
 
-Choose one setup:
+如果眼睛看到的位置，不能准确转换成手去执行的位置，那机器人就会“看得见但抓不准”。
 
-- monocular camera
-- stereo camera
-- camera plus robot arm
+所以手眼标定的价值，在于建立：
 
-Then answer:
+- 视觉世界
+- 机械运动世界
 
-1. what parameters matter most
-2. what measurements would validate the setup
-3. what failure would users notice first
+之间的稳定几何关系。
 
-## What A Strong Deliverable Looks Like
+## 为什么 3D 视觉比 2D 更敏感
 
-By the end of this lesson, you should have:
+2D 图像里，很多误差还可以被“凑合用”。
 
-- one intrinsics vs extrinsics explanation in your own words
-- one symptom-to-cause map
-- one note on hand-eye calibration intuition
-- one list of 3D-specific failure modes
+但到了 3D 视觉，误差往往更容易被放大。
 
-## Common Mistakes
+原因包括：
 
-### Mistake 1
+- 深度本身更脆弱
+- 基线或安装误差更敏感
+- 坐标变换更多
+- 多传感器关系更复杂
 
-Treating calibration as a one-time setup step rather than an engineering dependency.
+所以 3D 视觉系统通常更依赖：
 
-### Mistake 2
+- 安装质量
+- 标定质量
+- 重标定和验证流程
 
-Talking about "precision issues" without separating geometric error from timing error.
+## 一个很实用的观察角度：误差最终在哪里被看见
 
-### Mistake 3
+以后你面对一个疑似标定问题时，不要只问：
 
-Assuming a visually acceptable image implies good system geometry.
+“参数算得对不对？”
 
-### Mistake 4
+你更应该问：
 
-Ignoring mounting repeatability and physical changes after maintenance.
+“这个误差最终会在哪里被用户或下游模块看见？”
 
-## Review Questions
+例如：
 
-1. What is the practical difference between intrinsics and extrinsics?
-2. Why do calibration errors often appear as downstream system problems?
-3. What is the core idea of hand-eye calibration?
-4. Why are 3D systems more sensitive to setup quality?
-5. What symptoms would make you suspect calibration before algorithms?
+- 边缘位置误差更大
+- 机械臂抓偏
+- 多路视角投影对不上
+- 运动时偏差更明显
 
-## Connection To The Next Lesson
+这能帮你把标定问题从抽象数学，变成具体工程症状。
 
-Lesson 12 closes the route by turning your learning into an end-to-end project brief or prototype plan.
+## 一张很实用的症状表
+
+以后你可以试着建立这样的映射：
+
+### 症状：边缘区域误差明显变大
+
+可能怀疑：
+
+- 内参或畸变建模不准确
+
+### 症状：整体位置偏一个固定方向
+
+可能怀疑：
+
+- 外参有系统偏差
+
+### 症状：静止时还行，运动时明显不对
+
+可能怀疑：
+
+- 时间同步问题
+- 外参与时间问题叠加
+
+### 症状：机器人抓取总差一点
+
+可能怀疑：
+
+- 手眼标定不准
+- 安装件重复定位不稳定
+
+这类表会很有用。
+
+## 为什么物理安装也必须纳入思考
+
+标定并不是纯软件问题。
+它和物理安装高度相关。
+
+例如：
+
+- 相机装歪一点
+- 支架松一点
+- 维护后位置变一点
+
+这些在软件里可能不会显得很大，但在系统里可能就是持续偏差。
+
+所以做标定的人，不能只盯代码，还要尊重物理世界。
+
+## 相机场景和这节课怎么接起来
+
+你已经做相机接入和图像链路了。
+往前再走一步，就是去理解：
+
+- 相机看到的图像如何对应真实空间
+- 为什么某些误差在图像上不明显，但在下游很明显
+- 为什么设备安装变化会让整个系统重新不稳定
+
+这条路和你当前背景是非常连续的。
+
+## 常见误区
+
+### 误区 1
+
+标定就是一次性配置工作。
+
+### 误区 2
+
+图像看起来正常，就说明几何关系没问题。
+
+### 误区 3
+
+标定误差只会体现在标定程序里。
+
+### 误区 4
+
+3D 问题主要是算法问题，安装和外参影响不大。
+
+## 你现在先记住这 5 句话
+
+1. 内参描述相机自身成像特性，外参描述相机相对别的坐标系的位置和方向。
+2. 标定误差常常表现成系统问题，而不是直接报错。
+3. 手眼标定的核心，是让“眼睛看到的”和“手去执行的”对上。
+4. 3D 视觉对安装和标定质量更敏感。
+5. 标定必须同时尊重数学、软件和物理安装。
+
+## 小任务
+
+回想一个你见过的“结果总差一点”的问题，试着写下：
+
+1. 现象是什么
+2. 更像内参、外参、时间还是安装问题
+3. 你会先从哪个方向排查
+
+## 复盘题
+
+1. 内参和外参最大的工程差别是什么？
+2. 为什么标定误差经常像系统问题？
+3. 手眼标定的核心目的是什么？
+4. 为什么 3D 视觉更敏感？
+5. 为什么安装质量不能被忽视？
+
+## 下次我会怎么带你学
+
+等你学到这一课时，我可以直接陪你做一张“标定症状 -> 可能原因”的工程对照表，这会非常适合你之后用在真实问题排查里。

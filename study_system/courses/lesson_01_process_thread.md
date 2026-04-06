@@ -6,7 +6,7 @@ phase: 1
 lesson: 1
 status: active
 completion: 15
-estimated_minutes: 120
+estimated_minutes: 150
 actual_minutes: 0
 last_studied: 2026-04-06
 next_review: 2026-04-13
@@ -19,372 +19,395 @@ tags:
 
 # 第 1 课：进程、线程、锁与上下文切换
 
-## Why This Matters For You
+## 先说这节课到底在学什么
 
-You work close to camera input and image processing.
-That means your programs often have to:
+这节课不是为了让你背定义。
+它真正想解决的问题是：
 
-- receive data continuously
-- move large buffers
-- coordinate multiple threads
-- avoid latency spikes
-- avoid frame drops
+为什么我们写了多线程程序，系统却不一定更快，反而有时候更慢、更抖、更难查。
 
-Many real problems in this kind of system are not "algorithm problems".
-They are scheduling, contention, memory, and synchronization problems.
+对你这种做相机链路、图像处理、系统联调的人来说，这节课特别重要。
+因为你的很多问题都不是“算法不行”，而是：
 
-So Lesson 1 is the beginning of system thinking.
+- 线程之间互相等待
+- 共享数据设计得不清楚
+- 某个锁把整条链路拖慢
+- CPU 在不停切换线程
 
-## Learning Objectives
+如果这节课你学透了，以后遇到掉帧、延迟抖动、吞吐上不去这种问题，你会比现在更容易看出本质。
 
-After this lesson, you should be able to:
+## 学完这节课，你应该达到什么程度
 
-1. explain the difference between process and thread without using textbook wording
-2. describe why shared state is both useful and dangerous
-3. distinguish race condition, contention, deadlock, and context switching
-4. connect multi-thread behavior to frame latency and pipeline stability
-5. design a very small experiment to verify your understanding
+这节课学完以后，你不需要变成并发专家。
+但你至少应该能做到：
 
-## Part 1: Process and Thread
+1. 用自己的话说清楚什么是进程，什么是线程
+2. 知道线程为什么既有价值又危险
+3. 区分 race、contention、deadlock 这三类典型问题
+4. 理解上下文切换为什么会影响性能和稳定性
+5. 能用“共享状态、等待点、关键路径”这种方式看一条链路
 
-### Process
-A process is a running program with its own virtual address space and system resources.
+## 先别急着记定义，先建立直觉
 
-Simple mental model:
+### 什么是进程
 
-- different processes are like different apartments
-- each apartment has its own space
-- going from one apartment to another is relatively expensive
+你可以先把进程想成：
 
-### Thread
-A thread is an execution path inside a process.
-Threads in the same process share memory and most resources.
+“一个独立运行起来的程序空间。”
 
-Simple mental model:
+比如你打开一个浏览器，打开一个视频播放器，再打开一个终端，这通常就是三个不同的进程。
 
-- threads are like several workers inside the same apartment
-- they can use the same table, tools, and whiteboard
-- cooperation is easier
-- conflict is also easier
+每个进程通常有：
 
-## Part 1.5: What Is Actually Shared
+- 自己的虚拟地址空间
+- 自己打开的文件资源
+- 自己的一些系统状态
 
-When threads live inside one process, they typically share:
+最重要的是：
 
-- virtual address space
-- heap memory
-- global variables
-- file descriptors
-- many process-level resources
+进程和进程之间默认隔离得比较强。
 
-But each thread still has its own:
+你可以把它先想成：
 
-- program counter
-- register state
-- stack
+- 不同进程像不同房间
+- 每个房间有自己的东西
+- 别的房间不能直接乱动你的桌子和抽屉
 
-This matters because:
+这就是为什么进程隔离更强，也更安全。
 
-- sharing makes communication easier
-- private execution state makes scheduling possible
-- shared heap data is where most bugs and contention appear
+### 什么是线程
 
-## Part 2: Why Engineers Use Threads
+线程可以先理解成：
 
-Three common reasons:
+“同一个进程内部的多个执行路线。”
 
-1. Use multiple CPU cores
-2. Separate tasks, such as capture thread, processing thread, and output thread
-3. Keep one slow task from blocking the whole pipeline
+也就是说，一个进程里可以有多个线程同时工作。
 
-In camera software, a typical split might be:
+它们通常共享：
 
-- one thread receives frames
-- one thread converts or preprocesses data
-- one thread sends results downstream
+- 同一块虚拟地址空间
+- 堆内存
+- 全局变量
+- 大部分进程级资源
 
-This sounds efficient, but only if data sharing and synchronization are designed well.
+但每个线程仍然有自己的：
 
-## Part 2.5: A Better Pipeline Question
+- 寄存器状态
+- 程序计数器
+- 栈
 
-When designing a threaded pipeline, do not only ask:
+你可以把线程想成：
 
-- how many threads should I create
+- 同一个房间里的几个工人
+- 他们共用同一块白板、同一张桌子、同一个仓库
+- 所以合作很方便
+- 但也很容易互相打架
 
-Also ask:
+这就是线程最核心的特征：
 
-- where is the queue
-- who owns the buffer
-- when is a frame copied
-- who blocks when downstream becomes slow
-- what must be strictly ordered and what can run independently
+- 共享带来效率
+- 共享也带来风险
 
-These are system-engineering questions, and they are more valuable than "how do I add threads quickly".
+## 为什么工程里喜欢用线程
 
-## Part 3: Why Threads Become Trouble
+你会在工程里用线程，通常是因为这三种需求：
 
-Threads are useful because they share memory.
-Threads are dangerous for the same reason.
+1. 想并发利用多个 CPU 核
+2. 想把不同职责拆开，比如采集、处理、输出
+3. 想避免某个慢步骤把整个程序完全卡住
 
-Typical problems:
+对你做相机链路来说，一个非常典型的模式就是：
 
-### Race condition
-Two threads read and write shared data at the same time without proper coordination.
+- 一个线程收帧
+- 一个线程做格式转换或预处理
+- 一个线程把结果往下游送
 
-Result:
+看起来很合理，对吧？
 
-- wrong values
-- random failures
-- hard-to-reproduce bugs
+但问题来了：
 
-Simple example:
+如果这几条线程之间共享数据太多、锁粒度太粗、等待关系太复杂，那它们就会开始互相拖后腿。
 
-- capture thread updates frame metadata
-- processing thread reads the same metadata midway
-- output is inconsistent even though both threads "look correct"
+所以重点不是“有没有多线程”，而是“多线程设计得好不好”。
 
-### Lock contention
-Multiple threads need the same lock and spend time waiting.
+## 线程真正危险在哪里
 
-Result:
+很多人刚学线程时，会把关注点放在：
 
-- CPU may still be busy
-- throughput drops
-- latency rises
+- 怎么创建线程
+- 怎么 `join`
+- 怎么用 mutex
 
-Simple example:
+这些当然重要，但真正让工程出问题的，不是 API 本身，而是下面几个结构性问题：
 
-- every frame update takes one global mutex
-- more worker threads only create more waiting on the same lock
+1. 哪些数据是共享的
+2. 谁在什么时候写这些共享数据
+3. 谁在等谁
+4. 哪一段工作在关键路径上
 
-### Deadlock
-Two or more threads wait on each other forever.
+如果这四件事你没想清楚，线程越多，系统越容易出问题。
 
-Result:
+## 先讲第一个典型问题：Race Condition
 
-- system looks stuck
-- no forward progress
+Race condition 你可以先这样理解：
 
-Simple example:
+多个线程同时读写共享数据，但缺少正确协调，于是结果取决于“谁先谁后”这种偶然时序。
 
-- thread A holds queue lock and waits for state lock
-- thread B holds state lock and waits for queue lock
+为什么叫 race？
 
-### Context switch overhead
-The CPU has to stop one thread and continue another.
+因为线程像在抢时间窗口。
 
-Result:
+一个简单例子：
 
-- extra overhead
-- cache disruption
-- latency jitter
+- 线程 A 正在更新一帧图像的 metadata
+- 线程 B 正在读取这份 metadata 去做后续处理
+- 如果 B 在 A 还没写完的时候读到了中间状态
+- 那么 B 看到的数据就可能不一致
 
-Simple example:
+这类问题最麻烦的地方在于：
 
-- several runnable threads fight for CPU time
-- hot data leaves cache more often
-- frame-to-frame timing becomes uneven
+- 代码看起来都对
+- 问题却不稳定
+- 有时能复现，有时不能
+- 加一行 log 可能现象都变了
 
-## Part 4: Context Switch in Plain Language
+这就是并发 bug 让人头疼的地方。
 
-The CPU cannot run every runnable thread at the exact same time.
-When it switches from one thread to another, it needs to save current execution state and restore another one.
+## 第二个典型问题：Lock Contention
 
-This is called a context switch.
+为了解决 race，很多人第一反应是：
 
-Why it matters:
+“那我加锁。”
 
-- it has direct overhead
-- it breaks cache locality
-- frequent switching can make a system feel unstable under load
+这本身没错。
+问题是，如果加锁方式不合理，就会引出第二类问题：锁竞争。
 
-Practical intuition:
+锁竞争的直觉是：
 
-- a single context switch is normal
-- too many context switches often signal oversubscription, lock-heavy design, or excessive waiting/wakeup behavior
+多个线程都想进同一扇门，但门一次只允许一个人通过。
 
-For a camera pipeline, this means:
+于是会发生：
 
-- frame handling may become uneven
-- one stage may suddenly lag
-- you may see intermittent delay or frame drops
+- 某个线程拿到锁
+- 别的线程只能等
+- 等的线程虽然“活着”，但没有真正做有效工作
 
-## Part 5: The Most Important Mental Model
+在相机和图像链路里，一个特别典型的坑是：
 
-When multi-threaded code becomes slow, do not ask only:
+- 所有线程都要更新一个全局队列
+- 所有线程都拿同一把大锁
 
-"How do I make this code run in parallel?"
+结果就是：
 
-Ask these first:
+- 线程数量越多
+- 等锁的时间越多
+- 真正有效工作的比例反而下降
 
-1. What data is shared?
-2. Who owns each buffer?
-3. Where do threads wait?
-4. Is the bottleneck compute, memory, or coordination?
-5. Is extra threading helping, or just adding contention?
+所以你以后看到“线程加了但速度没明显提升”，第一怀疑对象之一就应该是 contention。
 
-That shift in thinking is what separates feature coding from systems engineering.
+## 第三个典型问题：Deadlock
 
-## Part 5.5: A First Debugging Checklist
+Deadlock 是更严重的一类情况。
 
-When multi-thread code is slower than expected, check:
+你可以把它理解成：
 
-1. Are there more runnable threads than CPU cores?
-2. Is one global lock protecting too much work?
-3. Is data being copied between stages more than necessary?
-4. Are threads waking each other too often for tiny pieces of work?
-5. Is one slow stage causing backpressure through the whole pipeline?
+两个或多个线程互相等对方，结果谁都不继续往前走。
 
-This checklist will come back again in later lessons.
+最常见的模式是：
 
-## Part 6: Camera-Related Example
+- 线程 A 拿着锁 1，等锁 2
+- 线程 B 拿着锁 2，等锁 1
 
-Imagine this pipeline:
+于是：
 
-1. capture thread reads camera frames
-2. processing thread does format conversion
-3. output thread sends frames to downstream
+- A 不放
+- B 也不放
+- 系统卡住
 
-Now imagine all three stages use one shared queue protected by one mutex.
+这类问题的本质不是“慢”，而是“没有前进”。
 
-Possible result:
+如果你以后遇到：
 
-- capture thread waits for lock
-- processing thread waits for data
-- output thread occasionally blocks the others
-- even if CPU usage is not full, frame latency still increases
+- 程序没 crash
+- CPU 占用不高
+- 但系统像卡死一样不动了
 
-This is why "more threads" does not automatically mean "faster pipeline".
+那 deadlock 永远值得怀疑。
 
-## Part 6.5: How This Shows Up In Real Work
+## 什么是上下文切换 Context Switch
 
-In camera and image systems, symptoms often look like this:
+这也是本课最关键的概念之一。
 
-- CPU is not full, but latency is still bad
-- average runtime looks okay, but tail latency is terrible
-- frame drops only appear under burst load
-- adding one more worker thread makes performance worse
+CPU 在任意一个瞬间，只能在某个核心上运行一个线程。
+如果有很多线程都处于 runnable 状态，操作系统就要不断切换：
 
-These symptoms usually point to:
+- 先让 A 跑一会儿
+- 再让 B 跑一会儿
+- 再切回 A
 
-- contention
-- poor queue design
-- too many copies
-- scheduling jitter
-- poor ownership boundaries
+这个切换动作，就叫上下文切换。
 
-## Part 7: What You Need To Remember
+为什么叫“上下文”？
 
-### Key Conclusion 1
-Threads improve concurrency, but shared data creates coordination cost.
+因为线程运行时并不只是“正在执行某行代码”，它还有一整套执行状态，例如：
 
-### Key Conclusion 2
-Performance problems are often caused by contention and memory movement, not raw computation.
+- 当前指令位置
+- 寄存器内容
+- 栈状态
 
-### Key Conclusion 3
-To debug multi-thread systems, you need to observe waiting, contention, and switching behavior.
+切换线程时，这些状态要保存和恢复。
 
-## Common Misunderstandings
+## 为什么上下文切换会影响性能
 
-### Misunderstanding 1
-"More threads means better performance."
+上下文切换的影响有两层。
 
-Correction:
-More threads only help when useful work scales and coordination cost stays low.
+### 第一层：直接开销
 
-### Misunderstanding 2
-"CPU usage is not full, so the program is not bottlenecked."
+保存状态和恢复状态本身就要花时间。
 
-Correction:
-A program can be bottlenecked by waiting, lock contention, memory stalls, or poor pipeline structure.
+### 第二层：间接开销
 
-### Misunderstanding 3
-"If it works functionally, the threading design is probably fine."
+更重要的是，线程切换常常会破坏局部性。
 
-Correction:
-Functional correctness and runtime quality are different questions.
-A correct design can still have bad latency and instability.
+什么意思？
 
-## Lab
+比如：
 
-Read:
+- 线程 A 刚刚把一批热点数据弄进 cache
+- 还没来得及继续处理
+- CPU 切去跑线程 B 了
+- 等 A 再回来时，原来那批热点数据可能已经不在了
 
-- `../labs/lab_01_threads.md`
-- `../labs/src/lesson_01_threads.cpp`
+这会让系统：
 
-What you should do:
+- 吞吐变差
+- 延迟变差
+- 抖动更明显
 
-1. build one single-thread version
-2. build one shared-counter multi-thread version
-3. build one per-thread-counter version
-4. compare runtime
-5. write your explanation
+所以你以后看到“CPU 利用率不算高，但时延很不稳”，上下文切换是必须考虑的方向。
 
-## Suggested Lab Record Format
+## 为什么多线程有时反而更慢
 
-Record these fields:
+这是你特别值得真正吃透的一件事。
 
-- hardware and CPU core count
-- number of threads
-- total increments or total work
-- measured runtime
-- what you expected before running
-- what actually happened
-- your explanation after seeing the result
+很多人有一个很自然的想法：
 
-## Tool Exercise
+- 单线程只能做一件事
+- 多线程能并行
+- 所以多线程应该更快
 
-After running the lab, also try:
+但现实中，多线程变慢非常常见。
 
-1. run `top` and observe CPU usage while the program runs
-2. run `pidstat -t 1 -p <pid>` for a longer-running version
-3. compare whether the shared-lock version creates more waiting behavior
+原因通常包括：
 
-Do not worry if the signals are noisy.
-The goal is simply to start looking at runtime behavior instead of only looking at code.
+1. 线程之间共享数据太多
+2. 锁竞争严重
+3. 上下文切换太多
+4. 数据复制和同步成本变高
+5. 真正瓶颈不在 CPU 算力，而在内存或队列
 
-## Review Questions
+这也是为什么“线程更多”不等于“系统更强”。
 
-1. Why are threads cheaper to communicate with than processes?
-2. Why can a multi-thread version be slower than a single-thread version?
-3. What is the difference between race condition and lock contention?
-4. Why can context switching hurt latency in a camera pipeline?
+## 用相机场景把它连起来
 
-## Self-Test
+假设你有这样一条链路：
 
-If you can answer these without looking back, you probably understood the core:
+1. 采集线程收图像
+2. 处理线程做格式转换
+3. 输出线程发送给下游
 
-1. Why do threads share heap memory but not stack memory?
-2. Why can one global mutex destroy parallelism?
-3. Why can low CPU usage still come with bad throughput?
-4. What would you inspect first in a multi-stage camera pipeline that sometimes drops frames?
+如果它们都共享一个全局队列，并且这个队列上有一把大锁，那么可能出现：
 
-## Your Note Template
+- 采集线程要等锁
+- 处理线程要等数据
+- 输出线程偶发慢了以后，前面所有线程都开始堆积
 
-Write these in your own words:
+结果你会看到：
 
-- Process:
-- Thread:
-- Lock contention:
-- Context switch:
-- One example from my work:
+- CPU 不是完全打满
+- 但帧延迟还是上去了
+- 甚至开始掉帧
 
-## Work Connection Prompt
+这个例子很典型地说明：
 
-Think of one real module from your work and answer:
+系统行为不只取决于“每段代码快不快”，还取决于“这些段之间怎么协调”。
 
-1. Where are the threads?
-2. What data is shared?
-3. Where might contention happen?
-4. Where might wakeups or waiting happen?
-5. If frame drops happen, which stage would you inspect first?
+## 这节课最该建立的思维方式
 
-## Next Lesson
+以后你看一个多线程系统，不要只问：
 
-Lesson 2 will cover:
+“有几个线程？”
 
-- virtual memory
-- pages
-- page faults
-- `mmap`
-- why copying data hurts systems performance
+更要问：
+
+1. 哪些数据是共享的？
+2. 谁拥有这块数据？
+3. 谁在等谁？
+4. 哪一段在关键路径上？
+5. 哪个地方最可能产生 contention？
+
+这套问法，就是从“写功能”转向“看系统”。
+
+## 常见误区
+
+### 误区 1：线程越多越好
+
+不是。
+线程一多，共享、切换、争用都会跟着上来。
+
+### 误区 2：加锁就等于问题解决
+
+不是。
+锁能解决正确性的一部分，但可能带来性能问题。
+
+### 误区 3：CPU 不高就说明线程没问题
+
+不是。
+系统可能把时间花在等待、切换、争锁上。
+
+### 误区 4：偶发问题不是并发问题
+
+恰恰相反。
+并发问题最典型的特征就是偶发、难复现。
+
+## 你现在先记住这 5 句话
+
+1. 进程像不同房间，线程像同一个房间里的多个工人。
+2. 线程共享资源，所以沟通方便，但也更容易冲突。
+3. Race 是“没协调好”，contention 是“大家都在等同一个东西”，deadlock 是“谁也走不了”。
+4. 上下文切换不仅有直接成本，还会破坏 cache 局部性。
+5. 多线程系统最重要的问题不是“怎么建线程”，而是“怎么处理共享、等待和关键路径”。
+
+## 这节课的小实验
+
+你不需要先会很多工具。
+先做一个很简单的思考实验：
+
+找你现在最熟的一条链路，写下：
+
+1. 有哪些线程
+2. 它们共享哪些数据
+3. 它们最可能在哪儿等待
+4. 哪一把锁如果存在，会最危险
+
+最后写一句话：
+
+“如果这条链路开始抖，我最先怀疑 ______。”
+
+## 复盘题
+
+1. 进程和线程最大的工程差异是什么？
+2. 线程为什么既有价值又危险？
+3. race、contention、deadlock 的区别是什么？
+4. 为什么上下文切换会影响系统稳定性？
+5. 为什么多线程程序有时比单线程更慢？
+
+## 下次我们怎么一起学
+
+等你正式开始学这节课时，你可以直接这样跟我说：
+
+- “我读完第 1 课了，但 race 和 contention 还是分不清”
+- “我想把我当前相机链路按线程关系拆一下”
+- “我跑了线程实验，但结果不会解释”
+
+我就会按你卡住的那个点，继续带你往下讲，而不是让你自己硬扛。

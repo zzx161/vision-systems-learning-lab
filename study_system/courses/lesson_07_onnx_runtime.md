@@ -2,11 +2,11 @@
 note_type: lesson
 title: ONNX 与推理运行时基础
 track: edge_deployment
-phase: 2
-lesson: 7
+phase: 3
+lesson: 10
 status: planned
 completion: 0
-estimated_minutes: 100
+estimated_minutes: 150
 actual_minutes: 0
 last_studied:
 next_review:
@@ -14,225 +14,264 @@ priority: medium
 tags:
   - study/lesson
   - track/deployment
-  - phase/2
+  - phase/3
 ---
 
-# 第 7 课：ONNX 与推理运行时基础
+# 第 10 课：ONNX 与推理运行时基础
 
-## Why This Matters
+## 为什么这一课对你有价值
 
-You do not need to become a pure algorithm engineer to gain deployment value.
-What matters is understanding how a model becomes a runtime system on real hardware.
+你并不打算走纯算法路线，这没问题。
+但这不意味着边缘 AI 部署对你没价值。
 
-In real products, model value depends on:
+恰恰相反，如果你能把：
 
-- whether export works
-- whether preprocessing matches training assumptions
-- whether runtime execution is stable
-- whether memory layout and copies destroy the expected speedup
+- 相机数据
+- 图像预处理
+- 模型输入输出
+- 芯片侧运行时
+- 性能瓶颈
 
-This lesson is about the engineering path from model artifact to deployed execution.
+这些东西连起来理解，你会形成一种很稀缺的能力：
 
-## Learning Objectives
+你不是训练模型的人，但你是“让模型在真实系统里稳定跑起来的人”。
 
-After this lesson, you should be able to:
+这节课就是在帮你打这个基础。
 
-1. explain what ONNX represents at a practical level
-2. describe the path from source model to runtime execution
-3. distinguish model compute from preprocessing and postprocessing cost
-4. identify common layout and copy overhead in an inference pipeline
-5. trace one simple deployment path as a systems engineer
+## 学完以后你应该能做到
 
-## Mental Model: A Model File Is Not A Product
+1. 用工程视角解释 ONNX 是干什么的
+2. 理解一个模型从训练框架到运行时会经历哪些阶段
+3. 能区分 preprocess、inference、postprocess 的成本
+4. 能看懂一条基本的部署路径
+5. 能意识到“模型能跑”不等于“产品能用”
 
-A trained model is only one layer.
-A deployable system usually includes:
+## 先建立一个很重要的认知
 
-1. source model artifact
-2. export step
-3. graph conversion or optimization
-4. runtime engine
-5. preprocessing
-6. inference execution
-7. postprocessing
-8. packaging and observability
+模型文件本身，不等于部署系统。
 
-If any one of these layers is fragile, the final deployment is fragile.
+这是很多人最容易忽略的一点。
 
-## What ONNX Is
+很多人一说部署，就只想到：
 
-ONNX is best understood as an interchange format for model graphs and tensors.
+- 模型导出来了
+- runtime 能加载
+- 输出有结果
 
-For your current goal, the key point is not every file detail.
-The key point is:
+但真实系统里，部署至少包含这些环节：
 
-- it provides a common representation between training and deployment ecosystems
-- it makes graph conversion and runtime choice easier
-- it does not remove the need to understand deployment constraints
+1. 源模型
+2. 导出
+3. 图优化或转换
+4. runtime 加载与执行
+5. 输入预处理
+6. 输出后处理
+7. 与真实数据链路对接
 
-Useful attitude:
+只要其中一环不稳，整个部署就不稳。
 
-"ONNX helps models travel between tools, but it does not magically solve runtime cost."
+## ONNX 到底是什么
 
-## A Practical Deployment Path
+你现在先不需要背它所有规范。
+先记住一个足够有用的理解：
 
-One simple path looks like this:
+ONNX 是一种用于表示模型计算图和张量关系的中间格式。
 
-1. model is trained in PyTorch
-2. model is exported to ONNX
-3. ONNX graph is checked or simplified
-4. runtime or toolchain turns the graph into an executable form
-5. input data is preprocessed to match the model contract
-6. runtime executes operators
-7. outputs are decoded or filtered for use
+它的价值在于：
 
-The system engineer cares about every interface in this path.
+- 帮助模型在不同工具链之间流转
+- 帮助部署系统理解模型结构
 
-## What An Inference Runtime Actually Does
+你可以把它先理解成：
 
-At a high level, the runtime is responsible for:
+“训练世界和部署世界之间的一种通用语言。”
 
-- loading the graph
-- allocating tensors or buffers
-- choosing execution kernels
-- scheduling operator execution
-- managing memory movement
+## 为什么需要中间格式
 
-This means runtime performance depends on more than the model itself.
-It also depends on:
+因为训练模型和部署模型，常常不在同一个环境里完成。
 
-- data layout
-- operator support
-- precision choice
-- hardware target
-- copy count
-- batch and shape assumptions
+例如：
 
-## Where Time Goes In Practice
+- 模型在 PyTorch 里训练
+- 但目标平台可能跑 TensorRT
+- 或者跑某个芯片厂商自己的工具链
 
-A naive mental model says:
+这时，中间格式的意义就是：
 
-"the model is slow"
+- 让模型更容易从一个生态迁移到另一个生态
 
-A better systems mental model says:
+所以 ONNX 的价值不是“让模型更准”，而是“让模型更能被部署系统理解和处理”。
 
-"which stage is slow?"
+## 一个模型部署路径可以长成什么样
 
-Time may be spent in:
+你可以先记住一条典型路径：
 
-- input acquisition
-- image decode or color conversion
-- resize or normalization
-- CPU to GPU or CPU to accelerator transfer
-- graph execution
-- output parsing
-- result packaging
+1. 在训练框架里有原始模型
+2. 导出成 ONNX
+3. 检查图结构、输入输出和算子支持
+4. 用 runtime 或平台工具链做优化
+5. 准备输入数据和预处理
+6. 执行推理
+7. 做后处理并把结果送给下游
 
-This is why many "runtime" problems are actually pipeline problems.
+这条路径里，每一段都可能成为问题来源。
 
-## Common Hidden Costs
+## 为什么 preprocess 往往被低估
 
-These costs are frequently underestimated:
+很多人把注意力都放在“模型算得快不快”。
 
-- NHWC to NCHW conversion
-- repeated normalization on CPU
-- unnecessary tensor copies
-- dynamic shape overhead
-- unsupported operators falling back to CPU
-- conversion between toolchain-specific buffer types
+但真实部署里，preprocess 经常非常贵。
 
-In some systems, these costs dominate the model compute itself.
+例如：
 
-## Questions A System Engineer Should Ask
+- resize
+- color convert
+- normalization
+- layout 变换
+- 数据拷贝
 
-1. What is the source model format?
-2. Why is this runtime chosen?
-3. What layout does the runtime expect?
-4. How many copies happen before execution starts?
-5. Does any operator fall back to an unexpected backend?
-6. What is the latency split between preprocess, execute, and postprocess?
+这些步骤有时甚至比推理本体更占时间。
 
-These questions are how you add value without becoming a model researcher.
+所以以后你看到“模型慢”，不要立刻默认是推理核慢。
+先问：
 
-## A Small Thinking Framework
+- 预处理是不是已经吃掉很多时间了？
 
-When a deployment underperforms, classify the issue first:
+## Runtime 到底在做什么
 
-### Export Problem
+推理 runtime 不是一个“黑箱魔法库”。
+它大致在做这些事：
 
-The model cannot be converted cleanly or produces mismatched outputs.
+- 读取模型图
+- 分配 tensor 和 buffer
+- 选择执行内核
+- 安排算子执行
+- 处理数据布局与内存
 
-### Compatibility Problem
+也就是说，runtime 并不只是“把模型跑一下”。
+它同时还承担：
 
-The runtime or toolchain does not support the graph as expected.
+- 内存组织
+- 计算调度
+- 数据传递
 
-### Data Contract Problem
+所以 runtime 的选择，会直接影响：
 
-Preprocessing or tensor layout no longer matches the model assumption.
+- 延迟
+- 吞吐
+- 稳定性
+- 可调试性
 
-### Systems Problem
+## “模型能跑”和“产品能用”的差别
 
-The graph may be fine, but runtime behavior is limited by memory, transfer, contention, or platform overhead.
+一个模型能跑，可能只意味着：
 
-## Practical Task
+- 输入没报错
+- 输出有结果
 
-Trace one simple model path with this template:
+但一个产品能用，还要满足：
 
-- source framework
-- export format
-- runtime target
-- input layout
-- preprocessing steps
-- postprocessing steps
-- likely copy points
-- likely profiling points
+- 延迟在目标范围内
+- 吞吐够
+- 内存占用可接受
+- 预处理和后处理不拖后腿
+- 输出稳定
+- 接口能接进真实链路
 
-You can use a model from work, a public YOLO example, or a hypothetical pipeline.
+这也是为什么部署工程远不只是“把文件转过去”。
 
-## Stretch Task
+## 相机工程师看部署，最该关注什么
 
-Write one paragraph comparing:
+你不是去卷网络结构，所以你最值得关心的是：
 
-- "the model is slow"
-- "the deployment path is slow"
+1. 输入数据从哪里来
+2. 输入格式和模型要求是否一致
+3. 中间有没有很多 copy
+4. preprocess 是否已经很重
+5. runtime 是不是和平台适配得好
+6. 输出结果如何回到下游链路
 
-The second framing is almost always more accurate and more useful.
+这套视角和你的现有背景是连续的。
 
-## What A Strong Deliverable Looks Like
+## 一条很值得记住的判断链
 
-By the end of this lesson, you should have:
+当部署效果不好时，先按这个顺序怀疑：
 
-- one deployment path sketch
-- one list of runtime assumptions
-- one list of likely hidden copies
-- one guess about the most expensive non-model stage
+1. 模型导出有没有问题
+2. 输入输出定义有没有对齐
+3. preprocess 是否和训练假设一致
+4. runtime 是否支持关键算子
+5. 中间有没有布局转换和 copy
+6. 性能瓶颈是在推理本体，还是在模型之外
 
-## Common Mistakes
+这条顺序能帮你避免很多无效猜测。
 
-### Mistake 1
+## 一个相机场景里的例子
 
-Treating ONNX as the final answer instead of a transfer format.
+假设你要把相机图像接进推理模块。
 
-### Mistake 2
+你应该问：
 
-Ignoring preprocessing and postprocessing when discussing runtime speed.
+- 相机给的是 YUV 还是 RGB？
+- 模型要求的是 NHWC 还是 NCHW？
+- resize 在哪做？
+- normalize 在哪做？
+- 输入 tensor 是直接引用，还是重新 copy 一份？
 
-### Mistake 3
+这些问题，往往比“模型是多少层”更接近实际瓶颈。
 
-Assuming hardware acceleration automatically removes system bottlenecks.
+## 常见误区
 
-### Mistake 4
+### 误区 1
 
-Not checking whether graph operators or data layouts match runtime expectations.
+ONNX 就是部署本身。
 
-## Review Questions
+### 误区 2
 
-1. Why is ONNX useful even if it does not solve runtime performance by itself?
-2. What are the common stages between a source model and deployed execution?
-3. Why can preprocessing dominate total latency?
-4. What kinds of copies usually hide around layout conversion?
-5. What questions would you ask before blaming the model itself?
+只要 runtime 能加载模型，部署就差不多完成了。
 
-## Connection To The Next Lesson
+### 误区 3
 
-Lesson 8 continues this route by focusing on quantization, TensorRT, and deployment toolchains.
+模型慢，就一定是模型结构本身太大。
+
+### 误区 4
+
+预处理和后处理只是边角料，不值得花精力。
+
+## 你现在先记住这 5 句话
+
+1. ONNX 是中间表示，不是完整部署系统。
+2. 部署至少包含模型、预处理、运行时、后处理和真实链路。
+3. 模型能跑，不等于产品能用。
+4. preprocess 往往比想象中更贵。
+5. 相机背景的人，最值钱的是能把数据链路和 runtime 问题连起来看。
+
+## 小任务
+
+找一个你熟悉的视觉模型场景，哪怕是假想的，也写出下面 6 项：
+
+1. 模型输入来自哪里
+2. 输入格式是什么
+3. preprocess 有哪几步
+4. runtime 是什么
+5. 输出要交给谁
+6. 你最怀疑的一个 hidden cost 是什么
+
+## 复盘题
+
+1. ONNX 的核心价值是什么？
+2. 为什么模型文件不等于部署系统？
+3. preprocess 为什么经常很贵？
+4. runtime 主要在做哪些事情？
+5. 你作为相机工程师，最该从哪个角度理解部署？
+
+## 下次我会怎么带你学
+
+等你学到这一课时，我们可以直接拿一个真实或假想的模型链路，把：
+
+- 输入
+- 预处理
+- runtime
+- 输出
+
+逐段拆开，这样你会很快建立“部署不是黑箱”的感觉。

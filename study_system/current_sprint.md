@@ -1,6 +1,6 @@
 ---
 note_type: sprint
-title: Current Sprint
+title: 当前冲刺
 phase: 1
 sprint: week_01
 status: active
@@ -15,94 +15,133 @@ tags:
   - phase/1
 ---
 
-# Current Sprint
+# 当前冲刺
 
-## Sprint Goal
+## 本周目标
 
-Build a strong and practical foundation in:
+这一周不求学很多，而是把第一阶段最关键的 4 节真正学进去：
 
-1. Processes and threads
-2. Virtual memory
-3. Basic observability tools
-4. System thinking for camera pipelines
+1. 进程、线程、锁与上下文切换
+2. 虚拟内存、Page、Page Fault 与 `mmap`
+3. CPU Cache、局部性与内存访问性能
+4. Linux 观测与排障基础
 
-## Week 1 Focus
+这 4 节是后面所有内容的地基。
+如果这一块建立起直觉，后面你看相机链路、掉帧、延迟、部署 Profiling 都会顺很多。
 
-### Topic A: Processes and Threads
-- Understand the difference between process and thread
-- Understand why context switch costs time
-- Learn mutex, condition variable, and atomics at a practical level
+## 本周重点
 
-### Topic B: Virtual Memory
-- Understand virtual address vs physical memory intuition
-- Understand page faults and why `mmap` matters
-- Understand why copying large buffers is expensive
+### 重点 A：把线程真正想明白
 
-### Topic C: First Debugging Toolkit
-- Learn `top`
-- Learn `ps`
-- Learn `pidstat`
-- Learn `vmstat`
+不是只会建线程，而是要知道：
 
-## This Sprint Has 4 Mini-Lessons
+- 共享状态为什么危险
+- 为什么锁会让系统变慢
+- 为什么上下文切换会导致抖动
 
-1. `courses/lesson_01_process_thread.md`
-2. `courses/lesson_02_virtual_memory.md`
-3. `courses/lesson_03_cache_and_locality.md`
-4. `courses/lesson_04_linux_observability.md`
+### 重点 B：把内存真正看成系统问题
 
-## Suggested Weekly Rhythm
+不是只知道堆和栈，而是要知道：
 
-### Day 1
-- Read Lesson 1
-- Write down your own explanation of process vs thread
+- 为什么 buffer 很贵
+- page fault 为什么会突然影响时延
+- 为什么图像链路特别怕重复拷贝
 
-### Day 2
-- Do the first thread lab
-- Record your observations
+### 重点 C：开始建立性能直觉
 
-### Day 3
-- Read Lesson 2
-- Mark any part that still feels abstract
+不是只记 cache 这个词，而是要知道：
 
-### Day 4
-- Do one small memory experiment
-- Compare at least two access or copy patterns
+- 为什么访问模式比你想的更重要
+- 为什么 false sharing 会拖垮多线程
+- 为什么“复杂度一样”不代表跑得一样
 
-### Day 5
-- Read Lesson 3
-- Connect cache/locality ideas to image processing
+### 重点 D：学会第一批观察工具
 
-### Day 6
-- Read Lesson 4
-- Use `top`, `pidstat`, and `vmstat` on one toy program
+不是死记命令，而是先知道：
 
-### Day 7
-- Fill in `reviews/week_01_review.md`
-- Re-answer review questions without looking
+- 系统忙不忙看什么
+- 某个线程有没有问题看什么
+- 程序像卡住了一样时先看什么
 
-## Deliverables
+## 这一周要学的课程
 
-- Read the route in `integrated_route.md`
-- Read the lesson plan in `course_plan.md`
-- Read Lesson 1 in `courses/lesson_01_process_thread.md`
-- Read Lesson 2 in `courses/lesson_02_virtual_memory.md`
-- Read Lesson 3 in `courses/lesson_03_cache_and_locality.md`
-- Read Lesson 4 in `courses/lesson_04_linux_observability.md`
-- Read the notes in `memory/module_01_process_thread.md`
-- Read the notes in `memory/module_02_virtual_memory.md`
-- Complete Lab 1 in `labs/lab_01_threads.md`
-- Complete Lab 2 in `labs/lab_02_virtual_memory.md`
-- Complete Lab 3 in `labs/lab_03_cache_locality.md`
-- Complete Lab 4 in `labs/lab_04_observability.md`
-- Write your own summary in `reviews/week_01_review.md`
+1. [lesson_01_process_thread.md](/home/zhixin/code/study_system/courses/lesson_01_process_thread.md)
+2. [lesson_02_virtual_memory.md](/home/zhixin/code/study_system/courses/lesson_02_virtual_memory.md)
+3. [lesson_03_cache_and_locality.md](/home/zhixin/code/study_system/courses/lesson_03_cache_and_locality.md)
+4. [lesson_04_linux_observability.md](/home/zhixin/code/study_system/courses/lesson_04_linux_observability.md)
 
-## Done Criteria
+## 这一周的建议节奏
 
-You should be able to explain:
+### 第 1 天
 
-- Why threads share memory but processes usually do not
-- Why lock contention can make multi-threading slower
-- Why virtual memory helps but also introduces page behavior
-- Why access pattern changes performance even for similar code
-- Which tools to use when CPU is high or a process looks stuck
+- 读第 1 课
+- 自己写一句话解释“进程和线程到底差在哪”
+
+### 第 2 天
+
+- 做线程实验
+- 记录你看到的现象
+
+### 第 3 天
+
+- 读第 2 课
+- 把你最不理解的 2 个词标出来
+
+### 第 4 天
+
+- 做内存或拷贝实验
+- 写一句话解释“为什么搬运数据很贵”
+
+### 第 5 天
+
+- 读第 3 课
+- 想一想你工作里哪段代码最可能受 cache 影响
+
+### 第 6 天
+
+- 读第 4 课
+- 用 `top`、`pidstat`、`vmstat` 看一次实验程序
+
+### 第 7 天
+
+- 写周复盘
+- 关掉资料，自己答复盘题
+
+## 本周实验
+
+- [lab_01_threads.md](/home/zhixin/code/study_system/labs/lab_01_threads.md)
+- [lab_02_virtual_memory.md](/home/zhixin/code/study_system/labs/lab_02_virtual_memory.md)
+- [lab_03_cache_locality.md](/home/zhixin/code/study_system/labs/lab_03_cache_locality.md)
+- [lab_04_observability.md](/home/zhixin/code/study_system/labs/lab_04_observability.md)
+
+## 本周交付物
+
+这一周不要追求做很多，重点是留下 4 个东西：
+
+1. 一段你自己写的“进程 vs 线程”解释
+2. 一段你自己写的“为什么图像链路怕拷贝”解释
+3. 一段你自己写的“为什么访问模式影响性能”解释
+4. 一份你自己的初版排障顺序
+
+## 和我一起学的方式
+
+你学到哪一步都可以直接回来找我，不需要等都学完。
+
+最推荐你直接这样说：
+
+- “开始第 1 课，带我学”
+- “我看完第 2 课了，但 page fault 还是很抽象”
+- “我做了线程实验，结果不会解释”
+- “我不知道第 3 课该怎么和图像处理联系”
+
+我会按你卡住的位置继续讲，不会让你自己再去拼资料。
+
+## 本周完成标准
+
+到这周结束时，你至少应该能用自己的话解释：
+
+- 为什么线程共享内存，而进程通常不共享
+- 为什么锁竞争会让多线程变慢
+- 为什么虚拟内存和 page 行为会影响时延
+- 为什么访问模式会影响图像处理性能
+- 遇到 CPU 高、程序卡、系统抖时，你先该看什么工具

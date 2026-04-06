@@ -2,11 +2,11 @@
 note_type: lesson
 title: 已部署推理的 Profiling
 track: edge_deployment
-phase: 2
-lesson: 9
+phase: 3
+lesson: 12
 status: planned
 completion: 0
-estimated_minutes: 110
+estimated_minutes: 150
 actual_minutes: 0
 last_studied:
 next_review:
@@ -14,211 +14,270 @@ priority: medium
 tags:
   - study/lesson
   - track/deployment
-  - phase/2
+  - phase/3
 ---
 
-# 第 9 课：已部署推理的 Profiling
+# 第 12 课：已部署推理的 Profiling
 
-## Why This Matters
+## 这节课为什么重要
 
-A deployed model can be correct and still be unusable.
+很多部署问题，最终都要回到一个问题：
 
-Common reasons:
+时间到底花在哪里？
 
-- preprocessing is slow
-- memory copies are excessive
-- the runtime stalls on transfer
-- performance is unstable under load
-- tail latency breaks real-time expectations
+你可以有很多猜测：
 
-Profiling is how you replace vague blame with measurable truth.
+- 模型太大
+- 预处理太慢
+- 数据拷贝太多
+- runtime 不够好
 
-## Learning Objectives
+但如果没有 Profiling，这些都只是猜。
 
-After this lesson, you should be able to:
+这节课的重点，就是把“感觉慢”变成“知道慢在哪里”。
 
-1. build a latency budget for a deployed inference pipeline
-2. separate preprocessing, execution, and postprocessing cost
-3. reason about compute-bound vs transfer-bound vs memory-bound behavior
-4. choose a sensible profiling order instead of measuring randomly
-5. document a deployment bottleneck clearly
+## 学完以后你应该能做到
 
-## The First Rule Of Profiling
+1. 写出一条部署路径的 latency budget
+2. 区分 compute-bound、memory-bound、transfer-bound
+3. 理解为什么 steady-state 和初始化成本要分开看
+4. 关注 tail latency，而不是只看平均值
+5. 建立一个合理的 Profiling 顺序
 
-Do not start with "optimize."
-Start with "where does the time go?"
+## 什么叫 Profiling
 
-For one inference path, always split:
+你可以先把 Profiling 理解成：
 
-1. input acquisition
-2. preprocessing
-3. host-to-device or host-to-accelerator transfer
-4. runtime execution
-5. device-to-host transfer if present
-6. postprocessing
-7. output packaging or publishing
+“把系统的时间和资源消耗拆开看。”
 
-This split already rules out a lot of bad guesses.
+它不是单纯看一个总耗时，而是要进一步回答：
 
-## Build A Latency Budget
+- 每一段花了多少
+- 最慢的是谁
+- 最不稳定的是谁
+- 哪一段受输入规模影响最大
 
-A latency budget is a simple breakdown of where time is spent.
+如果没有这个拆解，优化就很容易走错方向。
 
-Example categories:
+## 一个部署路径通常包含哪些时间段
 
-- capture:
-  4 ms
-- preprocess:
-  9 ms
-- transfer:
-  3 ms
-- inference:
-  11 ms
-- postprocess:
-  5 ms
-- output:
-  2 ms
+你不要把“推理延迟”只理解成模型执行时间。
 
-This matters because the largest number is not always the most important number.
-Sometimes the real pain is:
+一条完整路径通常至少有：
 
-- the most variable stage
-- the stage that blocks the whole pipeline
-- the stage that grows with resolution or stream count
+1. 输入获取
+2. 预处理
+3. 数据搬运到目标执行设备
+4. 推理执行
+5. 输出搬回
+6. 后处理
+7. 下游交付
 
-## Three Bottleneck Families
+只要你把这些都列出来，你对系统的理解就已经比很多“只看模型时间”的做法更完整了。
+
+## 什么是 Latency Budget
+
+Latency budget 可以先理解成：
+
+“一条链路里每一段大概分掉了多少时间。”
+
+例如：
+
+- 输入 3 ms
+- 预处理 8 ms
+- 传输 4 ms
+- 推理 12 ms
+- 后处理 5 ms
+
+这种表比一句“总共 32 ms”有用得多。
+
+因为它能告诉你：
+
+- 哪一段最大
+- 哪一段最值得优化
+- 哪一段最容易受输入变化影响
+
+## 为什么总耗时不够看
+
+假设两个系统总延迟都 30 ms。
+
+### 系统 A
+
+- 预处理 5
+- 推理 20
+- 后处理 5
+
+### 系统 B
+
+- 预处理 15
+- 推理 10
+- 后处理 5
+
+它们总时延一样，但优化方向完全不同。
+
+所以没有 stage breakdown，就谈不上有效优化。
+
+## 三种很常见的瓶颈类型
 
 ### Compute-Bound
 
-The system is limited by actual execution kernels.
+真正慢在计算执行本身。
 
-Possible signs:
+你可以粗略理解成：
 
-- accelerator busy for long periods
-- runtime stage dominates consistently
-- reducing model size helps a lot
+- 算得太重
+- 推理核占主导
 
 ### Memory-Bound
 
-The system spends too much time waiting on memory movement or poor access patterns.
+慢在内存访问、buffer 组织或数据搬运上。
 
-Possible signs:
+常见表现：
 
-- heavy resize or color conversion cost
-- large resolution changes hurt sharply
-- copies and layout conversions dominate
+- 预处理特别重
+- resize / color convert 很显著
+- cache / 带宽限制明显
 
 ### Transfer-Bound
 
-Movement between CPU and accelerator becomes the real limiter.
+慢在设备之间的数据搬运。
 
-Possible signs:
+例如：
 
-- model execution itself looks acceptable
-- data movement still dominates total latency
-- small graphs perform surprisingly poorly because setup cost is large
+- CPU 到 GPU
+- CPU 到 NPU
+- 设备内外来回搬
 
-## Tail Behavior Matters
+这类问题特别容易被低估，因为很多人只盯模型执行阶段。
 
-A stable average can still hide bad spikes.
+## 为什么 Tail Latency 在部署里一样重要
 
-When profiling, record at least:
+如果你的平均推理时间很好，但偶发几次很慢，那么：
 
-- average latency
-- p95 or p99 if possible
-- maximum observed latency
-- variability between repeated runs
+- 整条链路的实时性会变差
+- 相机输入可能积压
+- 旧帧可能越来越老
 
-If only averages are recorded, important failure patterns may remain invisible.
+所以 Profiling 时不要只记平均值。
+至少要建立这样的习惯：
 
-## A Good Profiling Order
+- 平均值
+- 最坏值
+- 波动情况
 
-When a pipeline is slow, profile in this order:
+这才更接近真实系统。
 
-1. whole-pipeline end-to-end latency
-2. stage-level breakdown
-3. copy and transfer count
-4. runtime-specific execution profile
-5. CPU-side support work such as preprocessing and postprocessing
-6. concurrency effects under multiple streams or load
+## 初始化成本和稳定运行成本要分开
 
-This order prevents premature deep dives into the wrong stage.
+很多部署系统第一次跑会慢一些。
+原因可能包括：
 
-## What To Watch In Deployment
+- 模型加载
+- 内存分配
+- 图优化或 engine 初始化
 
-Useful questions include:
+这些开销不应该和 steady-state 的每帧延迟混在一起。
 
-1. how much time is spent before inference starts
-2. how much time is spent after inference ends
-3. are tensors copied more than once
-4. does dynamic shape increase overhead
-5. does batch size change resource behavior
-6. what happens when stream count increases
-7. how much does tail latency move under sustained load
+所以你以后做 Profiling 时，一定要区分：
 
-## Practical Task
+- 冷启动
+- 热运行
 
-Create a latency budget worksheet with these rows:
+否则你很容易把问题判断错。
 
-- input acquisition
-- preprocessing
-- transfer in
-- runtime execution
-- transfer out
-- postprocessing
-- publication or output
+## 一个很实用的 Profiling 顺序
 
-For each row, add:
+当你面对一条部署链路时，建议先按这个顺序来：
 
-- average latency
-- worst observed latency
-- notes on variability
-- notes on likely root cause
+1. 先看端到端总延迟
+2. 再拆 preprocess / inference / postprocess
+3. 再看传输和 copy
+4. 再看 runtime 内部热点
+5. 最后再做更细的局部优化
 
-## Stretch Task
+为什么这个顺序重要？
 
-Take one hypothetical underperforming deployment and answer:
+因为很多人会一上来就钻进 runtime 内部细节，但真正的大头可能还在外面。
 
-1. what would I measure first
-2. what evidence would prove it is compute-bound
-3. what evidence would prove it is copy-bound
-4. what evidence would prove it is unstable rather than simply slow
+## 相机场景里怎么理解这一课
 
-## What A Strong Deliverable Looks Like
+如果你把相机输入接到推理链路里，最常见的误判是：
 
-By the end of this lesson, you should have:
+- 看到模型慢，就怪模型
 
-- one reusable latency budget table
-- one bottleneck classification note
-- one profiling order checklist
-- one explanation of why averages are not enough
+但你更应该问：
 
-## Common Mistakes
+1. 输入进来之前是不是已经被处理了很多次
+2. 有没有不必要的格式转换
+3. 有没有 CPU 和加速器之间来回搬数据
+4. 后处理是不是已经比推理还重
 
-### Mistake 1
+这些问题，才符合你“系统工程背景”的优势。
 
-Measuring only the runtime kernel and ignoring pipeline overhead.
+## 一张你以后可以一直复用的 Profiling 表
 
-### Mistake 2
+你可以给每条部署路径做一张表：
 
-Mixing one-time initialization cost with steady-state latency.
+| 阶段 | 平均时间 | 最坏时间 | 是否稳定 | 最怀疑的问题 |
+| --- | --- | --- | --- | --- |
 
-### Mistake 3
+阶段至少包括：
 
-Ignoring tail latency and only reporting means.
+- 输入
+- 预处理
+- 传输
+- 推理
+- 后处理
+- 输出
 
-### Mistake 4
+这张表会非常有价值。
 
-Trying to optimize before proving which stage dominates.
+## 常见误区
 
-## Review Questions
+### 误区 1
 
-1. Why is a stage-by-stage latency budget valuable?
-2. How do compute-bound and transfer-bound problems differ?
-3. Why can a small model still have disappointing end-to-end latency?
-4. What should you measure besides average time?
-5. What is a sensible first profiling order?
+总延迟够了，就不需要拆阶段。
 
-## Connection To The Next Lesson
+### 误区 2
 
-Lesson 10 starts the robotics transition path with ROS2 basics for vision engineers.
+推理本体一定是最大瓶颈。
+
+### 误区 3
+
+平均值够好，系统就够好。
+
+### 误区 4
+
+第一次运行很慢，就说明模型一直都慢。
+
+## 你现在先记住这 5 句话
+
+1. Profiling 的目的，是把猜测变成证据。
+2. 端到端时间不等于推理本体时间。
+3. Latency budget 是定位优化方向的基础。
+4. Tail latency 很重要，不能只看平均值。
+5. 优化顺序要从整体到局部。
+
+## 小任务
+
+选一条你熟悉的“相机输入 -> 推理输出”路径，先假想写一张 latency budget：
+
+- 输入
+- 预处理
+- 推理
+- 后处理
+- 输出
+
+不用完全准确，重点是学会拆。
+
+## 复盘题
+
+1. Profiling 的核心目的是什么？
+2. 什么是 latency budget？
+3. compute-bound、memory-bound、transfer-bound 的区别是什么？
+4. 为什么要区分冷启动和热运行？
+5. 为什么优化顺序要先整体后局部？
+
+## 下次我会怎么带你学
+
+等你学到这一课时，我们可以直接拿一条具体链路，陪你从“总延迟”一路拆到“哪一段最值得优化”。

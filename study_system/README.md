@@ -78,3 +78,20 @@ python3 /home/zhixin/code/study_system/scripts/build_public_site.py
 
 这套目录本身就是“外部记忆”。
 以后我们继续学的时候，不需要从头聊起，可以直接基于这些文件往前推进。
+
+## 和我一起学习
+
+这套课程不是让你自己硬啃的。
+你可以直接把我当成长期陪学老师来用。
+
+最推荐的方式是：
+
+1. 先打开 [current_sprint.md](/home/zhixin/code/study_system/current_sprint.md)
+2. 选当前要学的那一课
+3. 回来直接说：
+   - “开始第 1 课，带我学”
+   - “我卡在第 2 课的 page fault”
+   - “我看不懂第 3 课里的 false sharing”
+   - “我做完实验了，帮我解释结果”
+
+之后我会按课程正文继续带你学，而不是让你自己再去外面找资料。

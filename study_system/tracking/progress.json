@@ -3,13 +3,13 @@
   "notes": [
     {
       "note_type": "lesson",
-      "title": "Processes, Threads, Locks, and Context Switching",
+      "title": "\u8fdb\u7a0b\u3001\u7ebf\u7a0b\u3001\u9501\u4e0e\u4e0a\u4e0b\u6587\u5207\u6362",
       "track": "linux_systems",
       "phase": 1,
       "lesson": 1,
       "status": "active",
       "completion": 15,
-      "estimated_minutes": 120,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "2026-04-06",
       "next_review": "2026-04-13",
@@ -24,13 +24,13 @@
     },
     {
       "note_type": "lesson",
-      "title": "Virtual Memory, Pages, Page Faults, and mmap",
+      "title": "\u865a\u62df\u5185\u5b58\u3001Page\u3001Page Fault \u4e0e mmap",
       "track": "linux_systems",
       "phase": 1,
       "lesson": 2,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 120,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -45,13 +45,13 @@
     },
     {
       "note_type": "lesson",
-      "title": "CPU, Cache, Locality, and Why Memory Access Dominates Performance",
+      "title": "CPU Cache\u3001\u5c40\u90e8\u6027\u4e0e\u5185\u5b58\u8bbf\u95ee\u6027\u80fd",
       "track": "architecture",
       "phase": 1,
       "lesson": 3,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 120,
+      "estimated_minutes": 140,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -66,13 +66,13 @@
     },
     {
       "note_type": "lesson",
-      "title": "Linux Observability for Engineers",
+      "title": "Linux \u89c2\u6d4b\u4e0e\u6392\u969c\u57fa\u7840",
       "track": "linux_tools",
       "phase": 1,
       "lesson": 4,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 100,
+      "estimated_minutes": 140,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -87,13 +87,13 @@
     },
     {
       "note_type": "lesson",
-      "title": "Camera Data Path, Buffers, and Frame Lifecycle",
+      "title": "\u76f8\u673a\u6570\u636e\u901a\u8def\u3001Buffer \u4e0e\u5e27\u751f\u547d\u5468\u671f",
       "track": "camera_systems",
-      "phase": 2,
-      "lesson": 5,
+      "phase": 3,
+      "lesson": 7,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 110,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -101,20 +101,41 @@
       "tags": [
         "study/lesson",
         "track/camera",
-        "phase/2"
+        "phase/3"
       ],
       "path": "courses/lesson_05_camera_data_path.md",
       "name": "lesson_05_camera_data_path"
     },
     {
       "note_type": "lesson",
-      "title": "Latency, Jitter, Frame Drops, and Synchronization",
-      "track": "camera_systems",
+      "title": "IO\u3001\u96f6\u62f7\u8d1d\u3001DMA \u4e0e\u8bbe\u5907\u6570\u636e\u8def\u5f84",
+      "track": "linux_systems",
       "phase": 2,
-      "lesson": 6,
+      "lesson": 5,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 120,
+      "estimated_minutes": 140,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/linux",
+        "phase/2"
+      ],
+      "path": "courses/lesson_05_io_zero_copy_dma.md",
+      "name": "lesson_05_io_zero_copy_dma"
+    },
+    {
+      "note_type": "lesson",
+      "title": "\u5ef6\u8fdf\u3001\u6296\u52a8\u3001\u6389\u5e27\u4e0e\u540c\u6b65",
+      "track": "camera_systems",
+      "phase": 3,
+      "lesson": 8,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -122,20 +143,41 @@
       "tags": [
         "study/lesson",
         "track/camera",
-        "phase/2"
+        "phase/3"
       ],
       "path": "courses/lesson_06_latency_and_sync.md",
       "name": "lesson_06_latency_and_sync"
     },
     {
       "note_type": "lesson",
-      "title": "ONNX and Inference Runtime Basics for System Engineers",
-      "track": "edge_deployment",
+      "title": "\u8c03\u5ea6\u3001CPU \u4eb2\u548c\u6027\u3001\u5b9e\u65f6\u6027\u4e0e Tail Latency",
+      "track": "linux_systems",
       "phase": 2,
-      "lesson": 7,
+      "lesson": 6,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 100,
+      "estimated_minutes": 150,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/linux",
+        "phase/2"
+      ],
+      "path": "courses/lesson_06_scheduling_and_realtime.md",
+      "name": "lesson_06_scheduling_and_realtime"
+    },
+    {
+      "note_type": "lesson",
+      "title": "ONNX \u4e0e\u63a8\u7406\u8fd0\u884c\u65f6\u57fa\u7840",
+      "track": "edge_deployment",
+      "phase": 3,
+      "lesson": 10,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -143,20 +185,20 @@
       "tags": [
         "study/lesson",
         "track/deployment",
-        "phase/2"
+        "phase/3"
       ],
       "path": "courses/lesson_07_onnx_runtime.md",
       "name": "lesson_07_onnx_runtime"
     },
     {
       "note_type": "lesson",
-      "title": "Quantization, TensorRT, and Platform Toolchains",
+      "title": "\u91cf\u5316\u3001TensorRT \u4e0e\u5e73\u53f0\u5de5\u5177\u94fe",
       "track": "edge_deployment",
-      "phase": 2,
-      "lesson": 8,
+      "phase": 3,
+      "lesson": 11,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 110,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -164,20 +206,20 @@
       "tags": [
         "study/lesson",
         "track/deployment",
-        "phase/2"
+        "phase/3"
       ],
       "path": "courses/lesson_08_quantization_and_toolchains.md",
       "name": "lesson_08_quantization_and_toolchains"
     },
     {
       "note_type": "lesson",
-      "title": "Profiling Deployed Inference",
+      "title": "\u5df2\u90e8\u7f72\u63a8\u7406\u7684 Profiling",
       "track": "edge_deployment",
-      "phase": 2,
-      "lesson": 9,
+      "phase": 3,
+      "lesson": 12,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 110,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -185,20 +227,41 @@
       "tags": [
         "study/lesson",
         "track/deployment",
-        "phase/2"
+        "phase/3"
       ],
       "path": "courses/lesson_09_inference_profiling.md",
       "name": "lesson_09_inference_profiling"
     },
     {
       "note_type": "lesson",
-      "title": "ROS2 Basics for Vision Engineers",
-      "track": "robotics",
-      "phase": 3,
-      "lesson": 10,
+      "title": "\u591a\u6838\u3001\u4e00\u81f4\u6027\u3001\u5185\u5b58\u5e8f\u4e0e\u6269\u5c55\u6027",
+      "track": "architecture",
+      "phase": 2,
+      "lesson": 9,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 100,
+      "estimated_minutes": 150,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/architecture",
+        "phase/2"
+      ],
+      "path": "courses/lesson_09_multicore_and_memory_order.md",
+      "name": "lesson_09_multicore_and_memory_order"
+    },
+    {
+      "note_type": "lesson",
+      "title": "\u9762\u5411\u89c6\u89c9\u5de5\u7a0b\u5e08\u7684 ROS2 \u57fa\u7840",
+      "track": "robotics",
+      "phase": 4,
+      "lesson": 13,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -206,20 +269,20 @@
       "tags": [
         "study/lesson",
         "track/robotics",
-        "phase/3"
+        "phase/4"
       ],
       "path": "courses/lesson_10_ros2_basics.md",
       "name": "lesson_10_ros2_basics"
     },
     {
       "note_type": "lesson",
-      "title": "Calibration, Hand-Eye Calibration, and 3D Vision Awareness",
+      "title": "\u6807\u5b9a\u3001\u624b\u773c\u6807\u5b9a\u4e0e 3D \u89c6\u89c9\u57fa\u7840",
       "track": "robotics",
-      "phase": 3,
-      "lesson": 11,
+      "phase": 4,
+      "lesson": 14,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 110,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -227,20 +290,20 @@
       "tags": [
         "study/lesson",
         "track/robotics",
-        "phase/3"
+        "phase/4"
       ],
       "path": "courses/lesson_11_calibration_and_3d_vision.md",
       "name": "lesson_11_calibration_and_3d_vision"
     },
     {
       "note_type": "lesson",
-      "title": "End-to-End Project Design",
+      "title": "\u7aef\u5230\u7aef\u9879\u76ee\u8bbe\u8ba1",
       "track": "robotics",
-      "phase": 3,
-      "lesson": 12,
+      "phase": 4,
+      "lesson": 16,
       "status": "planned",
       "completion": 0,
-      "estimated_minutes": 90,
+      "estimated_minutes": 150,
       "actual_minutes": 0,
       "last_studied": "",
       "next_review": "",
@@ -248,14 +311,35 @@
       "tags": [
         "study/lesson",
         "track/robotics",
-        "phase/3"
+        "phase/4"
       ],
       "path": "courses/lesson_12_end_to_end_project.md",
       "name": "lesson_12_end_to_end_project"
     },
     {
+      "note_type": "lesson",
+      "title": "\u7a33\u5b9a\u6027\u3001\u53ef\u89c2\u6d4b\u6027\u4f53\u7cfb\u4e0e\u91cf\u4ea7\u5de5\u7a0b",
+      "track": "camera_systems",
+      "phase": 4,
+      "lesson": 15,
+      "status": "planned",
+      "completion": 0,
+      "estimated_minutes": 140,
+      "actual_minutes": 0,
+      "last_studied": "",
+      "next_review": "",
+      "priority": "high",
+      "tags": [
+        "study/lesson",
+        "track/camera",
+        "phase/4"
+      ],
+      "path": "courses/lesson_15_production_engineering.md",
+      "name": "lesson_15_production_engineering"
+    },
+    {
       "note_type": "sprint",
-      "title": "Current Sprint",
+      "title": "\u5f53\u524d\u51b2\u523a",
       "phase": 1,
       "sprint": "week_01",
       "status": "active",
@@ -455,24 +539,24 @@
   ],
   "summary": {
     "lesson": {
-      "count": 12,
+      "count": 16,
       "status_counts": {
         "active": 1,
-        "planned": 11
+        "planned": 15
       },
-      "avg_completion": 1.2,
-      "estimated_minutes": 1310,
+      "avg_completion": 0.9,
+      "estimated_minutes": 2360,
       "actual_minutes": 0,
       "items": [
         {
           "note_type": "lesson",
-          "title": "Processes, Threads, Locks, and Context Switching",
+          "title": "\u8fdb\u7a0b\u3001\u7ebf\u7a0b\u3001\u9501\u4e0e\u4e0a\u4e0b\u6587\u5207\u6362",
           "track": "linux_systems",
           "phase": 1,
           "lesson": 1,
           "status": "active",
           "completion": 15,
-          "estimated_minutes": 120,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "2026-04-06",
           "next_review": "2026-04-13",
@@ -487,13 +571,13 @@
         },
         {
           "note_type": "lesson",
-          "title": "Virtual Memory, Pages, Page Faults, and mmap",
+          "title": "\u865a\u62df\u5185\u5b58\u3001Page\u3001Page Fault \u4e0e mmap",
           "track": "linux_systems",
           "phase": 1,
           "lesson": 2,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 120,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -508,13 +592,13 @@
         },
         {
           "note_type": "lesson",
-          "title": "CPU, Cache, Locality, and Why Memory Access Dominates Performance",
+          "title": "CPU Cache\u3001\u5c40\u90e8\u6027\u4e0e\u5185\u5b58\u8bbf\u95ee\u6027\u80fd",
           "track": "architecture",
           "phase": 1,
           "lesson": 3,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 120,
+          "estimated_minutes": 140,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -529,13 +613,13 @@
         },
         {
           "note_type": "lesson",
-          "title": "Linux Observability for Engineers",
+          "title": "Linux \u89c2\u6d4b\u4e0e\u6392\u969c\u57fa\u7840",
           "track": "linux_tools",
           "phase": 1,
           "lesson": 4,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 100,
+          "estimated_minutes": 140,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -550,13 +634,13 @@
         },
         {
           "note_type": "lesson",
-          "title": "Camera Data Path, Buffers, and Frame Lifecycle",
+          "title": "\u76f8\u673a\u6570\u636e\u901a\u8def\u3001Buffer \u4e0e\u5e27\u751f\u547d\u5468\u671f",
           "track": "camera_systems",
-          "phase": 2,
-          "lesson": 5,
+          "phase": 3,
+          "lesson": 7,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 110,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -564,20 +648,41 @@
           "tags": [
             "study/lesson",
             "track/camera",
-            "phase/2"
+            "phase/3"
           ],
           "path": "courses/lesson_05_camera_data_path.md",
           "name": "lesson_05_camera_data_path"
         },
         {
           "note_type": "lesson",
-          "title": "Latency, Jitter, Frame Drops, and Synchronization",
-          "track": "camera_systems",
+          "title": "IO\u3001\u96f6\u62f7\u8d1d\u3001DMA \u4e0e\u8bbe\u5907\u6570\u636e\u8def\u5f84",
+          "track": "linux_systems",
           "phase": 2,
-          "lesson": 6,
+          "lesson": 5,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 120,
+          "estimated_minutes": 140,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/linux",
+            "phase/2"
+          ],
+          "path": "courses/lesson_05_io_zero_copy_dma.md",
+          "name": "lesson_05_io_zero_copy_dma"
+        },
+        {
+          "note_type": "lesson",
+          "title": "\u5ef6\u8fdf\u3001\u6296\u52a8\u3001\u6389\u5e27\u4e0e\u540c\u6b65",
+          "track": "camera_systems",
+          "phase": 3,
+          "lesson": 8,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -585,20 +690,41 @@
           "tags": [
             "study/lesson",
             "track/camera",
-            "phase/2"
+            "phase/3"
           ],
           "path": "courses/lesson_06_latency_and_sync.md",
           "name": "lesson_06_latency_and_sync"
         },
         {
           "note_type": "lesson",
-          "title": "ONNX and Inference Runtime Basics for System Engineers",
-          "track": "edge_deployment",
+          "title": "\u8c03\u5ea6\u3001CPU \u4eb2\u548c\u6027\u3001\u5b9e\u65f6\u6027\u4e0e Tail Latency",
+          "track": "linux_systems",
           "phase": 2,
-          "lesson": 7,
+          "lesson": 6,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 100,
+          "estimated_minutes": 150,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/linux",
+            "phase/2"
+          ],
+          "path": "courses/lesson_06_scheduling_and_realtime.md",
+          "name": "lesson_06_scheduling_and_realtime"
+        },
+        {
+          "note_type": "lesson",
+          "title": "ONNX \u4e0e\u63a8\u7406\u8fd0\u884c\u65f6\u57fa\u7840",
+          "track": "edge_deployment",
+          "phase": 3,
+          "lesson": 10,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -606,20 +732,20 @@
           "tags": [
             "study/lesson",
             "track/deployment",
-            "phase/2"
+            "phase/3"
           ],
           "path": "courses/lesson_07_onnx_runtime.md",
           "name": "lesson_07_onnx_runtime"
         },
         {
           "note_type": "lesson",
-          "title": "Quantization, TensorRT, and Platform Toolchains",
+          "title": "\u91cf\u5316\u3001TensorRT \u4e0e\u5e73\u53f0\u5de5\u5177\u94fe",
           "track": "edge_deployment",
-          "phase": 2,
-          "lesson": 8,
+          "phase": 3,
+          "lesson": 11,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 110,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -627,20 +753,20 @@
           "tags": [
             "study/lesson",
             "track/deployment",
-            "phase/2"
+            "phase/3"
           ],
           "path": "courses/lesson_08_quantization_and_toolchains.md",
           "name": "lesson_08_quantization_and_toolchains"
         },
         {
           "note_type": "lesson",
-          "title": "Profiling Deployed Inference",
+          "title": "\u5df2\u90e8\u7f72\u63a8\u7406\u7684 Profiling",
           "track": "edge_deployment",
-          "phase": 2,
-          "lesson": 9,
+          "phase": 3,
+          "lesson": 12,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 110,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -648,20 +774,41 @@
           "tags": [
             "study/lesson",
             "track/deployment",
-            "phase/2"
+            "phase/3"
           ],
           "path": "courses/lesson_09_inference_profiling.md",
           "name": "lesson_09_inference_profiling"
         },
         {
           "note_type": "lesson",
-          "title": "ROS2 Basics for Vision Engineers",
-          "track": "robotics",
-          "phase": 3,
-          "lesson": 10,
+          "title": "\u591a\u6838\u3001\u4e00\u81f4\u6027\u3001\u5185\u5b58\u5e8f\u4e0e\u6269\u5c55\u6027",
+          "track": "architecture",
+          "phase": 2,
+          "lesson": 9,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 100,
+          "estimated_minutes": 150,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/architecture",
+            "phase/2"
+          ],
+          "path": "courses/lesson_09_multicore_and_memory_order.md",
+          "name": "lesson_09_multicore_and_memory_order"
+        },
+        {
+          "note_type": "lesson",
+          "title": "\u9762\u5411\u89c6\u89c9\u5de5\u7a0b\u5e08\u7684 ROS2 \u57fa\u7840",
+          "track": "robotics",
+          "phase": 4,
+          "lesson": 13,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -669,20 +816,20 @@
           "tags": [
             "study/lesson",
             "track/robotics",
-            "phase/3"
+            "phase/4"
           ],
           "path": "courses/lesson_10_ros2_basics.md",
           "name": "lesson_10_ros2_basics"
         },
         {
           "note_type": "lesson",
-          "title": "Calibration, Hand-Eye Calibration, and 3D Vision Awareness",
+          "title": "\u6807\u5b9a\u3001\u624b\u773c\u6807\u5b9a\u4e0e 3D \u89c6\u89c9\u57fa\u7840",
           "track": "robotics",
-          "phase": 3,
-          "lesson": 11,
+          "phase": 4,
+          "lesson": 14,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 110,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -690,20 +837,20 @@
           "tags": [
             "study/lesson",
             "track/robotics",
-            "phase/3"
+            "phase/4"
           ],
           "path": "courses/lesson_11_calibration_and_3d_vision.md",
           "name": "lesson_11_calibration_and_3d_vision"
         },
         {
           "note_type": "lesson",
-          "title": "End-to-End Project Design",
+          "title": "\u7aef\u5230\u7aef\u9879\u76ee\u8bbe\u8ba1",
           "track": "robotics",
-          "phase": 3,
-          "lesson": 12,
+          "phase": 4,
+          "lesson": 16,
           "status": "planned",
           "completion": 0,
-          "estimated_minutes": 90,
+          "estimated_minutes": 150,
           "actual_minutes": 0,
           "last_studied": "",
           "next_review": "",
@@ -711,10 +858,31 @@
           "tags": [
             "study/lesson",
             "track/robotics",
-            "phase/3"
+            "phase/4"
           ],
           "path": "courses/lesson_12_end_to_end_project.md",
           "name": "lesson_12_end_to_end_project"
+        },
+        {
+          "note_type": "lesson",
+          "title": "\u7a33\u5b9a\u6027\u3001\u53ef\u89c2\u6d4b\u6027\u4f53\u7cfb\u4e0e\u91cf\u4ea7\u5de5\u7a0b",
+          "track": "camera_systems",
+          "phase": 4,
+          "lesson": 15,
+          "status": "planned",
+          "completion": 0,
+          "estimated_minutes": 140,
+          "actual_minutes": 0,
+          "last_studied": "",
+          "next_review": "",
+          "priority": "high",
+          "tags": [
+            "study/lesson",
+            "track/camera",
+            "phase/4"
+          ],
+          "path": "courses/lesson_15_production_engineering.md",
+          "name": "lesson_15_production_engineering"
         }
       ]
     },

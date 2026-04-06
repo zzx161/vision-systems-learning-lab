@@ -6,7 +6,7 @@ phase: 1
 lesson: 4
 status: planned
 completion: 0
-estimated_minutes: 100
+estimated_minutes: 140
 actual_minutes: 0
 last_studied:
 next_review:
@@ -19,142 +19,274 @@ tags:
 
 # 第 4 课：Linux 观测与排障基础
 
-## Why This Matters For You
+## 这节课为什么非常重要
 
-Systems knowledge becomes valuable only when you can use it to inspect a real running program.
+前面几节课你学了线程、内存、cache。
+这些概念很重要，但如果不能落到“怎么看系统现在在干嘛”，它们就还只是知识点。
 
-This lesson gives you the first practical toolbox for:
+工程上真正值钱的是：
 
-- CPU spikes
-- stuck processes
-- waiting-heavy behavior
-- memory-pressure signals
-- first-pass runtime diagnosis
+系统慢了，你知道先看什么；
+系统抖了，你知道怎么缩小范围；
+系统像卡住了，你知道它到底是在忙、在等，还是在争资源。
 
-## Learning Objectives
+这就是观测和排障的价值。
 
-After this lesson, you should be able to:
+## 学完以后你应该能做到什么
 
-1. choose a reasonable first tool for a runtime symptom
-2. use `top`, `pidstat`, `vmstat`, `strace`, and `perf` at a basic level
-3. distinguish CPU-heavy and waiting-heavy programs
-4. write a first-pass diagnosis flow for common runtime issues
+1. 知道 `top`、`pidstat`、`vmstat`、`strace`、`perf` 分别大致看什么
+2. 遇到问题时不再只会“加 log 试试”
+3. 能先判断问题更像 CPU 忙、等待多、内存紧还是系统调用卡住
+4. 建立一条初版排障顺序
+5. 知道工具是为了回答问题，而不是为了背命令
 
-## Part 1: Observability Mindset
+## 先建立一个核心思路
 
-Do not start with guesses like:
+排障不是先问：
 
-- maybe the algorithm is slow
-- maybe C++ is inefficient
+“我最熟哪个工具？”
 
-Start with observation:
+而是先问：
 
-1. Is CPU high or low?
-2. Is the process running or sleeping?
-3. Are threads busy or mostly waiting?
-4. Is memory pressure visible?
-5. Are syscalls or locks dominating?
+“我现在到底想知道什么？”
 
-## Part 2: Tool Roles
+例如：
 
-### `top`
-Use when you want a fast global view.
+- 谁最占 CPU？
+- 这个进程是在忙，还是在等？
+- 系统整体是不是有内存压力？
+- 这个程序是不是卡在某个系统调用里？
 
-Good for:
+问题不同，工具就不同。
 
-- CPU usage
-- rough memory usage
-- whether the process is active
+## `top` 是干什么的
 
-### `pidstat`
-Use when you want per-process or per-thread behavior over time.
+你可以先把 `top` 理解成：
 
-Good for:
+“先看全局体温计。”
 
-- thread-level CPU patterns
-- seeing whether one thread is the hotspot
+它适合让你快速知道：
 
-### `vmstat`
-Use when you want system-level memory and scheduling signals.
+- 哪些进程最占 CPU
+- 哪些进程最占内存
+- 系统整体负载大概怎么样
 
-Good for:
+它不负责给你最终答案，但它常常负责告诉你：
 
-- runnable tasks
-- blocking
-- memory-related pressure
+- 应该先盯谁
 
-### `strace`
-Use when you suspect the program is waiting in syscalls.
+## `pidstat` 是干什么的
 
-Good for:
+如果说 `top` 更像全局体温计，那 `pidstat` 更像：
 
-- file IO waits
-- sleep behavior
-- repeated syscall patterns
+“针对某个病人的更细一点体征表。”
 
-### `perf`
-Use when you need function-level or event-level performance clues.
+它更适合看：
 
-Good for:
+- 某个进程或线程的 CPU 使用
+- 上下文切换
+- IO 情况
 
-- hotspots
-- instruction and event statistics
-- CPU-side performance analysis
+它特别适合你这种需要盯具体链路线程行为的人。
 
-## Part 3: Symptom to Tool Mapping
+## `vmstat` 是干什么的
 
-If CPU is high:
+`vmstat` 更像是在看系统的内存和运行状态概览。
 
-- start with `top`
-- then `pidstat`
-- then `perf`
+你可以先把它理解成：
 
-If the process looks stuck:
+“系统是不是在忙着换页、等待、积压、资源紧张。”
 
-- start with `ps`
-- then `strace`
+它很适合回答：
 
-If the system feels jittery:
+- 是不是有内存压力
+- 是否存在明显的等待
+- 系统整体状态是不是不健康
 
-- start with `vmstat`
-- then `pidstat`
+## `strace` 是干什么的
 
-If one pipeline stage seems unexpectedly slow:
+这个工具非常有用。
 
-- start with `pidstat`
-- then `perf`
+你可以先把它理解成：
 
-## Lab
+“看程序正在和内核说什么话。”
 
-Pick or write:
+也就是说，它能让你看到：
 
-1. one CPU-heavy program
-2. one waiting-heavy program
+- 程序调用了哪些系统调用
+- 调用了多久
+- 是否卡在某些 `read`、`poll`、`futex`、`ioctl` 等操作上
 
-Then inspect both with:
+这在排查“程序为什么像卡住了”时非常有价值。
 
-- `top`
-- `pidstat`
-- `strace`
+如果以后你看到程序：
 
-Write down how the signals differ.
+- 没崩
+- 也没明显高 CPU
+- 但就是不往前走
 
-Read:
+那 `strace` 很值得上。
 
-- `../labs/lab_04_observability.md`
-- `../labs/src/lesson_04_runtime_shapes.cpp`
+## `perf` 是干什么的
 
-## Deliverable
+你可以先把 `perf` 理解成：
 
-Write a simple diagnosis flow:
+“更偏性能分析的显微镜。”
 
-- If CPU is high, I will check ...
-- If the process is stuck, I will check ...
-- If latency becomes unstable, I will check ...
+它适合进一步回答：
 
-## Review Questions
+- 时间主要花在哪
+- 哪些函数最热
+- 是否有 cache、分支、CPU 事件层面的信号
 
-1. When is `pidstat` more useful than `top`?
-2. What kind of question is `strace` good at answering?
-3. Why should observation come before optimization?
-4. Which tools would you try first for frame-drop investigation on Linux?
+现在你不用一下子学很多细节。
+先记住：
+
+- `perf` 用来帮你从“感觉慢”走向“知道慢在哪”
+
+## 遇到问题时，先怎么分类
+
+一个很实用的第一步，是先把问题分成几类：
+
+### 类别 1：CPU 很忙
+
+可能说明：
+
+- 真在算
+- 真在空转
+- 有热点循环
+
+### 类别 2：等待很多
+
+可能说明：
+
+- 在等锁
+- 在等 IO
+- 在等数据
+
+### 类别 3：内存或系统资源有压力
+
+可能说明：
+
+- page 行为多
+- buffer 太大
+- 分配回收有问题
+
+### 类别 4：系统调用层面卡住
+
+可能说明：
+
+- 某个设备接口没返回
+- 某条管道没数据
+- 某把 futex 锁住了
+
+只要你先把问题归到大类里，排障就不会那么乱。
+
+## 一个很实用的排障顺序
+
+如果一个程序“看起来不对劲”，你可以先这样走：
+
+1. 用 `top` 看系统整体和主要进程
+2. 用 `pidstat` 看目标进程或线程
+3. 用 `vmstat` 看系统是不是资源紧张
+4. 如果怀疑卡住，用 `strace`
+5. 如果怀疑慢在计算路径，用 `perf`
+
+这不是唯一顺序，但对于入门非常够用。
+
+## 为什么“只看一个指标”很危险
+
+例如：
+
+- CPU 不高，不代表系统没问题
+- 内存没爆，不代表数据路径健康
+- 线程还活着，不代表它没在等
+
+所以你以后一定要避免一种坏习惯：
+
+“看到一个指标还行，就觉得系统没问题。”
+
+真正的排障，是把多个信号拼起来看。
+
+## 相机场景怎么用这些工具想问题
+
+假设你现在遇到：
+
+- 偶发掉帧
+- 某个阶段输出不稳定
+- 系统延迟偶发抖动
+
+你可以这样想：
+
+1. `top` 看是不是整体负载异常
+2. `pidstat` 看关键线程是不是异常忙或切换频繁
+3. `vmstat` 看系统有没有明显等待或资源压力
+4. `strace` 看是否卡在系统调用上
+5. `perf` 看热点是不是落在你以为的地方
+
+这时候，工具就变成了你理解系统的一双眼睛。
+
+## 常见误区
+
+### 误区 1
+
+工具越复杂越高级，应该优先用。
+
+不是。
+很多时候先用简单工具更有效。
+
+### 误区 2
+
+排障就是不停加 log。
+
+不是。
+log 有用，但不等于系统观测。
+
+### 误区 3
+
+一个工具就能给最终答案。
+
+通常不是。
+你需要多个角度交叉判断。
+
+### 误区 4
+
+程序没崩，就说明不是系统问题。
+
+很多系统问题恰恰是“还活着，但已经不对劲”。
+
+## 你现在先记住这 5 句话
+
+1. 排障先问问题，不是先问工具。
+2. `top` 适合先看全局。
+3. `pidstat` 适合看具体进程或线程。
+4. `strace` 适合看程序是不是卡在系统调用上。
+5. `perf` 适合进一步找性能热点。
+
+## 小任务
+
+找一个你熟悉的小程序或者实验程序，回答：
+
+1. 如果它 CPU 很高，你先看哪个工具？
+2. 如果它像卡住了，你先看哪个工具？
+3. 如果你怀疑是系统整体有压力，你先看哪个工具？
+
+只要你能把这三个问题答对，入门就已经不错了。
+
+## 复盘题
+
+1. `top`、`pidstat`、`vmstat`、`strace`、`perf` 分别更适合看什么？
+2. 为什么排障要先分类？
+3. 如果程序像卡住了，但 CPU 不高，你会优先怀疑什么？
+4. 为什么不能只看单个指标？
+5. 你现在最想先学会用的一个工具是什么，为什么？
+
+## 下次我们怎么一起学
+
+等你开始这一课时，你可以直接让我这样带你：
+
+- “拿 lesson_01 的线程实验，教我怎么用 `top` 和 `pidstat` 看”
+- “我不懂 `strace` 的输出，你帮我解释”
+- “我看到某个线程 CPU 高，但不知道意味着什么”
+
+到时候我会按真实现象一步一步陪你看，不会只扔给你一堆命令。

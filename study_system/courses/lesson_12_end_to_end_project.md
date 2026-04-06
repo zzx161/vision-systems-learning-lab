@@ -2,11 +2,11 @@
 note_type: lesson
 title: 端到端项目设计
 track: robotics
-phase: 3
-lesson: 12
+phase: 4
+lesson: 16
 status: planned
 completion: 0
-estimated_minutes: 90
+estimated_minutes: 150
 actual_minutes: 0
 last_studied:
 next_review:
@@ -14,223 +14,291 @@ priority: medium
 tags:
   - study/lesson
   - track/robotics
-  - phase/3
+  - phase/4
 ---
 
-# 第 12 课：端到端项目设计
+# 第 16 课：端到端项目设计
 
-## Why This Matters
+## 为什么最后要落到项目
 
-Knowledge becomes durable when it turns into a project with:
+因为知识如果只停留在“我看过、我懂一点”，很快就会散掉。
 
-- clear scope
-- real trade-offs
-- measurable output
-- visible engineering decisions
+真正能留下来的东西，通常是：
 
-This lesson is where your learning stops being private notes and starts becoming career evidence.
+- 你亲手做过
+- 你亲手解释过
+- 你亲手踩过坑
+- 你能拿出来讲给别人听
 
-## Learning Objectives
+所以最后这一课不是附加项，而是整条学习路线的收口。
 
-After this lesson, you should be able to:
+它要解决的问题是：
 
-1. choose a project with the right scope for your available time
-2. split the project into system, runtime, tooling, and debugging tasks
-3. define milestones and success metrics before implementation
-4. document trade-offs so the project is useful in a portfolio
-5. avoid picking a project that is too ambitious or too shallow
+怎么把你前面学到的这些系统知识，压缩成一个范围合适、能做完、能展示的项目。
 
-## What Makes A Good Project For You
+## 学完以后你应该能做到
 
-The best project is not the most complex one.
-It is the one that shows your strongest direction:
+1. 给自己选一个难度合适的项目方向
+2. 把项目拆成系统、运行时、观测性几个部分
+3. 定出里程碑和完成标准
+4. 知道什么样的项目更有职业价值
+5. 写出一份能对外讲清楚的 project brief
 
-- camera pipeline understanding
-- Linux systems thinking
-- deployment awareness
-- debugging and observability mindset
+## 为什么“项目”比“继续看内容”更重要
 
-Good project characteristics:
+因为项目会逼你把问题具体化。
 
-- can be explained in one minute
-- has at least one measurable bottleneck or trade-off
-- includes one diagram or architecture view
-- includes one performance or stability measurement
-- can be finished in weeks, not months
+你会被迫回答：
 
-## Three Strong Project Directions
+- 到底做什么
+- 为什么值得做
+- 数据从哪里来
+- 性能怎么看
+- 哪个环节最可能出问题
+- 成功标准是什么
 
-### Option 1: Camera Pipeline Observability Demo
+这些问题本身，就是最好的学习过程。
 
-Build a small pipeline that simulates:
+## 什么样的项目适合你
 
-- frame input
-- preprocess stage
-- analysis stage
-- output stage
+你现在最适合的项目，不应该是：
 
-Show:
+- 巨大
+- 全能
+- 什么都想做
 
-- timestamps
-- queue depth
-- latency breakdown
-- one induced bottleneck
+而应该是：
 
-Why it is strong:
+- 范围清楚
+- 问题具体
+- 能突出系统思维
+- 和你现有背景连续
 
-- directly matches your background
-- shows systems thinking clearly
+也就是说，它不一定要炫，但一定要清晰。
 
-### Option 2: Edge Inference Deployment Mini Study
+## 三类特别适合你的项目方向
 
-Take one public model and document:
+### 方向 1：相机链路观测与排障 Demo
 
-- export path
-- preprocessing path
-- runtime target
-- latency breakdown
-- precision or toolchain comparison
+做一个小型相机或图像处理 pipeline，重点展示：
 
-Why it is strong:
+- 数据路径
+- queue
+- 延迟统计
+- 掉帧或 backpressure 现象
 
-- connects camera engineering to deployment value
-- does not require algorithm training work
+这个方向的好处是：
 
-### Option 3: ROS2 Vision Pipeline Prototype
+- 最贴近你现在背景
+- 容易体现系统思维
+- 不需要去卷算法
 
-Build a minimal multi-node camera pipeline in ROS2:
+### 方向 2：边缘部署路径小项目
 
-- input node
-- processing node
-- result node
+拿一个公开模型，做一条最小可解释部署链路，重点展示：
 
-Show:
+- 输入数据处理
+- runtime 路径
+- latency budget
+- 部署决策
 
-- data flow
-- QoS reasoning
-- timing instrumentation
+这个方向的好处是：
 
-Why it is strong:
+- 能把“相机背景 + 部署工程”连接起来
+- 对跳系统工程或部署岗很有帮助
 
-- creates a robotics transition artifact
-- shows architecture and middleware awareness
+### 方向 3：ROS2 视觉链路原型
 
-## A Simple Project Skeleton
+做一个最小的 ROS2 风格视觉系统，重点展示：
 
-For any project, define:
+- 节点拆分
+- topic 设计
+- QoS 思考
+- 时间戳和数据流
 
-1. use case
-2. target hardware or runtime context
-3. system diagram
-4. key data path
-5. expected bottleneck
-6. measurement plan
-7. milestone plan
-8. definition of done
+这个方向的好处是：
 
-If these are unclear, the project is still too fuzzy.
+- 帮你做出机器人方向的迁移作品
+- 比直接卷算法更适合你
 
-## A Good Scope Rule
+## 什么叫“范围合适”
 
-Your first public project should aim for:
+一个项目范围合适，通常意味着：
 
-- one clear story
-- one core technical question
-- one measurable result
+- 2 到 6 周能看到结果
+- 能讲清楚一个核心问题
+- 能测出一个核心指标
+- 不依赖太多难以控制的外部条件
 
-Not:
+一个项目范围不合适，通常表现为：
 
-- a full product
-- a giant framework
-- a vague "learn everything" repo
+- 要同时学太多东西
+- 系统边界模糊
+- 目标不清楚
+- 做到后面自己都不知道什么算完成
 
-## Milestone Template
+## 你做项目时一定要先写的 6 个问题
 
-### Milestone 1
+在开工之前，先写清楚：
 
-Define the architecture and write the project brief.
+1. 我到底要解决什么问题？
+2. 这个问题为什么值得做？
+3. 我的系统边界是什么？
+4. 哪个指标最能衡量结果？
+5. 最大风险是什么？
+6. 什么算完成？
 
-### Milestone 2
+如果这 6 个问题写不清，项目基本都会越做越乱。
 
-Build the smallest runnable pipeline.
+## 一个你可以直接套用的项目模板
 
-### Milestone 3
+### 1. 项目目标
 
-Add timestamps, logging, or profiling.
+一句话写清楚：
 
-### Milestone 4
+- 我要做什么
 
-Force one failure mode or bottleneck and explain it.
+### 2. 使用场景
 
-### Milestone 5
+说明：
 
-Write a clean summary page with diagrams and results.
+- 这个项目在什么情况下有意义
 
-## How To Make The Project Useful In A Portfolio
+### 3. 系统结构
 
-Your project write-up should answer:
+画出：
 
-1. what problem did you simulate or solve
-2. why does this problem matter
-3. what system design did you choose
-4. what bottleneck or trade-off did you find
-5. how did you measure it
-6. what would you improve next
+- 输入
+- 中间处理
+- 输出
+- 关键数据流
 
-This is what turns a demo into evidence of engineering maturity.
+### 4. 关键指标
 
-## Practical Task
+写清楚：
 
-Write a one-page project brief with these headings:
+- 延迟
+- 吞吐
+- 稳定性
+- 丢帧率
 
-- goal
-- user scenario
-- system diagram
-- components
-- measurements
-- milestones
-- likely failure points
-- learning goals
+### 5. 最大风险
 
-## Stretch Task
+例如：
 
-Choose one project direction and write:
+- 数据源不稳定
+- 依赖环境太复杂
+- 工具链不熟
 
-1. why it matches your current background
-2. why it improves your next-job story
-3. what makes it realistic to finish
+### 6. 完成标准
 
-## What A Strong Deliverable Looks Like
+必须可判断，例如：
 
-By the end of this lesson, you should have:
+- 能稳定跑通
+- 有一张 latency budget
+- 有一份结构图
+- 能解释一个瓶颈
 
-- one scoped project brief
-- one architecture sketch
-- one milestone list
-- one explanation of why this project is worth doing
+## 为什么“项目说明书”本身就很值钱
 
-## Common Mistakes
+很多人做项目，只会堆代码。
 
-### Mistake 1
+但对职业成长来说，更有价值的是你能不能讲清楚：
 
-Choosing a project that is too broad to finish.
+- 为什么做
+- 怎么设计
+- 哪个地方最难
+- 你如何权衡
+- 你学到了什么
 
-### Mistake 2
+这也是为什么 project brief 不是形式主义，而是项目的重要组成部分。
 
-Building code first and defining success later.
+## 你要做的不是“大项目”，而是“能证明你系统思维的项目”
 
-### Mistake 3
+记住这一点很重要。
 
-Making a demo with no measurement, no bottleneck story, and no engineering trade-off.
+你不需要做一个看起来无所不能的工程。
+你更需要做的是：
 
-### Mistake 4
+- 能清楚展示你会看系统
+- 会分析链路
+- 会拆解瓶颈
+- 会定义指标
 
-Copying a generic open-source demo without adding your own systems angle.
+这比单纯“写了很多代码”更能体现你的方向。
 
-## Review Questions
+## 一个很适合你的项目例子
 
-1. What makes a project strong for your career direction?
-2. Why is a measurable bottleneck or trade-off important?
-3. What should a one-page project brief include?
-4. Why is a small finished project better than a huge unfinished one?
-5. Which of the three directions best fits you now, and why?
+比如：
+
+做一个“相机输入 -> 预处理 -> 简单推理 -> 输出统计”的最小系统。
+
+你可以重点展示：
+
+- buffer 路径
+- queue 深度
+- 延迟拆解
+- 哪个环节最容易抖
+
+这其实非常适合你现在的背景，也很适合公开展示。
+
+## 常见误区
+
+### 误区 1
+
+项目越大越值钱。
+
+### 误区 2
+
+先写代码，后面再想目标。
+
+### 误区 3
+
+只要能跑，就算好项目。
+
+### 误区 4
+
+没有算法创新，项目就没价值。
+
+## 你现在先记住这 5 句话
+
+1. 项目的价值在于把知识压成可展示的能力。
+2. 小而清晰的项目，通常比大而混乱的项目更有价值。
+3. 项目必须有明确目标、指标和完成标准。
+4. 说明书和结构图也是项目成果的一部分。
+5. 对你来说，最好的项目应该突出系统思维，而不是纯算法炫技。
+
+## 小任务
+
+在下面 3 个方向里先选一个最想做的：
+
+1. 相机链路观测 Demo
+2. 边缘部署路径小项目
+3. ROS2 视觉原型
+
+然后写下：
+
+- 为什么选它
+- 你最怕它卡在哪
+- 你希望它最终展示什么
+
+## 复盘题
+
+1. 为什么项目是学习路线的收口？
+2. 什么样的项目最适合你现在阶段？
+3. 为什么要先写 project brief？
+4. 什么叫“完成标准”？
+5. 你的项目最应该展示哪一种能力？
+
+## 下次我会怎么带你学
+
+等你学到这里时，我们可以直接一起把你的第一个项目定下来。
+我会陪你把它写成：
+
+- 目标
+- 范围
+- 架构
+- 指标
+- 里程碑
+
+这样你就不是“以后有空再做”，而是真的能启动。

@@ -15,7 +15,7 @@ Last updated: 2026-04-06
 
 | Area | Count | Avg completion | Est. min | Actual min |
 | --- | ---: | ---: | ---: | ---: |
-| Lessons | 12 | 1.2% | 1310 | 0 |
+| Lessons | 16 | 0.9% | 2360 | 0 |
 | Labs | 4 | 0.0% | 210 | 0 |
 | Reviews | 1 | 0.0% | 30 | 0 |
 | Sessions | 1 | 0.0% | 0 | 0 |
@@ -24,7 +24,7 @@ Last updated: 2026-04-06
 
 ### Lessons
 - active: 1
-- planned: 11
+- planned: 15
 
 ### Labs
 - planned: 4
@@ -34,8 +34,8 @@ Last updated: 2026-04-06
 
 ## Active Items
 
-- [[courses/lesson_01_process_thread.md|Processes, Threads, Locks, and Context Switching]] (lesson, active, 15%)
-- [[current_sprint.md|Current Sprint]] (sprint, active, 10%)
+- [[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]] (lesson, active, 15%)
+- [[current_sprint.md|当前冲刺]] (sprint, active, 10%)
 
 ## Review Queue
 
@@ -53,7 +53,7 @@ Last updated: 2026-04-06
 
 ## Next Recommended Actions
 
-- Continue [[courses/lesson_01_process_thread.md|Processes, Threads, Locks, and Context Switching]]
+- Continue [[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]]
 - Run [[labs/lab_01_threads.md|Threads and Contention]]
 - Fill in one study session note in `logs/sessions/` after you finish studying
 - Refresh this file with `python3 scripts/update_progress.py`

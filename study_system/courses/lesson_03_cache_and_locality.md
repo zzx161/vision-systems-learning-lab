@@ -6,7 +6,7 @@ phase: 1
 lesson: 3
 status: planned
 completion: 0
-estimated_minutes: 120
+estimated_minutes: 140
 actual_minutes: 0
 last_studied:
 next_review:
@@ -19,115 +19,266 @@ tags:
 
 # 第 3 课：CPU Cache、局部性与内存访问性能
 
-## Why This Matters For You
+## 这节课到底在帮你解决什么
 
-Image processing, format conversion, and data movement are often limited by memory behavior.
-If you understand cache and locality, many "mysterious" performance gaps stop being mysterious.
+很多时候，我们看到两段代码：
 
-## Learning Objectives
+- 都是遍历数组
+- 都是 O(n)
+- 都没有特别复杂的算法
 
-After this lesson, you should be able to:
+结果一跑，速度差很多。
 
-1. explain what cache is trying to solve
-2. describe spatial and temporal locality in plain language
-3. explain why cache misses slow programs down
-4. recognize false sharing as a multi-thread performance trap
-5. connect memory access pattern to image-processing performance
+如果不懂 cache 和局部性，这种现象会让人很困惑。
 
-## Part 1: Why Cache Exists
+这节课的目标，就是让你真正理解：
 
-CPU cores can execute instructions far faster than main memory can deliver data.
-Cache exists to reduce that gap.
+为什么在图像处理、格式转换、buffer 操作这类工作里，性能常常输给“访问方式”，而不是输给“算术复杂度”。
 
-Simple mental model:
+## 学完以后你应该能做到
 
-- CPU is a very fast worker
-- DRAM is a large but distant warehouse
-- cache is the small nearby shelf
+1. 知道 cache 为什么存在
+2. 理解 cache line 和局部性的大致意思
+3. 知道为什么相同复杂度的代码性能会差很多
+4. 认识 false sharing 为什么会伤害多线程性能
+5. 把这些概念和图像处理的真实代码联系起来
 
-If the worker keeps walking back to the warehouse, throughput suffers.
+## 先建立第一层直觉：CPU 很快，但等数据很慢
 
-## Part 2: Locality
+CPU 的计算速度通常非常快。
+真正经常拖慢它的，不是加法乘法本身，而是：
 
-### Spatial locality
-If you access one location, you are likely to access nearby locations soon.
+“数据还没到。”
 
-### Temporal locality
-If you access one location now, you are likely to access it again soon.
+这就是 cache 存在的背景。
 
-Programs that respect locality usually run better because cache helps them more.
+你可以先粗略理解为：
 
-## Part 3: Cache Miss Intuition
+- 离 CPU 最近的存储很快，但小
+- 离 CPU 更远的存储更大，但慢
 
-When the needed data is not in cache, the CPU must wait much longer.
+于是系统希望把“马上可能还要用到的数据”放在更靠近 CPU 的地方。
 
-That means:
+这就是 cache 的直觉价值。
 
-- fewer useful instructions retire
-- pipelines stall
-- runtime increases even if algorithm complexity looks the same on paper
+## 什么是 Cache
 
-## Part 4: False Sharing
+Cache 可以先想成：
 
-False sharing happens when multiple threads update different variables that sit on the same cache line.
-The variables are logically separate, but the hardware still has to coordinate ownership of the shared line.
+“CPU 身边的一小块高频工作台。”
 
-Result:
+如果数据已经在这块工作台上，CPU 取起来很快。
+如果数据还在更远的地方，CPU 就得等。
 
-- extra coherence traffic
-- poor scaling
-- confusing slowdown
+所以性能问题常常不是：
 
-This is one of the classic reasons multi-threaded code disappoints.
+- 算不过来
 
-## Part 5: Image and Buffer Example
+而是：
 
-If you process an image row by row with contiguous access, performance is often decent.
-If you jump through memory with poor stride patterns, performance may fall sharply.
+- 等数据等太久
 
-Why:
+## 什么是 Cache Line
 
-- good locality helps cache
-- poor locality causes more misses
-- memory traffic starts dominating
+系统并不是每次只搬你刚好访问的那一个字节。
 
-## Lab
+更实用的理解是：
 
-Suggested mini-experiments:
+它通常会把一小块相邻数据作为一个整体来处理。
 
-1. sequential array traversal
-2. large-stride traversal
-3. two-thread counter update with and without padding
+这块“小包裹”，就可以先理解成 cache line。
 
-Read:
+为什么这个概念重要？
 
-- `../labs/lab_03_cache_locality.md`
-- `../labs/src/lesson_03_cache.cpp`
+因为它直接决定：
 
-## Tool Exercise
+- 连续访问通常更友好
+- 跳来跳去访问通常更差
 
-Use:
+## 什么是局部性
 
-- `perf stat`
-- `perf top`
+局部性可以理解成：
 
-Try to observe:
+“你现在用过的数据，后面还可能继续用；你现在访问的位置附近，后面也可能继续访问。”
 
-- runtime difference
-- cache-related counters if available
-- hotspots in hot loops
+局部性主要有两种：
 
-## Review Questions
+### 时间局部性
 
-1. Why can cache-friendly code beat cache-unfriendly code even with similar algorithmic complexity?
-2. What is the difference between spatial and temporal locality?
-3. What is false sharing in plain language?
-4. Why does this matter for image processing and buffer-heavy systems?
+刚用过的数据，马上还会再用。
 
-## Next Lesson
+### 空间局部性
 
-Lesson 4 will cover:
+刚访问过某个位置，接下来可能访问它附近的位置。
 
-- Linux observability tools
-- how to inspect CPU, waiting, memory, and syscall behavior
-- how to build a first-pass diagnosis flow
+为什么这很重要？
+
+因为 cache 正是建立在“程序访问有局部性”这个现实基础上的。
+
+## 为什么连续访问常常更快
+
+假设你在处理一张图像：
+
+- 按行连续扫过去
+
+这种方式往往比较友好，因为相邻像素通常在内存里也比较接近。
+
+如果你改成：
+
+- 隔很远跳一次
+- 来回乱跳
+
+那就更容易出现 cache miss。
+
+也就是说，复杂度同样都是 O(n)，但内存访问模式不一样，速度就可能差很多。
+
+## 什么是 Cache Miss
+
+Cache miss 的直觉很简单：
+
+CPU 想拿的数据不在手边的小工作台上，只能去更远的地方找。
+
+结果就是：
+
+- 等待变多
+- 性能下降
+
+所以很多“看起来没做什么”的代码之所以慢，不是因为算得复杂，而是因为 miss 太多。
+
+## 为什么图像处理特别容易受这个影响
+
+因为图像处理很常见的特点是：
+
+- 数据量大
+- 访问频繁
+- 经常按像素、按行、按块处理
+
+一旦访问模式不合理，就很容易出现：
+
+- cache 利用率差
+- 带宽压力大
+- 吞吐上不去
+
+这也是为什么很多图像代码优化，重点其实不是“换一个数学公式”，而是：
+
+- 调整数据布局
+- 改访问顺序
+- 降低拷贝
+
+## 什么是 False Sharing
+
+这是一个特别值得你记住的概念。
+
+false sharing 可以先理解成：
+
+“两个线程明明在改不同变量，但这些变量刚好落在同一个 cache line 里，于是它们互相干扰。”
+
+你可以把它想成：
+
+- 两个人表面上在改不同单元格
+- 但他们共用同一张很小的便签纸
+- 每次一个人一改，另一个人的那张便签状态也被打乱
+
+结果就是：
+
+- 一致性流量变多
+- cache line 来回失效
+- 多线程性能变差
+
+这类问题特别阴，因为：
+
+- 代码逻辑可能是对的
+- 变量也不是同一个
+- 但性能就是莫名其妙上不去
+
+## 为什么“同样是多线程”效果差别会很大
+
+假设两个版本：
+
+### 版本 A
+
+- 每个线程处理独立数据块
+- 很少共享写入
+- 局部性很好
+
+### 版本 B
+
+- 每个线程处理交错数据
+- 经常写同一小片区域附近
+- 存在 false sharing
+
+即使两者算法形式差不多，性能也可能差很多。
+
+所以你以后看到多线程性能差时，要学会问：
+
+- 是不是共享太多？
+- 是不是数据布局不合理？
+- 是不是 false sharing？
+
+## 这节课和你工作的连接点
+
+你做图像处理时，常见操作像：
+
+- resize
+- 颜色转换
+- 遍历像素
+- 格式整理
+
+这些操作往往不是算术难，而是访问频繁。
+
+所以真正值钱的能力是：
+
+- 知道怎么访问才更友好
+- 知道为什么数据布局会影响性能
+- 知道多线程为什么会被共享和局部性拖累
+
+## 常见误区
+
+### 误区 1
+
+算法复杂度一样，性能应该差不多。
+
+### 误区 2
+
+图像处理慢，主要是算术操作太多。
+
+### 误区 3
+
+只要不是同一个变量，就不会互相影响。
+
+### 误区 4
+
+多线程一定能把图像处理提速很多。
+
+## 你现在先记住这 5 句话
+
+1. CPU 往往不是算得慢，而是等数据慢。
+2. Cache 是为了把热点数据放到 CPU 附近。
+3. 局部性越好，通常性能越好。
+4. 连续访问通常比乱跳访问更友好。
+5. False sharing 会让多线程性能莫名其妙变差。
+
+## 小任务
+
+找一个你熟悉的图像处理循环，回答：
+
+1. 它是连续访问还是跳跃访问？
+2. 它有没有频繁读写同一块区域？
+3. 如果拆成多线程，是否可能出现共享写入或 false sharing？
+
+## 复盘题
+
+1. Cache 为什么存在？
+2. 什么是空间局部性和时间局部性？
+3. 为什么连续访问通常更快？
+4. 什么是 false sharing？
+5. 你当前最熟的一段图像处理代码，哪里最可能受 cache 影响？
+
+## 下次我们怎么一起学
+
+等你学这节课时，你可以把你的一段循环逻辑讲给我。
+我会带你一起判断：
+
+- 它的局部性好不好
+- 有没有 cache 风险
+- 如果要改，多半该从哪里下手
