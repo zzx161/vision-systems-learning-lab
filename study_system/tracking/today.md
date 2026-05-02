@@ -1,7 +1,7 @@
 ---
 note_type: daily_plan
 title: 今日学习建议
-generated_on: 2026-04-06
+generated_on: 2026-05-02
 status: generated
 tags:
   - study/today
@@ -9,7 +9,7 @@ tags:
 
 # 今日学习建议
 
-生成日期：2026-04-06
+生成日期：2026-05-02
 
 ## 开场上下文
 
@@ -18,15 +18,14 @@ tags:
 
 ## 今天优先学什么
 
-- 主线课程：[[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]]
-- 当前完成度：15%
-- 配套实验：[[labs/lab_01_threads.md|Threads and Contention]]
+- 主线课程：[[courses/lesson_07_onnx_runtime.md|ONNX 与推理运行时基础]]
+- 当前完成度：0%
 
 ## 推荐顺序
 
-1. 先读 [[courses/lesson_01_process_thread.md|进程、线程、锁与上下文切换]] 的正文和补充干货。
-2. 再做 [[labs/lab_01_threads.md|Threads and Contention]]。
-3. 最后写一句你今天最清楚和最模糊的点。
+1. 先读 [[courses/lesson_07_onnx_runtime.md|ONNX 与推理运行时基础]] 的正文和补充干货。
+2. 写一句你今天最清楚的结论。
+3. 标出一个你还不理解的词或现象。
 
 ## 当前冲刺
 
@@ -34,9 +33,9 @@ tags:
 
 ## 最近一次学习记录
 
-- [[logs/sessions/2026-04-06.md|2026-04-06]]
-- 上次重点：进程、线程、锁与上下文切换
-- 上次留下的下一步：继续课程《进程、线程、锁与上下文切换》
+- [[logs/sessions/2026-05-02.md|2026-05-02]]
+- 上次重点：Linux 观测与排障基础；IO、零拷贝、DMA 与设备数据路径；调度、CPU 亲和性、实时性与 Tail Latency；相机数据通路、Buffer 与帧生命周期；延迟、抖动、掉帧与同步；多核、一致性、内存序与扩展性
+- 上次留下的下一步：进入下一课。
 
 ## 结束学习时
 

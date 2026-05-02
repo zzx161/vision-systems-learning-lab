@@ -27,6 +27,7 @@ Build outputs:
 - `bin/lesson_02_memory`
 - `bin/lesson_03_cache`
 - `bin/lesson_04_runtime_shapes`
+- `bin/lesson_06_tail_latency`
 
 ## Notes
 

@@ -4,12 +4,12 @@ title: 相机数据通路、Buffer 与帧生命周期
 track: camera_systems
 phase: 3
 lesson: 7
-status: planned
-completion: 0
+status: done
+completion: 100
 estimated_minutes: 150
-actual_minutes: 0
-last_studied:
-next_review:
+actual_minutes: 15
+last_studied: 2026-05-02
+next_review: 2026-05-09
 priority: high
 tags:
   - study/lesson
@@ -18,6 +18,11 @@ tags:
 ---
 
 # 第 7 课：相机数据通路、Buffer 与帧生命周期
+
+## 环境说明
+
+这课高度依赖真实相机链路、SDK 行为和 buffer 日志。
+如果没有板子或真实日志，本课只能先学“怎么画帧生命周期”和“以后要收集什么证据”，不能声称已经判断出实际链路的 buffer 归属。
 
 ## 这节课到底想让你掌握什么
 
@@ -388,3 +393,28 @@ copy 看起来不大，就不用管。
 - Buffer 的真正问题常常不是数量，而是归属和生命周期。
 - 队列能缓冲问题，也能隐藏问题。
 - Hidden copy 是很多链路问题里最不容易一眼看到的成本。
+
+## 深度学习补充：把一帧当成主角
+
+这课不要先从模块图开始，而是从“一帧图像的一生”开始。
+每一帧从设备出来，到被处理、推理、显示、保存，期间所有权和格式可能变很多次。
+
+建议按这条路线学：
+
+1. 画出一帧在哪里出生：设备 buffer、驱动 buffer、SDK buffer 还是用户 buffer。
+2. 标出它每经过一个模块时是否换了 buffer。
+3. 标出每个队列保存的是指针、引用、句柄还是完整数据。
+4. 标出什么时候释放，谁负责释放，是否可能提前释放或重复释放。
+
+重点问题：
+
+1. 是否存在“看起来传引用，实际上深拷贝”的接口？
+2. 格式转换是否产生完整新帧？
+3. 队列深度是否掩盖了下游变慢？
+4. buffer pool 是否真的复用，还是每帧仍在分配？
+
+掌握标准：
+
+1. 能画出一帧的生命周期账本。
+2. 能指出至少三个 hidden copy 来源。
+3. 能解释为什么 ownership 不清会导致掉帧、延迟和偶发 bug。

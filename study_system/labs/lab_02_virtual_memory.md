@@ -75,7 +75,7 @@ What to observe:
 
 ## Experiment C: `read` vs `mmap`
 
-Run:
+Run the legacy comparison:
 
 ```bash
 ./bin/lesson_02_memory read_vs_mmap 128 10
@@ -83,9 +83,45 @@ Run:
 
 What to observe:
 
-- the faster one may vary by environment
-- `mmap` is not "always faster"
-- access pattern and where costs appear both matter
+- `read` repeats the full read each round
+- `mmap` maps once and reuses the same mapping
+- this mode shows why repeated full reads are expensive, not that `mmap` is always better
+
+Run a cleaner one-pass comparison:
+
+```bash
+./bin/lesson_02_memory read_vs_mmap_once 128
+```
+
+What to observe:
+
+- both paths touch the data once
+- results may be closer than in the legacy repeated-read mode
+- the faster one can vary by filesystem, cache state, and machine
+
+Run a repeated-touch comparison:
+
+```bash
+./bin/lesson_02_memory read_vs_mmap_repeated 128 10
+```
+
+What to observe:
+
+- `read` loads the file into a user buffer once, then touches that buffer repeatedly
+- `mmap` maps the file once, then touches the mapping repeatedly
+- this is closer to comparing repeated access after setup
+
+Split `mmap` setup from first touch:
+
+```bash
+./bin/lesson_02_memory mmap_phases 128 10
+```
+
+What to observe:
+
+- `mmap` setup itself is usually very cheap
+- the first touch is where page costs show up
+- repeated touches are often much cheaper once pages are resident
 
 ## Optional Tool Exercise
 
@@ -113,4 +149,5 @@ While one memory-heavy command is running, observe:
 
 1. Why can copying be a major bottleneck in image systems?
 2. Why is changing stride enough to change runtime?
-3. Why should you be cautious about saying "`mmap` is faster" without context?
+3. In `mmap_phases`, why is setup cheap but first touch more expensive?
+4. Why should you be cautious about saying "`mmap` is faster" without context?

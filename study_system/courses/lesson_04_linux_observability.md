@@ -4,12 +4,12 @@ title: Linux 观测与排障基础
 track: linux_tools
 phase: 1
 lesson: 4
-status: planned
-completion: 0
+status: done
+completion: 100
 estimated_minutes: 140
-actual_minutes: 0
-last_studied:
-next_review:
+actual_minutes: 60
+last_studied: 2026-05-02
+next_review: 2026-05-09
 priority: medium
 tags:
   - study/lesson
@@ -317,3 +317,34 @@ log 有用，但不等于系统观测。
 - 工具的价值不在命令数量，而在顺序。
 - 先看系统层，再看进程层，再看函数层。
 - 真正成熟的排障流程一定是可复用的，而不是每次从头猜。
+
+## 深度学习补充：从“会命令”到“会判断”
+
+这课最容易学偏：背很多工具参数，但遇到问题还是不知道先看什么。
+真正目标是建立排障顺序。
+
+建议按这条路线学：
+
+1. 先看现象：慢、卡、CPU 高、内存涨、IO 等待、偶发抖动分别是什么感觉。
+2. 再看层级：系统整体、进程、线程、系统调用、函数热点。
+3. 再看证据：每一步只回答一个问题，不要一次开太多工具。
+4. 最后形成 SOP：下次遇到类似问题，能按固定路径缩小范围。
+
+一条最小判断链：
+
+```text
+top 看全局 -> pidstat 看进程/线程 -> vmstat 看系统压力 -> strace/perf 看阻塞或热点
+```
+
+和视觉链路连接时，重点看：
+
+1. 采集线程是不是稳定运行？
+2. 处理线程是在算，还是在等锁/等 IO？
+3. 队列积压时 CPU 是否真的打满？
+4. 掉帧时系统是否同时出现 IO wait、上下文切换或内存压力？
+
+掌握标准：
+
+1. 能说出每个工具先回答什么问题。
+2. 能避免一上来就钻进函数级 Profiling。
+3. 能把一次排查写成“现象、证据、结论、下一步”。

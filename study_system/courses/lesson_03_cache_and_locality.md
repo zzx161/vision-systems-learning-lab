@@ -4,12 +4,12 @@ title: CPU Cache、局部性与内存访问性能
 track: architecture
 phase: 1
 lesson: 3
-status: planned
-completion: 0
+status: done
+completion: 100
 estimated_minutes: 140
-actual_minutes: 0
-last_studied:
-next_review:
+actual_minutes: 45
+last_studied: 2026-05-02
+next_review: 2026-05-09
 priority: high
 tags:
   - study/lesson
@@ -308,3 +308,35 @@ false sharing 可以先理解成：
 - Cache miss 常常不是代码错，而是访问模式不友好。
 - 数据布局和循环顺序会直接影响性能。
 - 多线程优化里，避免 false sharing 往往和减少锁一样重要。
+
+## 深度学习补充：这课要真正学到哪一层
+
+这课不要停在“cache 很快、内存很慢”。
+真正要学会的是：同样的算法复杂度，访问模式不同，CPU 看到的工作量可能完全不同。
+
+建议按这条路线学：
+
+1. 先理解 cache line：CPU 一次不是只拿一个字节，而是按一小块数据搬进 cache。
+2. 再理解局部性：连续访问、重复访问、可预测访问更容易命中 cache。
+3. 再理解 miss：不是程序错了，而是 CPU 要等更远处的数据回来。
+4. 最后理解 false sharing：多个线程看似操作不同变量，硬件上却可能在争同一条 cache line。
+
+和图像系统连接时，重点看：
+
+1. 像素访问是按行连续，还是跨步跳着访问？
+2. 多线程分块时，线程边界是否落在同一 cache line 附近？
+3. 格式转换是否导致读写多个大 buffer 来回跳？
+4. 热点 metadata 是否和高频写入计数混在一起？
+
+实验时不要只记录快慢。
+每次都写一句解释：
+
+```text
+这个结果是访问更连续、cache 更友好，还是共享写入更少？
+```
+
+掌握标准：
+
+1. 能解释为什么按行遍历二维数组通常比按列遍历快。
+2. 能解释为什么 false sharing 不是普通的锁竞争。
+3. 能在一段图像循环里指出可能不友好的访问模式。

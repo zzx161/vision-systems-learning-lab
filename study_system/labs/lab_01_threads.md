@@ -61,13 +61,25 @@ Try more than one thread count:
 ./bin/lesson_01_threads 8 20000000
 ```
 
+Pin the whole process to one CPU core:
+
+```bash
+./bin/lesson_01_threads 4 20000000 0
+```
+
+The third argument is the CPU id. Passing `0` means all threads are only allowed
+to run on CPU 0.
+
 ## What The Program Does
 
 It compares:
 
 1. one single-thread version doing the same total work
 2. one multi-thread version using a single shared mutex-protected counter
-3. one multi-thread version where each thread owns its own counter
+3. one multi-thread version using a single shared atomic counter
+4. one multi-thread version where each thread owns its own counter
+5. one single-thread version that waits serially
+6. one multi-thread version that overlaps wait time
 
 ## What To Record
 
@@ -87,6 +99,10 @@ The per-thread version is often much better because:
 - less lock waiting
 - clearer ownership
 - lower coordination cost
+
+The sleep-wait versions simulate I/O-style waiting. Even on one CPU core, multiple
+threads can reduce wall time when most of the time is spent waiting instead of
+using the CPU.
 
 ## Optional Tool Exercise
 

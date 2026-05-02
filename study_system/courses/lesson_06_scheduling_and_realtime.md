@@ -4,12 +4,12 @@ title: 调度、CPU 亲和性、实时性与 Tail Latency
 track: linux_systems
 phase: 2
 lesson: 6
-status: planned
-completion: 0
+status: done
+completion: 100
 estimated_minutes: 150
-actual_minutes: 0
-last_studied:
-next_review:
+actual_minutes: 45
+last_studied: 2026-05-02
+next_review: 2026-05-09
 priority: high
 tags:
   - study/lesson
@@ -335,3 +335,28 @@ Tail latency 可以先粗略理解成：
 - 调度问题常常先体现在尾部，而不是平均值。
 - 关键线程要保护，非关键线程要隔离。
 - 实时性思维的重点是“最差情况是否仍可接受”。
+
+## 深度学习补充：平均值不是实时性
+
+这课要把注意力从 average latency 转到 tail latency。
+很多系统平均看起来不错，但偶尔一次超时就足够造成掉帧或控制异常。
+
+建议按这条路线学：
+
+1. 先区分 throughput、average latency、tail latency。
+2. 再理解调度：线程什么时候能跑，不完全由你的代码决定。
+3. 再看干扰源：后台任务、锁等待、CPU 迁移、IO 中断、内存回收都可能制造尾部。
+4. 最后学习隔离手段：CPU affinity、线程优先级、减少关键路径工作、分离非关键任务。
+
+相机链路里尤其要问：
+
+1. 哪个线程是关键线程？采集、时间戳、同步、推理还是输出？
+2. 它是否会被日志、保存、UI、网络发送拖住？
+3. 它是否和其他重任务抢同一个 CPU？
+4. 它的最差耗时是否仍小于帧间隔预算？
+
+掌握标准：
+
+1. 能解释为什么平均 10ms 不代表每帧都安全。
+2. 能指出关键线程不该承担哪些杂活。
+3. 能提出一个降低尾延迟的具体改法。

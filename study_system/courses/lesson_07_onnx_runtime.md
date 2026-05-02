@@ -19,6 +19,11 @@ tags:
 
 # 第 10 课：ONNX 与推理运行时基础
 
+## 环境说明
+
+这课如果没有模型、runtime 和输入样例，就先学部署路径和输入输出契约。
+不要空泛判断某个 runtime 性能好坏；性能和正确性必须等有模型和数据后验证。
+
 ## 为什么这一课对你有价值
 
 你并不打算走纯算法路线，这没问题。
@@ -300,3 +305,29 @@ ONNX 就是部署本身。
 - Runtime 的价值在于把图真正执行起来。
 - 部署问题很多时候不在模型本体，而在输入输出契约和运行时路径。
 - preprocess / postprocess / transfer 经常比你想的更贵。
+
+## 深度学习补充：模型部署先验契约，再验性能
+
+这课不要把 ONNX 理解成“导出来就能跑”。
+真正要学的是模型在工程系统里的契约。
+
+建议按这条路线学：
+
+1. 先确认输入输出契约：shape、dtype、layout、range、color space。
+2. 再确认运行时：CPU、GPU、TensorRT、OpenVINO 或其他 provider。
+3. 再看数据路径：preprocess、tensor 创建、device transfer、runtime、postprocess。
+4. 最后才看性能优化，因为契约错了，跑得再快也没意义。
+
+视觉系统里常见坑：
+
+1. 训练时 RGB，部署时 BGR。
+2. 训练时 NCHW，部署输入却按 NHWC 填。
+3. 归一化范围不同。
+4. resize、crop、padding 和训练不一致。
+5. 模型很快，但预处理和拷贝吃掉大部分时间。
+
+掌握标准：
+
+1. 能写出一个模型的输入输出契约表。
+2. 能把端到端推理拆成 preprocess、runtime、postprocess 三段。
+3. 能解释为什么“ONNX 能跑”不等于“部署正确”。

@@ -6,7 +6,7 @@ sprint: week_01
 status: active
 completion: 10
 estimated_minutes: 480
-actual_minutes: 0
+actual_minutes: 225
 started_on: 2026-04-06
 target_end: 2026-04-12
 priority: high

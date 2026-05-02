@@ -7,7 +7,8 @@ TARGETS := \
 	$(BIN_DIR)/lesson_01_threads \
 	$(BIN_DIR)/lesson_02_memory \
 	$(BIN_DIR)/lesson_03_cache \
-	$(BIN_DIR)/lesson_04_runtime_shapes
+	$(BIN_DIR)/lesson_04_runtime_shapes \
+	$(BIN_DIR)/lesson_06_tail_latency
 
 .PHONY: all clean
 
@@ -26,6 +27,9 @@ $(BIN_DIR)/lesson_03_cache: $(SRC_DIR)/lesson_03_cache.cpp | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 $(BIN_DIR)/lesson_04_runtime_shapes: $(SRC_DIR)/lesson_04_runtime_shapes.cpp | $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $< -o $@
+
+$(BIN_DIR)/lesson_06_tail_latency: $(SRC_DIR)/lesson_06_tail_latency.cpp | $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $< -o $@
 
 clean:
